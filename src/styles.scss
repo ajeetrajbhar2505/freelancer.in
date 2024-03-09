@@ -1,0 +1,43 @@
+*{
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-family: "Poppins", sans-serif;
+
+}
+
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('assets/body-logo.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+
+}
+
+@media screen and (max-width: 435px) {
+body{
+  background: unset;
+}
+.login-logo {
+  width: 350px !important;
+}
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background: url('assets/otp-logo.png');
+  background-size: cover;
+  background-position: center;
+}

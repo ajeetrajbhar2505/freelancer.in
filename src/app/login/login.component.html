@@ -1,0 +1,30 @@
+<div class="wrapper">
+   <div class="login-logo">
+   </div>
+    <form action="">
+        <h2>Welcome back!</h2>
+        <h3>Enter your email and password</h3>
+        <div class="input-box">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" required>
+        </div>
+        <div class="input-box i-password">
+            <i class="fas fa-lock"></i>
+            <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Hidden':'Password'" required>
+            <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
+        </div>
+        <div class="checkbox1">
+            <label (click)="toggleRemember()"><i class="fa fa-toggle-{{IsToggledRem?'on':'off'}}" aria-hidden="true"></i>Remember Me</label>
+            <label for="forgotForm">Forgot Password</label>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        <div class="hr-container">
+            <hr class="hr-icon" data-content="or login with">
+            <span class="hr-text">or login with</span>
+        </div>
+        <div class="login-buttons">
+            <button class="google-btn"><i class="fab fa-google"></i> Google</button>
+            <button class="facebook-btn"><i class="fab fa-facebook"></i> Facebook</button>
+        </div>
+    </form>
+</div>
