@@ -41,3 +41,24 @@ body{
   background-size: cover;
   background-position: center;
 }
+
+.cursor{
+  cursor: pointer;
+}
+
+
+body {
+  overflow: hidden;
+}
+
+@keyframes moveBubbles {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-100vh) translateX(100vw);
+  }
+  100% {
+    transform: translateY(-200vh) translateX(-100vw);
+  }
+}
