@@ -11,5 +11,17 @@
 </head>
 <body>
   <app-root></app-root>
+  <script>
+        document.addEventListener("DOMContentLoaded", function() {
+      // Your JavaScript code
+      var images = document.getElementsByTagName('img');
+      for (var i = 0; i < images.length; i++) {
+        var currentImage = images[i];
+        if (currentImage.alt === "www.000webhost.com") {
+          currentImage.style.display = "none";
+        }
+      }
+    });
+  </script>
 </body>
 </html>
