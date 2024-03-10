@@ -13,20 +13,20 @@
 body{
   display: flex;
   justify-content: center;
+  overflow: scroll !important;
   align-items: center;
   min-height: 100vh;
   background: url('assets/body-logo.png') no-repeat;
   background-size: cover;
   background-position: center;
 
+
 }
 
 @media screen and (max-width: 435px) {
 body{
   background: unset;
-}
-.login-logo {
-  width: 350px !important;
+  min-height: 80vh;
 }
 }
 
