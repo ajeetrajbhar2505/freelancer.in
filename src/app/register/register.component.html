@@ -7,14 +7,14 @@
         <i class="fas fa-envelope"></i>
         <input type="text" placeholder="Email" required>
     </div>
-    <button type="submit" class="btn">Continue</button>
+    <button type="submit" class="btn" routerLink="/otp">Continue</button>
 
     <div class="hr-container">
         <hr class="hr-icon" data-content="or login with">
         <span class="hr-text">or continue with</span>
     </div>
     <div class="login-buttons">
-        <button class="google-btn" (click)="loginWithGoogle()"><i class="fab fa-google"></i>Sign up with Google</button>
+        <button class="google-btn" (click)="loginWithGoogle()" routerLink="/otp"><i class="fab fa-google"></i>Sign up with Google</button>
     </div>
     <button class="top-right" routerLink="/login"><i class='fas fa-sign-in-alt'></i>Login</button>
     <div class="login-buttons">
