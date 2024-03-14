@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionServiceService } from '../services/change-detection-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.component.html',
   styleUrl: './otp.component.scss'
 })
-export class OtpComponent {
+export class OtpComponent implements OnInit {
+  constructor(private changeDetectionService: ChangeDetectionServiceService, private router: Router) { }
+
+  ngOnInit(): void {
+    this.changeDetectionService.optdata.subscribe(data => {
+      sessionStorage.setItem('routeTo', data)
+    })
+  }
+
+  routeToPage() {
+    const url = `/${sessionStorage.getItem('routeTo')}`
+    this.router.navigate([url])
+  }
 
 }

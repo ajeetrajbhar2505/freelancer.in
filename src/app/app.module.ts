@@ -12,6 +12,7 @@ import { ChangeDetectionServiceService } from './services/change-detection-servi
 import { ErrorHandlingServiceService } from './services/error-handling-service.service';
 import { FileUploadServiceService } from './services/file-upload-service.service';
 import { CommondataserviceService } from './services/commondataservice.service';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CommondataserviceService } from './services/commondataservice.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    RouterModule
   ],
   providers: [
     provideClientHydration(),
