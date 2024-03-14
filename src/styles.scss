@@ -30,14 +30,14 @@ body {
     margin: unset;
   }
 
-  .wrapper ,video{
+  .wrapper,
+  video {
     width: 375px !important;
 
   }
 }
 
-.login-logo,
-.signup-logo {
+.logo {
   display: flex;
   justify-content: center;
   display: flex;
@@ -48,16 +48,34 @@ body {
   background-position: bottom;
 }
 
-.login-logo {
-  background: url('assets/signin.gif');
+.logo {
+  background: url('assets/signin.jpeg');
   background-size: cover;
   background-position: bottom;
 }
 
-.signup-logo {
-  background: url('assets/signin.gif');
-  background-size: cover;
-  background-position: bottom;
+.signup {
+  .logo {
+    background: url('assets/signup.png');
+    background-size: cover;
+    background-position: bottom;
+  }
+}
+
+.otp {
+  .logo {
+    background: url('assets/otp-logo.png');
+    background-size: cover;
+    background-position: bottom;
+  }
+}
+
+.forgot {
+  .logo {
+    background: url('assets/forgot.png');
+    background-size: cover;
+    background-position: bottom;
+  }
 }
 
 h4 {
@@ -321,7 +339,8 @@ button {
   h4 {
     text-align: center;
   }
-  .center{
+
+  .center {
     justify-content: space-between;
   }
 }
