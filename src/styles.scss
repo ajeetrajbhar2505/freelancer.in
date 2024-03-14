@@ -1,4 +1,4 @@
-*{
+* {
 
   margin: 0;
 
@@ -10,7 +10,7 @@
 
 }
 
-body{
+body {
   display: flex;
   justify-content: center;
   overflow: auto !important;
@@ -19,18 +19,25 @@ body{
   background: url('assets/body-logo.png') no-repeat;
   background-size: cover;
   background-position: center;
-
+  margin: 40px;
 
 }
 
 @media screen and (max-width: 435px) {
-body{
-  background: unset;
-  min-height: 80vh;
-}
+  body {
+    background: unset;
+    min-height: 80vh;
+    margin: unset;
+  }
+
+  .wrapper {
+    width: 375px !important;
+
+  }
 }
 
-.login-logo,.signup-logo {
+.login-logo,
+.signup-logo {
   display: flex;
   justify-content: center;
   display: flex;
@@ -40,23 +47,26 @@ body{
   background-size: cover;
   background-position: bottom;
 }
-.login-logo{
+
+.login-logo {
   background: url('assets/login-logo.avif');
   background-size: cover;
   background-position: bottom;
 }
-.signup-logo{
+
+.signup-logo {
   background: url('assets/login-logo.avif');
   // background: url('assets/email-logo.avif');
   background-size: cover;
   background-position: bottom;
 
 }
+
 h4 {
   font-weight: 500;
 }
 
-.cursor{
+.cursor {
   cursor: pointer;
 }
 
@@ -69,9 +79,11 @@ body {
   0% {
     transform: translateY(0) translateX(0);
   }
+
   50% {
     transform: translateY(-100vh) translateX(100vw);
   }
+
   100% {
     transform: translateY(-200vh) translateX(-100vw);
   }
@@ -91,7 +103,7 @@ $input-padding: 20px 45px 20px 45px;
   color: $black;
   border-radius: $border-radius;
   padding: 30px 40px;
-  width: 400px;
+  width: 420px;
 
   @media screen and (max-width: 435px) {
     border: unset;
@@ -146,11 +158,13 @@ $input-padding: 20px 45px 20px 45px;
       cursor: pointer;
     }
 
-    .fa-eye,.fa-close {
+    .fa-eye,
+    .fa-close {
       right: 6px;
     }
 
-    .fa-eye-slash,.fa-check {
+    .fa-eye-slash,
+    .fa-check {
       right: 3.5px;
     }
   }
@@ -182,7 +196,8 @@ $input-padding: 20px 45px 20px 45px;
     }
   }
 
-  .btn,.btn:active {
+  .btn,
+  .btn:active {
     width: 100%;
     height: 45px;
     background: $white;
@@ -252,6 +267,7 @@ $input-padding: 20px 45px 20px 45px;
   width: 100%;
   text-align: center;
   margin: 50px 0 50px 0;
+
   .hr-icon {
     border: none;
     height: 1px;
