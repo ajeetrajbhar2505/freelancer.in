@@ -56,10 +56,8 @@ body {
 
 .signup-logo {
   background: url('assets/login-logo.avif');
-  // background: url('assets/email-logo.avif');
   background-size: cover;
   background-position: bottom;
-
 }
 
 h4 {
@@ -131,7 +129,7 @@ $input-padding: 20px 45px 20px 45px;
       background: $white;
       border: none;
       outline: none;
-      border: 1px solid $black;
+      border: 1px solid #ccc;
       border-radius: $border-radius;
       font-size: 16px;
       color: $black;
@@ -211,7 +209,7 @@ $input-padding: 20px 45px 20px 45px;
     font-weight: 600;
     display: inline-block;
     padding: 10px 20px;
-    border: 1px solid;
+    border: 1px solid #ccc;
     border-radius: $border-radius;
     transition: background-color 0.3s;
   }
@@ -240,9 +238,11 @@ button {
   color: #333;
   font-size: 16px;
   padding: 10px 20px;
+  margin: 10px 0 10px 0;
   border-radius: $border-radius;
   cursor: pointer;
   transition: background-color 0.3s;
+
   i {
     margin-right: 10px;
   }
@@ -305,8 +305,49 @@ button {
   }
 }
 
-.top-right{
+.top-right {
   position: absolute;
   right: 20px;
   top: 27px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.otp {
+  h4 {
+    text-align: center;
+  }
+  .submit{
+    color: $white;
+    background-color: #002045;
+  }
+  .center{
+    justify-content: space-between;
+  }
+}
+
+
+.otp-input {
+  width: 52px;
+  height: 52px;
+  text-align: center;
+  font-size: 18px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.otp-input:focus:focus {
+  border-color: #007bff;
+}
+
+
+.otp-box {
+  margin: 20px;
 }
