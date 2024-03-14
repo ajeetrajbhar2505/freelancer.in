@@ -30,7 +30,7 @@ body {
     margin: unset;
   }
 
-  .wrapper {
+  .wrapper ,video{
     width: 375px !important;
 
   }
@@ -49,13 +49,13 @@ body {
 }
 
 .login-logo {
-  background: url('assets/login-logo.avif');
+  background: url('assets/signin.gif');
   background-size: cover;
   background-position: bottom;
 }
 
 .signup-logo {
-  background: url('assets/login-logo.avif');
+  background: url('assets/signin.gif');
   background-size: cover;
   background-position: bottom;
 }
@@ -320,10 +320,6 @@ button {
 .otp {
   h4 {
     text-align: center;
-  }
-  .submit{
-    color: $white;
-    background-color: #002045;
   }
   .center{
     justify-content: space-between;
