@@ -7,6 +7,11 @@ import { LoginComponent } from './login/login.component';
 import { OtpComponent } from './otp/otp.component';
 import { RegisterComponent } from './register/register.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ApiServiceService } from './services/api-service.service';
+import { ChangeDetectionServiceService } from './services/change-detection-service.service';
+import { ErrorHandlingServiceService } from './services/error-handling-service.service';
+import { FileUploadServiceService } from './services/file-upload-service.service';
+import { CommondataserviceService } from './services/commondataservice.service';
 
 @NgModule({
   declarations: [
@@ -21,7 +26,12 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     AppRoutingModule
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    ApiServiceService,
+    ChangeDetectionServiceService,
+    ErrorHandlingServiceService,
+    FileUploadServiceService,
+    CommondataserviceService
   ],
   bootstrap: [AppComponent]
 })

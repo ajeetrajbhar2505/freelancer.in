@@ -21,10 +21,6 @@
             <input [type]="IsToggledConfirmPass?'text':'password'" [placeholder]="IsToggledConfirmPass?'Confirm Password':'Confirm Password'" required>
             <i (click)="toggleConfirmPassword()" class="fas i-right {{IsToggledConfirmPass?'fa-eye':'fa-eye-slash'}}"></i>
         </div>
-         <div class="checkbox1">
-             <label class="cursor" (click)="toggleRemember()"><i class="fa fa-toggle-{{IsToggledRem?'on':'off'}}" aria-hidden="true"></i>Remember Me</label>
-             <label class="cursor" routerLink="/forgot-password">Forgot Password</label>
-         </div>
          <button type="submit" class="btn">Sign Up</button>
          
          <div class="hr-container">
@@ -32,6 +28,7 @@
              <span class="hr-text">or continue with</span>
          </div>
          <div class="login-buttons">
-             <button class="google-btn"><i class="fab fa-google"></i> Sign up with Google</button>
+             <button class="google-btn" (click)="loginWithGoogle()"><i class="fab fa-google"></i> Sign up with Google</button>
         </div>
- </div>
+        <button class="top-right" routerLink="/login"><i class='fas fa-sign-in-alt'></i>Login</button>
+    </div>

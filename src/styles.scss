@@ -104,6 +104,7 @@ $input-padding: 20px 45px 20px 45px;
   border-radius: $border-radius;
   padding: 30px 40px;
   width: 420px;
+  position: relative;
 
   @media screen and (max-width: 435px) {
     border: unset;
@@ -232,22 +233,31 @@ $input-padding: 20px 45px 20px 45px;
   }
 }
 
+button {
+  display: inline-block;
+  background-color: $white;
+  border: 1px solid #ccc;
+  color: #333;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  i {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: $white;
+  }
+}
+
 .login-buttons {
   text-align: center;
   margin-top: 20px;
 
   .google-btn,
   .facebook-btn {
-    display: inline-block;
-    background-color: $white;
-    border: 1px solid #ccc;
-    color: #333;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: $border-radius;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
     i {
       margin-right: 10px;
     }
@@ -293,4 +303,10 @@ $input-padding: 20px 45px 20px 45px;
     padding: 10px;
     background: $white;
   }
+}
+
+.top-right{
+  position: absolute;
+  right: 20px;
+  top: 15px;
 }

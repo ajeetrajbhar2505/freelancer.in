@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommondataserviceService } from '../services/commondataservice.service';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,9 @@ export class RegisterComponent {
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
 
+  constructor(private commonDataService:CommondataserviceService){}
+
+
   togglePassword() {
     this.IsToggledPass = !this.IsToggledPass;
   }
@@ -19,4 +23,7 @@ export class RegisterComponent {
   toggleRemember() {
     this.IsToggledRem = !this.IsToggledRem;
   }
+  loginWithGoogle() {
+    this.commonDataService.loginWithGoogle()
+   }
 }
