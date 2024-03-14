@@ -1,0 +1,29 @@
+<div class="wrapper login">
+   <div class="login-logo">
+   </div>
+        <h2>Welcome back!</h2>
+        <h4>Enter your email and password</h4>
+        <div class="input-box">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" required>
+        </div>
+        <div class="input-box i-password">
+            <i class="fas fa-lock"></i>
+            <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Hidden':'Password'" required>
+            <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
+        </div>
+        <div class="checkbox1">
+            <label class="cursor" (click)="toggleRemember()"><i class="fa fa-toggle-{{IsToggledRem?'on':'off'}}" aria-hidden="true"></i>Remember Me</label>
+            <label class="cursor" routerLink="/forgot-password">Forgot Password</label>
+        </div>
+        <button type="submit" class="btn">Login</button>
+        
+        <div class="hr-container">
+            <hr class="hr-icon" data-content="or login with">
+            <span class="hr-text">or continue with</span>
+        </div>
+        <div class="login-buttons">
+            <button class="google-btn" (click)="loginWithGoogle()"><i class="fab fa-google"></i>Login with Google</button>
+        </div>
+        <button class="top-right" routerLink="/register"><i class="fas fa-user-circle"></i> Sign up</button>
+    </div>

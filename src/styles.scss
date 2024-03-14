@@ -1,0 +1,312 @@
+* {
+
+  margin: 0;
+
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-family: "Poppins", sans-serif;
+
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  overflow: auto !important;
+  align-items: center;
+  min-height: 100vh;
+  background: url('assets/body-logo.png') no-repeat;
+  background-size: cover;
+  background-position: center;
+  margin: 40px;
+
+}
+
+@media screen and (max-width: 435px) {
+  body {
+    background: unset;
+    min-height: 80vh;
+    margin: unset;
+  }
+
+  .wrapper {
+    width: 375px !important;
+
+  }
+}
+
+.login-logo,
+.signup-logo {
+  display: flex;
+  justify-content: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  background-size: cover;
+  background-position: bottom;
+}
+
+.login-logo {
+  background: url('assets/login-logo.avif');
+  background-size: cover;
+  background-position: bottom;
+}
+
+.signup-logo {
+  background: url('assets/login-logo.avif');
+  // background: url('assets/email-logo.avif');
+  background-size: cover;
+  background-position: bottom;
+
+}
+
+h4 {
+  font-weight: 500;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+
+body {
+  overflow: hidden;
+}
+
+@keyframes moveBubbles {
+  0% {
+    transform: translateY(0) translateX(0);
+  }
+
+  50% {
+    transform: translateY(-100vh) translateX(100vw);
+  }
+
+  100% {
+    transform: translateY(-200vh) translateX(-100vw);
+  }
+}
+
+
+
+$white: #fff;
+$black: #000;
+$border-radius: 12px;
+$input-padding: 20px 45px 20px 45px;
+
+.wrapper {
+  background: $white;
+  border: 1px solid $white;
+  backdrop-filter: blur(4px);
+  color: $black;
+  border-radius: $border-radius;
+  padding: 30px 40px;
+  width: 420px;
+  position: relative;
+
+  @media screen and (max-width: 435px) {
+    border: unset;
+    backdrop-filter: unset;
+  }
+
+
+
+  h1 {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0;
+
+    input {
+      width: 100%;
+      height: 100%;
+      background: $white;
+      border: none;
+      outline: none;
+      border: 1px solid $black;
+      border-radius: $border-radius;
+      font-size: 16px;
+      color: $black;
+      padding: $input-padding;
+
+      &::placeholder {
+        color: $black;
+      }
+    }
+
+    i {
+      position: absolute;
+      left: 22px;
+      top: 30%;
+      transform: translate(-50%);
+      font-size: 20px;
+    }
+
+    .i-right {
+      position: absolute;
+      left: unset;
+      top: 30%;
+      transform: translate(-50%);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .fa-eye,
+    .fa-close {
+      right: 6px;
+    }
+
+    .fa-eye-slash,
+    .fa-check {
+      right: 3.5px;
+    }
+  }
+
+  .checkbox1 {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: 15px 0 15px;
+
+    label {
+      display: flex;
+      gap: 5px;
+
+      input {
+        accent-color: $white;
+        margin-right: 3px;
+      }
+    }
+
+
+    a {
+      color: $white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .btn,
+  .btn:active {
+    width: 100%;
+    height: 45px;
+    background: $white;
+    border: none;
+    outline: none;
+    border-radius: $border-radius;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid;
+    border-radius: $border-radius;
+    transition: background-color 0.3s;
+  }
+
+  .link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+
+    p a {
+      color: $white;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+button {
+  display: inline-block;
+  background-color: $white;
+  border: 1px solid #ccc;
+  color: #333;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  i {
+    margin-right: 10px;
+  }
+
+  &:hover {
+    background-color: $white;
+  }
+}
+
+.login-buttons {
+  text-align: center;
+  margin-top: 20px;
+
+  .google-btn,
+  .facebook-btn {
+    i {
+      margin-right: 10px;
+    }
+
+    &:hover {
+      background-color: $white;
+    }
+
+    &.facebook-btn {
+      margin-left: 10px;
+    }
+  }
+}
+
+.hr-container {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin: 50px 0 50px 0;
+
+  .hr-icon {
+    border: none;
+    height: 1px;
+    background-color: $black;
+    position: relative;
+    margin: 20px 0;
+
+    &::before {
+      content: attr(data-content);
+      display: inline-block;
+      top: -12px;
+      left: 32%;
+      background-color: $black;
+      padding: 0 10px;
+      font-weight: bold;
+    }
+  }
+
+  .hr-text {
+    position: absolute;
+    top: -20px;
+    left: 35%;
+    padding: 10px;
+    background: $white;
+  }
+}
+
+.top-right{
+  position: absolute;
+  right: 20px;
+  top: 15px;
+}
