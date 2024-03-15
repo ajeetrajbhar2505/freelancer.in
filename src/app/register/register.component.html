@@ -1,13 +1,28 @@
 <div class="wrapper signup">
     <div class="logo">
     </div>
-    <h2>Welcome to register!</h2>
-    <h4>Enter your email to receive a One-Time Password (OTP),We'll send the OTP to register</h4>
+    <h2>Sign Up!</h2>
+    <h4>Create new account</h4>
+    <div class="input-box">
+        <i class="fas fa-user"></i>
+        <input type="text" placeholder="Name" required>
+    </div>
     <div class="input-box">
         <i class="fas fa-envelope"></i>
         <input type="text" placeholder="Email" required>
     </div>
-    <button type="submit" class="btn" (click)="routeToOtp()" routerLink="/otp">Continue</button>
+    <div class="input-box i-password">
+        <i class="fas fa-lock"></i>
+        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Password':'Password'" required>
+        <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
+    </div>
+    <div class="input-box i-password">
+        <i class="fas fa-lock"></i>
+        <input [type]="IsToggledConfirmPass?'text':'password'" [placeholder]="IsToggledConfirmPass?'Confirm Password':'Confirm Password'" required>
+        <i (click)="toggleConfirmPassword()" class="fas i-right {{IsToggledConfirmPass?'fa-eye':'fa-eye-slash'}}"></i>
+    </div>
+
+    <button type="submit" class="btn" (click)="routeToOtp()" routerLink="/otp">Sign up</button>
 
     <div class="hr-container">
         <hr class="hr-icon" data-content="or login with">
