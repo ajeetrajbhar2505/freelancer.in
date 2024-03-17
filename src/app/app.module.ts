@@ -17,6 +17,8 @@ import { RestrictMultiSpaceRegexValidatorDirective } from './regex-validator/res
 import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only-regex-validator.directive';
 import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
 import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { tokenInterceptor } from './token.interceptor';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,12 @@ import { EmailRegexValidatorDirective } from './regex-validator/email-regex-vali
     ChangeDetectionServiceService,
     ErrorHandlingServiceService,
     FileUploadServiceService,
-    CommondataserviceService
+    CommondataserviceService,
+    {
+      provide : HTTP_INTERCEPTORS,
+      useClass : tokenInterceptor,
+      multi : true
+    }
   ],
   bootstrap: [AppComponent]
 })
