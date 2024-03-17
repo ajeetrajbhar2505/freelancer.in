@@ -21,4 +21,8 @@ export class OtpComponent implements OnInit {
     this.router.navigate([url])
   }
 
+  routeToForgot(){
+    this.router.navigate(['forgot-password'])
+  }
+
 }
