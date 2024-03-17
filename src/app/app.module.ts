@@ -13,6 +13,10 @@ import { ErrorHandlingServiceService } from './services/error-handling-service.s
 import { FileUploadServiceService } from './services/file-upload-service.service';
 import { CommondataserviceService } from './services/commondataservice.service';
 import { RouterModule } from '@angular/router';
+import { RestrictMultiSpaceRegexValidatorDirective } from './regex-validator/restrict-multi-space-regex-validator.directive';
+import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only-regex-validator.directive';
+import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
+import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     OtpComponent,
     RegisterComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    EmailRegexValidatorDirective,
+    MobileRegexValidatorDirective,
+    NumberOnlyRegexValidatorDirective,
+    RestrictMultiSpaceRegexValidatorDirective
   ],
   imports: [
     BrowserModule,
