@@ -18,7 +18,7 @@ import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only
 import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
 import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { tokenInterceptor } from './token.interceptor';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,8 @@ import { tokenInterceptor } from './token.interceptor';
     EmailRegexValidatorDirective,
     MobileRegexValidatorDirective,
     NumberOnlyRegexValidatorDirective,
-    RestrictMultiSpaceRegexValidatorDirective
+    RestrictMultiSpaceRegexValidatorDirective,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +44,7 @@ import { tokenInterceptor } from './token.interceptor';
     ChangeDetectionServiceService,
     ErrorHandlingServiceService,
     FileUploadServiceService,
-    CommondataserviceService,
-    {
-      provide : HTTP_INTERCEPTORS,
-      useClass : tokenInterceptor,
-      multi : true
-    }
+    CommondataserviceService
   ],
   bootstrap: [AppComponent]
 })
