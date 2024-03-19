@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommondataserviceService } from '../services/commondataservice.service';
 import { ChangeDetectionServiceService } from '../services/change-detection-service.service';
 
@@ -7,7 +7,7 @@ import { ChangeDetectionServiceService } from '../services/change-detection-serv
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
@@ -30,5 +30,9 @@ export class RegisterComponent {
 
    routeToOtp(){
     this.changeDetectionService.optdata.next('register')
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
   }
 }

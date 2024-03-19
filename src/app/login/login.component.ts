@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommondataserviceService } from '../services/commondataservice.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { CommondataserviceService } from '../services/commondataservice.service'
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
 
@@ -22,4 +22,9 @@ export class LoginComponent {
   loginWithGoogle() {
    this.commonDataService.loginWithGoogle()
   }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+  }
+  
 }

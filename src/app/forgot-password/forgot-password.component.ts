@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChangeDetectionServiceService } from '../services/change-detection-service.service';
 
 @Component({
@@ -6,15 +6,19 @@ import { ChangeDetectionServiceService } from '../services/change-detection-serv
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss'
 })
-export class ForgotPasswordComponent {
+export class ForgotPasswordComponent implements OnInit {
 
-  constructor(private changeDetectionService:ChangeDetectionServiceService){}
+  constructor(private changeDetectionService: ChangeDetectionServiceService) { }
 
-  loginWithGoogle(){
-    
+  loginWithGoogle() {
+
   }
 
-  routeToOtp(){
+  routeToOtp() {
     this.changeDetectionService.optdata.next('forgot-password')
+  }
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
   }
 }
