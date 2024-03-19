@@ -186,17 +186,17 @@ header {
     transition: transform 0.3s ease; /* Added transition for smooth movement */
   }
 
-  .all-chat {
-    transform: translateX(10%);
-  }
-
-  .group-chat {
-    transform: translateX(128%);
-  }
-
-  .contact-chat {
-    transform: translateX(245%);
-  }
+   .all-chat {
+      transform: translateX(10%) !important;
+    }
+  
+    .group-chat {
+      transform: translateX(127%);
+    }
+  
+    .contact-chat {
+      transform: translateX(245%);
+    }
 }
 
 @-webkit-keyframes pulse-green {
