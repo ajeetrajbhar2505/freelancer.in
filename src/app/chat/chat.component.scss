@@ -14,6 +14,9 @@ $input-padding: 20px 45px 20px 45px;
 
 .pointer {
   cursor: pointer;
+  align-items: center;
+  display: flex;
+  gap: 5px;
 }
 
 section {
@@ -165,6 +168,11 @@ header {
   span {
     z-index: 12;
     cursor: pointer; /* Added cursor pointer for better UX */
+    -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
   }
 
   button {
