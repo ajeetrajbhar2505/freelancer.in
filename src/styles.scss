@@ -44,7 +44,7 @@ body {
   .tabs{
     top: 0 !important;
     .all-chat {
-      transform: translateX(10%) !important;
+      transform: translateX(0%) !important;
     }
   
     .group-chat {
@@ -52,7 +52,7 @@ body {
     }
   
     .contact-chat {
-      transform: translateX(245%) !important;
+      transform: translateX(257%) !important;
     }
   }
 
@@ -129,8 +129,8 @@ body {
 
 
 $white: #fff;
-$black: #000;
-$border-radius: 12px;
+$black: #945876;
+$border-radius: 25px;
 $input-padding: 20px 45px 20px 45px;
 
 .wrapper {
@@ -425,13 +425,21 @@ section {
   padding: 10px 25px 0 35px;
   width: 500px;
   height: 650px;
-  overflow: auto;
+  overflow: hidden;
+  overflow-y: auto;
   position: relative;
+
+  .profile-info{
+    display: grid;
+    justify-items: center;
+    #title{
+      font-size: 20px;
+    }
+  }
 
 }
 
 header {
-  height: 5%;
   padding: 10px 0;
   display: flex;
   flex-direction: row;
@@ -561,17 +569,22 @@ header {
 }
 
 .tabs {
-  padding: 20px 0;
+  padding: 10px 15px 10px 15px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   position: sticky;
   top: -10px;
+  margin: 30px 0 5px 0;
   z-index: 12;
   background-color: $white;
+  border: 1px solid #f2f2f2;
+  background-color: #f2f2f2;
+  border-radius: $border-radius;
 
   span {
     z-index: 12;
-    cursor: pointer;
+    color: #945876;
+    transition: transform 0.3s ease;
     /* Added cursor pointer for better UX */
     -webkit-user-select: none;
     -webkit-touch-callout: none;
@@ -580,20 +593,27 @@ header {
     user-select: none;
   }
 
+  .color-white{
+    color: white;
+    transition: transform 0.3s ease;
+
+  }
+
   button {
-    background: lightblue;
+    border: 1px solid #008cff;
+    background-color: #008cff;
     color: white;
     height: 40px;
     width: 100px;
     position: absolute;
-    bottom: 0;
+    bottom: -10px;
     left: 0;
     transition: transform 0.3s ease;
     /* Added transition for smooth movement */
   }
 
   .all-chat {
-    transform: translateX(25%);
+    transform: translateX(0%);
   }
 
   .group-chat {
@@ -601,7 +621,7 @@ header {
   }
 
   .contact-chat {
-    transform: translateX(310%);
+    transform: translateX(335%);
   }
 }
 
@@ -635,3 +655,4 @@ header {
     box-shadow: 0 0 0 0 rgba(0, 255, 0, 0);
   }
 }
+

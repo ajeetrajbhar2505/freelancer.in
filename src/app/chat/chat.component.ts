@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
   activeClass = 'all-chat';
+  activeIndex = 0
   tabs: any[] = [
     {
       title: 'All Chats',
@@ -23,6 +24,7 @@ export class ChatComponent implements OnInit {
   ]
 
   activateTab(index: any) {
+    this.activeIndex = index
    this.activeClass =  this.tabs[index].class
   }
   

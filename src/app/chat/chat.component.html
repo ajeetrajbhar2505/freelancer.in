@@ -1,12 +1,9 @@
 <section>
     <header class="m-0 w-100">
-        <p id="return" class="p-0" routerLink="/login">
-            <svg fill="none" viewBox="0 0 24 24" width="25px" height="25px" stroke-width="2" stroke="#65777F"
-                class="m-0 p-0 pointer">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-            </svg>
-        </p>
-        <p id="title" class="m-0 p-0 pointer">CHAT</p>
+        <div class="profile-info">
+            <p>Hello</p>
+            <p id="title" class="m-0 p-0 pointer">Ajeet</p>
+        </div>
         <p id="search" class="p-0">
             <svg fill="none" viewBox="0 0 24 24" width="25px" height="25px" stroke-width="2" stroke="#65777F"
                 class="m-0 p-0 pointer">
@@ -14,6 +11,7 @@
                     d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
             </svg>
         </p>
+        <svg viewBox="0 0 24 24" width="30px" height="30px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 12H12.01M12 6H12.01M12 18H12.01M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17C12.5523 17 13 17.4477 13 18ZM13 6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </header>
     <div id="online" class="m-0 p-0 w-100" *ngIf="false">
         <p id="online-title" class="m-0 w-100">FRIENDS ONLINE (6)</p>
@@ -36,7 +34,7 @@
         </div>x
     </div>
     <div class="tabs">
-        <span (click)="activateTab(i)" *ngFor="let tab of tabs;let i = index">{{tab.title}}</span>
+        <span (click)="activateTab(i)" *ngFor="let tab of tabs;let i = index" [class]="activeIndex == i?'color-white':''">{{tab.title}}</span>
         <button class="{{activeClass}}"></button>
     </div>
     <div id="messages" class="m-0 p-0">
@@ -47,10 +45,10 @@
             </div>
             <div class="content w-100 p-0">
                 <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Ajeet Rajbhar</span>
+                    <span class="name pointer">Ajeet Rajbhar (You)</span>
                     <span class="time">21:45</span>
                 </p>
-                <p class="m-0 p-0">Welcome to the UI/UX Design Chat!</p>
+                <p class="m-0 p-0">Ok, Let me check </p>
             </div>
         </div>
         <div class="chat m-0">
