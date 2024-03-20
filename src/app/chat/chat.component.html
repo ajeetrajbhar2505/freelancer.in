@@ -13,7 +13,7 @@
         </p>
         <svg viewBox="0 0 24 24" width="30px" height="30px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 12H12.01M12 6H12.01M12 18H12.01M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17C12.5523 17 13 17.4477 13 18ZM13 6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </header>
-    <div id="online" class="m-0 p-0 w-100" *ngIf="false">
+    <div id="online" class="m-0 p-0 w-100" *ngIf="true">
         <p id="online-title" class="m-0 w-100">FRIENDS ONLINE (6)</p>
         <div id="online-users">
             <div class="online-user-avatar m-0 p-0 pointer">
@@ -31,14 +31,14 @@
             <div class="online-user-avatar m-0 p-0 pointer">
                 <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2" />
             </div>
-        </div>x
+        </div>
     </div>
     <div class="tabs">
         <span (click)="activateTab(i)" *ngFor="let tab of tabs;let i = index" [class]="activeIndex == i?'color-white':''">{{tab.title}}</span>
         <button class="{{activeClass}}"></button>
     </div>
     <div id="messages" class="m-0 p-0">
-        <p id="messages-title" class="w-100" *ngIf="false">MESSAGES (17)</p>
+        <p id="messages-title" class="w-100" *ngIf="true">MESSAGES (17)</p>
         <div class="chat m-0">
             <div class="online-user-avatar m-0 p-0 pointer">
                 <img src="https://img1.wsimg.com/isteam/ip/8f9a5028-92cb-4074-8d56-1467f1e7cf32/ajeetrajbhar.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:2000,h:2000,cg:true" />
