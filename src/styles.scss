@@ -42,7 +42,6 @@ body {
     overflow: unset !important;
   }
   .tabs{
-    top: 0 !important;
     .all-chat {
       transform: translateX(0%) !important;
     }
@@ -573,7 +572,7 @@ header {
   display: flex;
   justify-content: space-between;
   position: sticky;
-  top: -10px;
+  top: 12px;
   margin: 30px 0 5px 0;
   z-index: 12;
   background-color: $white;
