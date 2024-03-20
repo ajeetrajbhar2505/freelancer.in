@@ -39,7 +39,8 @@ body {
   section {
     padding: unset !important;
     width: 360px !important;
-    overflow: unset !important;
+    overflow: hidden !important;
+    overflow-y: auto !important;
   }
   .tabs{
     .all-chat {
