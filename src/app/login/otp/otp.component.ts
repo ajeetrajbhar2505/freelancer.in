@@ -18,12 +18,12 @@ export class OtpComponent implements OnInit {
   }
 
   routeToPage() {
-    const url = `/${sessionStorage.getItem('routeTo')}`
+    const url = `/${sessionStorage.getItem('routeTo')?sessionStorage.getItem('routeTo') : '/auth/register'}`
     this.router.navigate([url])
   }
 
   routeToForgot(){
-    this.router.navigate(['forgot-password'])
+    this.router.navigate(['/auth/forgot-password'])
   }
 
 }

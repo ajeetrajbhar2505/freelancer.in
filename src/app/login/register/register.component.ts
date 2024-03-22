@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
    }
 
    routeToOtp(){
-    this.changeDetectionService.optdata.next('register')
+    this.changeDetectionService.optdata.next('/auth/register')
   }
 
   ngOnInit(): void {

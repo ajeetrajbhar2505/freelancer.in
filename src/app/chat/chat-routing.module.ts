@@ -5,7 +5,7 @@ import { StatusComponent } from './status/status.component';
 import { RoomComponent } from './room/room.component';
 
 const routes: Routes = [
-  { path : '**',redirectTo  : 'dashboard',pathMatch : 'full' },
+  { path : '',redirectTo  : 'dashboard',pathMatch : 'full' },
   {path : 'dashboard',component : DashboardComponent},
   {path : 'status',component : StatusComponent},
   {path : 'room',component : RoomComponent},

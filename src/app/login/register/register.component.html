@@ -22,7 +22,7 @@
         <i (click)="toggleConfirmPassword()" class="fas i-right {{IsToggledConfirmPass?'fa-eye':'fa-eye-slash'}}"></i>
     </div>
 
-    <button type="submit" class="btn" (click)="routeToOtp()" routerLink="/otp">Sign up</button>
+    <button type="submit" class="btn" (click)="routeToOtp()" routerLink="/auth/otp">Sign up</button>
 
     <div class="hr-container">
         <hr class="hr-icon" data-content="or login with">
@@ -31,7 +31,7 @@
     <div class="login-buttons">
         <button class="google-btn" (click)="loginWithGoogle()" routerLink="/otp"><i class="fab fa-google"></i>Sign up with Google</button>
     </div>
-    <button class="top-right" routerLink="/login"><i class='fas fa-sign-in-alt'></i>Login</button>
+    <button class="top-right" routerLink="/auth/login"><i class='fas fa-sign-in-alt'></i>Login</button>
     <div class="login-buttons">
     </div>
 </div>
