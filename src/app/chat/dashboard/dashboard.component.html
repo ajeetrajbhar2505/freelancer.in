@@ -2,7 +2,7 @@
     <header class="m-0 w-100">
         <div class="profile-info">
             <p>Hello</p>
-            <p id="title" class="m-0 p-0 pointer">Ajeet</p>
+            <p id="title" class="m-0 p-0 pointer">{{userDetails.name}}</p>
         </div>
         <p id="search" class="p-0">
             <svg fill="none" viewBox="0 0 24 24" width="25px" height="25px" stroke-width="2" stroke="#65777F"
@@ -14,10 +14,10 @@
         <svg viewBox="0 0 24 24" width="30px" height="30px" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 12H12.01M12 6H12.01M12 18H12.01M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17C12.5523 17 13 17.4477 13 18ZM13 6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
     </header>
     <div id="online" class="m-0 p-0 w-100" *ngIf="true">
-        <p id="online-title" class="m-0 w-100">FRIENDS ONLINE (6)</p>
+        <p id="online-title" class="m-0 w-100">FRIENDS ONLINE ({{totalonlineUsers}})</p>
         <div id="online-users">
             <div class="online-user-avatar m-0 p-0 pointer" *ngFor="let data of onlineUsers;">
-                <img [src]="data.img" />
+                <img [src]="data.profile" routerLink="/chat/status/{{data.userid}}" />
             </div>
         </div>
     </div>
@@ -26,67 +26,17 @@
         <button class="{{activeClass}}"></button>
     </div>
     <div id="messages" class="m-0 p-0">
-        <p id="messages-title" class="w-100" *ngIf="true">MESSAGES (17)</p>
-        <div class="chat m-0">
+        <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
+        <div class="chat m-0" *ngFor="let data of users;" routerLink="/chat/room/{{data.roomId}}">
             <div class="online-user-avatar m-0 p-0 pointer">
-                <img src="https://img1.wsimg.com/isteam/ip/8f9a5028-92cb-4074-8d56-1467f1e7cf32/ajeetrajbhar.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:2000,h:2000,cg:true" />
+                <img [src]="data.profile" />
             </div>
             <div class="content w-100 p-0">
                 <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Ajeet Rajbhar (You)</span>
-                    <span class="time">21:45</span>
+                    <span class="name pointer">{{data.username}} <img *ngIf="data.verified" src="assets/verified.png" width="20px"/></span>
+                    <span class="time">{{data.lastSeen}}</span>
                 </p>
-                <p class="m-0 p-0">Ok, Let me check </p>
-            </div>
-        </div>
-        <div class="chat m-0">
-            <div class="online-user-avatar m-0 p-0 pointer">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2044px-WhatsApp.svg.png" />
-            </div>
-            <div class="content w-100 p-0">
-                <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Whatsapp <img src="assets/verified.png" width="20px"/></span>
-                    <span class="time">Yesterday</span>
-                </p>
-                <p class="m-0 p-0">Let's have meeting with you </p>
-            </div>
-        </div>
-    
-        <div class="chat m-0">
-            <div class="online-user-avatar m-0 p-0 pointer">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png" />
-            </div>
-            <div class="content w-100 p-0">
-                <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Telegram <img src="assets/verified.png" width="20px"/></span>
-                    <span class="time">Yesterday</span>
-                </p>
-                <p class="m-0 p-0">Let's have meeting with you </p>
-            </div>
-        </div>
-        <div class="chat m-0">
-            <div class="online-user-avatar m-0 p-0 pointer">
-                <img src="https://freebiehive.com/wp-content/uploads/2021/08/Facebook-Icon-PNG-1.jpg" />
-            </div>
-            <div class="content w-100 p-0">
-                <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Facebook <img src="assets/verified.png" width="20px"/></span>
-                    <span class="time">Yesterday</span>
-                </p>
-                <p class="m-0 p-0">Let's have meeting with you </p>
-            </div>
-        </div>
-
-        <div class="chat m-0">
-            <div class="online-user-avatar m-0 p-0 pointer">
-                <img src="https://assets.materialup.com/uploads/0a167b5f-425d-4b90-adeb-57016ccbcbcd/0x0ss-85.jpg" />
-            </div>
-            <div class="content w-100 p-0">
-                <p class="w-100 m-0 p-0">
-                    <span class="name pointer">Snapchat <img src="assets/verified.png" width="20px"/></span>
-                    <span class="time">Yesterday</span>
-                </p>
-                <p class="m-0 p-0">Let's have meeting with you </p>
+                <p class="m-0 p-0">{{data.lastMessage}}</p>
             </div>
         </div>
 
