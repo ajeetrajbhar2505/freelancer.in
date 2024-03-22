@@ -3,10 +3,6 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { OtpComponent } from './otp/otp.component';
-import { RegisterComponent } from './register/register.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ApiServiceService } from './services/api-service.service';
 import { ChangeDetectionServiceService } from './services/change-detection-service.service';
 import { ErrorHandlingServiceService } from './services/error-handling-service.service';
@@ -17,21 +13,14 @@ import { RestrictMultiSpaceRegexValidatorDirective } from './regex-validator/res
 import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only-regex-validator.directive';
 import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
 import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    OtpComponent,
-    RegisterComponent,
-    ForgotPasswordComponent,
     EmailRegexValidatorDirective,
     MobileRegexValidatorDirective,
     NumberOnlyRegexValidatorDirective,
     RestrictMultiSpaceRegexValidatorDirective,
-    ChatComponent
   ],
   imports: [
     BrowserModule,

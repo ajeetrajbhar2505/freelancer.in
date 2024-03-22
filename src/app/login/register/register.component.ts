@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommondataserviceService } from '../services/commondataservice.service';
-import { ChangeDetectionServiceService } from '../services/change-detection-service.service';
+import { CommondataserviceService } from '../../services/commondataservice.service';
+import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 
 @Component({
   selector: 'app-register',

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangeDetectionServiceService } from '../services/change-detection-service.service';
+import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { Router } from '@angular/router';
 
 @Component({

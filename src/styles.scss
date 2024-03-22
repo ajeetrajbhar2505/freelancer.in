@@ -42,6 +42,9 @@ body {
     overflow: hidden !important;
     overflow-y: auto !important;
   }
+  .online-users{
+    width: 360px !important;
+  }
   .tabs{
     .all-chat {
       transform: translateX(0%) !important;
@@ -475,14 +478,14 @@ header {
 }
 
 #online-users {
-  width: calc(100% - 20px);
+  width: 400px;
   margin: 20px 0;
   padding: 0 10px;
   display: flex;
   gap: 10px;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  overflow-x: auto;
 }
 
 .online-user-avatar {

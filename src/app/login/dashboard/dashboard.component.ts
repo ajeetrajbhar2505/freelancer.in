@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommondataserviceService } from '../services/commondataservice.service';
+import { CommondataserviceService } from '../../services/commondataservice.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.scss'
 })
-export class LoginComponent implements OnInit {
+export class DashboardComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
 
