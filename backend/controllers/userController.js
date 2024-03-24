@@ -27,3 +27,32 @@ exports.createUser = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
+exports.authenticateUser = async (req, res) => {
+    try {
+        // Extract email and password from the request body
+        const { email, password } = req.body;
+
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        // Verify password
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        // Generate JWT token for the user
+        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
+
+        // Respond with success message, user data, and token
+        res.status(200).json({ message: 'Authentication successful', user, token });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};

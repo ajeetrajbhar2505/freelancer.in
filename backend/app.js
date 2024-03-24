@@ -15,11 +15,12 @@ const io = socketIo(server);
 const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const roomRoutes = require('./routes/roomRoutes');
+const authorizeToken = require('./middlewares/authorizeToken');
 
 // API Routes
 app.use('/api/users', userRoutes);
-app.use('/api/messages', messageRoutes);
-app.use('/api/rooms', roomRoutes);
+app.use('/api/messages',authorizeToken, messageRoutes);
+app.use('/api/rooms',authorizeToken, roomRoutes);
 
 // Socket connection
 io.on('connection', chatSocket);

@@ -2,6 +2,8 @@
 
 # Compiled output
 /dist
+/backend/.env
+/backend/node_modules
 /tmp
 /out-tsc
 /bazel-out
@@ -36,6 +38,7 @@ yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
+
 
 # System files
 .DS_Store

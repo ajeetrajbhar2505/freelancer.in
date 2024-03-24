@@ -21,3 +21,18 @@ exports.createMessage = async (req, res) => {
         res.status(500).json({ error: 'Server error' });
     }
 };
+
+
+exports.getMessages = async (req, res) => {
+    try {
+        // Fetch all messages from the database
+        const messages = await Message.find();
+
+        // Respond with the fetched messages
+        res.status(200).json(messages);
+    } catch (err) {
+        // Handle any errors
+        console.error(err);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
