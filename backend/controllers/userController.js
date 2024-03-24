@@ -1,5 +1,7 @@
 // userController.js
 const User = require('../models/user');
+const { generateToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+
 
 // Controller function to create a new user
 exports.createUser = async (req, res) => {
@@ -31,28 +33,26 @@ exports.createUser = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
     try {
-        // Extract email and password from the request body
-        const { email, password } = req.body;
+        const { username, password } = req.body;
+        const user = await database.collection("users").findOne({ email: username, password: password });
 
-        // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ error: 'Invalid credentials' });
+        if (user) {
+            if (!user.email_verified) {
+                return res.status(201).json({ status: 201, response: "Please verify your email" });
+            }
+
+            // Generate token and store in the database
+            await generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() });
+
+            // Send email with OTP
+            // Assuming you have the email sending logic here
+
+            return res.status(200).json({ status: 200, response: "OTP sent successfully" });
+        } else {
+            return res.status(303).json({ status: 303, response: "Credentials are incorrect" });
         }
-
-        // Verify password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ error: 'Invalid credentials' });
-        }
-
-        // Generate JWT token for the user
-        const token = jwt.sign({ userId: user._id }, 'your_secret_key', { expiresIn: '1h' });
-
-        // Respond with success message, user data, and token
-        res.status(200).json({ message: 'Authentication successful', user, token });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Server error' });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ status: 500, response: "Internal server error" });
     }
 };

@@ -15,7 +15,7 @@ async function authorizeToken(req, res, next) {
 
     try {
         // Verify the token
-        const decodedToken = jwt.verify(token, 'your_secret_key');
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 
         // Find the user based on the decoded token
         const user = await User.findById(decodedToken.userId);
