@@ -5,12 +5,12 @@ const path = require('path');
 // Authorization function middleware
 async function authorizeToken(req, res, next) {
     // Get the token from the request headers
-    if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/index.html'));
+    if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
     const token = req.headers.authorization.split(' ')[1];
 
     if (!token) {
         // Token is missing
-        return res.status(401).sendFile(path.join(__dirname, '../public/index.html'));
+        return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
     }
 
     try {
@@ -21,7 +21,7 @@ async function authorizeToken(req, res, next) {
         const user = await User.findById(decodedToken.userId);
         if (!user) {
             // User not found
-            return res.status(401).sendFile(path.join(__dirname, '../public/index.html'));
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
         }
 
         // Continue with the route handling
