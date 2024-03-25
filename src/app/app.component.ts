@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { window } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,6 @@ export class AppComponent implements OnInit {
   title = 'freelancer.in';
 
   ngOnInit(): void {
-    window.scrollTo(0, 0);
+  
   }
 }
