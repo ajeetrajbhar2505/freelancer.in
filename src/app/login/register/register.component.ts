@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
+import { ApiService } from '../../services/api-service.service';
+import { signUpUrl } from '../../constants/endpoint-usage';
 
 @Component({
   selector: 'app-register',
@@ -12,7 +14,7 @@ export class RegisterComponent implements OnInit {
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
 
-  constructor(private commonDataService:CommondataserviceService,private changeDetectionService:ChangeDetectionServiceService){}
+  constructor(private commonDataService:CommondataserviceService,private changeDetectionService:ChangeDetectionServiceService,public apiService:ApiService){}
 
 
   togglePassword() {
@@ -27,11 +29,19 @@ export class RegisterComponent implements OnInit {
   loginWithGoogle() {
     this.commonDataService.loginWithGoogle()
    }
-
-   routeToOtp(){
-    this.changeDetectionService.optdata.next('/auth/register')
+   async routeToOtp() {
+    try {
+      const response = await this.apiService.postData(signUpUrl, null).toPromise();
+      if (response.status === 200) {
+        this.changeDetectionService.optdata.next(response.data);
+      } else {
+        console.error('Failed to send OTP:', response);
+      }
+    } catch (error) {
+      console.error('Error in routeToOtp:', error);
+    }
   }
-
+  
   ngOnInit(): void {
     window.scrollTo(0, 0);
   }

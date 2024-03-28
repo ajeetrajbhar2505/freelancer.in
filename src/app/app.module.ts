@@ -3,7 +3,7 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ApiServiceService } from './services/api-service.service';
+import { ApiService } from './services/api-service.service';
 import { ChangeDetectionServiceService } from './services/change-detection-service.service';
 import { ErrorHandlingServiceService } from './services/error-handling-service.service';
 import { FileUploadServiceService } from './services/file-upload-service.service';
@@ -13,6 +13,7 @@ import { RestrictMultiSpaceRegexValidatorDirective } from './regex-validator/res
 import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only-regex-validator.directive';
 import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
 import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
+import { WebsocketService } from './services/websocket.service';
 
 @NgModule({
   declarations: [
@@ -29,11 +30,12 @@ import { EmailRegexValidatorDirective } from './regex-validator/email-regex-vali
   ],
   providers: [
     provideClientHydration(),
-    ApiServiceService,
+    ApiService,
     ChangeDetectionServiceService,
     ErrorHandlingServiceService,
     FileUploadServiceService,
-    CommondataserviceService
+    CommondataserviceService,
+    WebsocketService
   ],
   bootstrap: [AppComponent]
 })
