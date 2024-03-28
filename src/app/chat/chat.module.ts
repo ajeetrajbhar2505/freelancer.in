@@ -5,13 +5,15 @@ import { ChatRoutingModule } from './chat-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StatusComponent } from './status/status.component';
 import { RoomComponent } from './room/room.component';
+import { SharedModule } from '../shared/shared/shared.module';
 
 
 @NgModule({
   declarations: [DashboardComponent, StatusComponent, RoomComponent],
   imports: [
     CommonModule,
-    ChatRoutingModule
+    ChatRoutingModule,
+    SharedModule
   ]
 })
 export class ChatModule { }

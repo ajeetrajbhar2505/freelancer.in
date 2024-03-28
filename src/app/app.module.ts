@@ -3,39 +3,25 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ApiService } from './services/api-service.service';
-import { ChangeDetectionServiceService } from './services/change-detection-service.service';
-import { ErrorHandlingServiceService } from './services/error-handling-service.service';
-import { FileUploadServiceService } from './services/file-upload-service.service';
-import { CommondataserviceService } from './services/commondataservice.service';
 import { RouterModule } from '@angular/router';
-import { RestrictMultiSpaceRegexValidatorDirective } from './regex-validator/restrict-multi-space-regex-validator.directive';
-import { NumberOnlyRegexValidatorDirective } from './regex-validator/number-only-regex-validator.directive';
-import { MobileRegexValidatorDirective } from './regex-validator/mobile-regex-validator.directive';
-import { EmailRegexValidatorDirective } from './regex-validator/email-regex-validator.directive';
-import { WebsocketService } from './services/websocket.service';
+import { LoginModule } from './login/login.module';
+import { ChatModule } from './chat/chat.module';
+import { PasswordRegexValidatorDirective } from './regex-validator/password-regex-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmailRegexValidatorDirective,
-    MobileRegexValidatorDirective,
-    NumberOnlyRegexValidatorDirective,
-    RestrictMultiSpaceRegexValidatorDirective,
+    PasswordRegexValidatorDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    LoginModule,
+    ChatModule
   ],
   providers: [
     provideClientHydration(),
-    ApiService,
-    ChangeDetectionServiceService,
-    ErrorHandlingServiceService,
-    FileUploadServiceService,
-    CommondataserviceService,
-    WebsocketService
   ],
   bootstrap: [AppComponent]
 })

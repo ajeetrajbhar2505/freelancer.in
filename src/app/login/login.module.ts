@@ -6,13 +6,15 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { OtpComponent } from './otp/otp.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SharedModule } from '../shared/shared/shared.module';
 
 
 @NgModule({
   declarations: [DashboardComponent,ForgotPasswordComponent,OtpComponent,RegisterComponent],
   imports: [
     CommonModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    SharedModule
   ]
 })
 export class LoginModule { }
