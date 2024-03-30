@@ -15,11 +15,11 @@ exports.createRoom = async (req, res) => {
         await newRoom.save();
 
         // Respond with success message and the new room data
-        res.status(201).json({ message: 'Room created successfully', room: newRoom });
+        res.status(201).json({status: 201, message: 'Room created successfully', room: newRoom });
     } catch (err) {
         // Handle any errors
         console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({status: 500, error: 'Server error' });
     }
 };
 

@@ -31,8 +31,8 @@ export class OtpComponent implements OnInit {
 
   async OnSubmit() {
     try {
-      const response = await this.apiService.postData(verifyOTP, { otp: '5055' }).toPromise();
-      if (response.status === 200) {
+      const response = await this.apiService.postData(verifyOTP, { otp: '2716' }).toPromise();
+      if (response.status == 200) {
         this.router.navigate(['/chat/dashboard'])
       } else {
         console.error('Failed to send OTP:', response);

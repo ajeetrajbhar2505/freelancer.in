@@ -7,7 +7,8 @@ import { RouterModule } from '@angular/router';
 import { LoginModule } from './login/login.module';
 import { ChatModule } from './chat/chat.module';
 import { PasswordRegexValidatorDirective } from './regex-validator/password-regex-validator.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { tokenInterceptor } from './interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     provideClientHydration(),
+    { provide: HTTP_INTERCEPTORS, useClass: tokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

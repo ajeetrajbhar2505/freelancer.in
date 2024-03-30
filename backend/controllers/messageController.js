@@ -14,11 +14,11 @@ exports.createMessage = async (req, res) => {
         await newMessage.save();
 
         // Respond with success message and the new message data
-        res.status(201).json({ message: 'Message created successfully', message: newMessage });
+        res.status(201).json({status: 201, message: 'Message created successfully', message: newMessage });
     } catch (err) {
         // Handle any errors
         console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({status: 500, error: 'Server error' });
     }
 };
 
@@ -29,10 +29,10 @@ exports.getMessages = async (req, res) => {
         const messages = await Message.find();
 
         // Respond with the fetched messages
-        res.status(200).json(messages);
+        res.status(200).json({status: 200,messages:messages});
     } catch (err) {
         // Handle any errors
         console.error(err);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ status: 500,error: 'Server error' });
     }
 };

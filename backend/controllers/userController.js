@@ -1,5 +1,6 @@
 // userController.js
 const User = require('../models/user');
+const Token = require('../models/Token');
 const { generateToken, verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
 const path = require('path');
 
@@ -13,7 +14,7 @@ exports.createUser = async (req, res) => {
         // Check if the username or email already exists
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            return res.status(400).json({ error: 'Username or email already exists' });
+            return res.status(400).json({status: 400, error: 'Username or email already exists' });
         }
 
         // Create a new user instance
@@ -23,7 +24,7 @@ exports.createUser = async (req, res) => {
         await newUser.save();
 
         // Respond with success message and the new user data
-        res.status(201).json({ message: 'User created successfully', user: newUser });
+        res.status(201).json({status: 201, message: 'User created successfully', user: newUser });
     } catch (err) {
         // Handle any errors
         console.error(err);
@@ -55,15 +56,18 @@ exports.verifyOTP = async (req, res) => {
         const { otp: enteredOtp } = req.body;
 
         // Verify entered OTP against stored OTP
-        if (otp !== enteredOtp) {
-            return res.status(401).json({ error: 'Invalid OTP' });
+        if (otp != enteredOtp) {
+            return res.status(401).json({ status: 401,error: 'Invalid OTP' });
         }
 
         // OTP is valid
-        res.status(200).json({ message: 'OTP verified successfully' });
+        res.status(200).json({ status: 200, message: 'OTP verified successfully' });
     } catch (err) {
         // Handle any errors
         console.error(err);
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html')); // Redirect to login page
+        }
         res.status(500).json({ error: 'Server error' });
     }
 };
