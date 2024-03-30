@@ -7,10 +7,14 @@
     <h4>Please enter the verifcation code send<br> to your email address</h4>
     <h4 class="route" (click)="routeToForgot()">{{'ajeetrajbhar2504@gmail.com'}} <i class="fa fa-edit"></i></h4>
     <div class="center otp-box">
-        <input type="text" class="otp-input" pattern="\d" maxlength="1">
-        <input type="text" class="otp-input" pattern="\d" maxlength="1">
-        <input type="text" class="otp-input" pattern="\d" maxlength="1">
-        <input type="text" class="otp-input" pattern="\d" maxlength="1">
+        <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp1 id="otp1"
+        (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
+      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp2 id="otp2"
+        (input)="restrictmaxNumber($event,'otp2');" formControlName="otp2" />
+      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp3 id="otp3"
+        (input)="restrictmaxNumber($event,'otp3');" formControlName="otp3" />
+      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp4 id="otp4"
+        (input)="restrictmaxNumber($event,'otp4');" formControlName="otp4" />
     </div>
     <button type="submit" class="submit btn" (click)="OnSubmit()">Submit</button>
     <div class="login-buttons">

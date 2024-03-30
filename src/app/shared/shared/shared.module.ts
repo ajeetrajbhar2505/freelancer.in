@@ -10,6 +10,7 @@ import { ErrorHandlingServiceService } from '../../services/error-handling-servi
 import { FileUploadServiceService } from '../../services/file-upload-service.service';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { WebsocketService } from '../../services/websocket.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -21,7 +22,8 @@ import { WebsocketService } from '../../services/websocket.service';
     RestrictMultiSpaceRegexValidatorDirective,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   providers : [
     ApiService,
