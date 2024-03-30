@@ -19,6 +19,7 @@ const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const authorizeToken = require('./middlewares/authorizeToken');
+const connection = require('./utils/database');
 
 // API Routes
 app.use('/api/users', userRoutes);
@@ -30,6 +31,16 @@ io.on('connection', chatSocket);
 
 
 const port = process.env.PORT || 3000
-server.listen(port, () => {
-    console.log(`Example app listening on port ${port}!`)
-  })
+
+// Establish database connection
+connection()
+    .then(() => {
+        const port = process.env.PORT || 3000;
+        server.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    })
+    .catch(err => {
+        console.error('Error connecting to the database:', err);
+        process.exit(1); // Exit the process if unable to connect to the database
+    });
