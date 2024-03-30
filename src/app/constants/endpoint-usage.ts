@@ -1,10 +1,11 @@
+import { environment } from '../../environments/environment';
 import { ApiEndpoints } from './api-endpoints';
 
 
-const signUpUrl = ApiEndpoints.signup; 
-const loginUrl = ApiEndpoints.login;
-const getRoomsUrl  = ApiEndpoints.getrooms;
-const getMessagesUrl = ApiEndpoints.getmessages;
+const signUpUrl = environment.apiURL + ApiEndpoints.signup; 
+const loginUrl = environment.apiURL + ApiEndpoints.login;
+const getRoomsUrl  = environment.apiURL + ApiEndpoints.getrooms;
+const getMessagesUrl = environment.apiURL + ApiEndpoints.getmessages;
 
 export {
     signUpUrl,
