@@ -30,8 +30,6 @@ app.use('/api/rooms',authorizeToken, roomRoutes);
 io.on('connection', chatSocket);
 
 
-const port = process.env.PORT || 3000
-
 // Establish database connection
 connection()
     .then(() => {

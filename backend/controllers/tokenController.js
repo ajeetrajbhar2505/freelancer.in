@@ -3,7 +3,7 @@ const Token = require('../models/Token'); // Import the Token model defined prev
 const { sendEmail } = require('../utils/emailService')
 const { generateHTMLTemplate }  = require('../models/email_template')
 // Function to generate a JWT token
-async function generateToken(userId, email, dateTime) {
+async function generateToken({ userId, email, dateTime }, callback) {
     try {
         const otp = generateOTP(); // Generate OTP
         const tokenData = {
@@ -20,12 +20,19 @@ async function generateToken(userId, email, dateTime) {
             subject: "Verification Code - Class App",
             html: generateHTMLTemplate(otp),
         };
-       await sendEmail(mailOption)
-        return token;
+
+        sendEmail(mailOption, function(err) {
+            if (err) {
+                callback(err); // Call the callback with the error
+            } else {
+                callback(null, token); // Call the callback with null error and the token
+            }
+        });
     } catch (error) {
-        throw error;
+        callback(error); // Call the callback with the error
     }
 }
+
 
 // Function to generate OTP
 function generateOTP() {

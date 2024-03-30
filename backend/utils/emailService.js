@@ -3,21 +3,21 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "ajeetrajbhar2504@gmail.com",
-        pass: process.env.nodemailer_key, // Replace with your actual Gmail password
+      // TODO: replace `user` and `pass` values from <https://forwardemail.net>
+      user: "ajeetrajbhar2504@gmail.com",
+      pass: process.env.nodemailer_key,
     },
-});
+  });
 
-function sendEmail(mailOption) {
-    return new Promise((resolve, reject) => {
-        transporter.sendMail(mailOption, function (err, info) {
-            if (err) {
-                reject("Otp send failed");
-            } else {
-                resolve("Otp send successfully");
-            }
-        });
+function sendEmail(mailOption, callback) {
+    transporter.sendMail(mailOption, function (err, info) {
+        if (err) {
+            callback(err); // Call the callback with the error
+        } else {
+            callback(null, info); // Call the callback with null error and info
+        }
     });
 }
+
 
 module.exports = { sendEmail };

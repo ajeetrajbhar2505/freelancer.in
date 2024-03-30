@@ -33,21 +33,21 @@ exports.createUser = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const user = await database.collection("users").findOne({ email: username, password: password });
-
+        const { email, username, password } = req.body;
+        const user = await User.findOne({ $or: [{ username: username, password: password }, { email: email, password: password }] });
+        
         if (user) {
             if (!user.email_verified) {
                 return res.status(201).json({ status: 201, response: "Please verify your email" });
             }
 
-            // Generate token and store in the database
-            await generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() });
-
-            // Send email with OTP
-            // Assuming you have the email sending logic here
-
-            return res.status(200).json({ status: 200, response: "OTP sent successfully" });
+            generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() }, function (err, token) {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ status: 500, response: "Failed to generate token" });
+                }
+                return res.status(200).json({ status: 200, response: "OTP sent successfully" });
+            });
         } else {
             return res.status(303).json({ status: 303, response: "Credentials are incorrect" });
         }
@@ -56,3 +56,4 @@ exports.authenticateUser = async (req, res) => {
         return res.status(500).json({ status: 500, response: "Internal server error" });
     }
 };
+

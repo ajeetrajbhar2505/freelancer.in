@@ -31,7 +31,7 @@ export class RegisterComponent implements OnInit {
    }
    async routeToOtp() {
     try {
-      const response = await this.apiService.postData(signUpUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeet@gmail.com' }).toPromise();
+      const response = await this.apiService.postData(signUpUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
       if (response.status === 200) {
         this.changeDetectionService.optdata.next(response.data);
       } else {

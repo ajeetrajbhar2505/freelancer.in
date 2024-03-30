@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
+import { ApiService } from '../../services/api-service.service';
+import { loginUrl } from '../../constants/endpoint-usage';
+import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +13,7 @@ export class DashboardComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
 
-  constructor(private commonDataService:CommondataserviceService){}
+  constructor(private commonDataService:CommondataserviceService,private apiService:ApiService,private changeDetectionService:ChangeDetectionServiceService){}
 
   togglePassword() {
     this.IsToggledPass = !this.IsToggledPass;
@@ -21,6 +24,19 @@ export class DashboardComponent implements OnInit {
 
   loginWithGoogle() {
    this.commonDataService.loginWithGoogle()
+  }
+
+  async routeToOtp() {
+    try {
+      const response = await this.apiService.postData(loginUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
+      if (response.status === 200) {
+        this.changeDetectionService.optdata.next(response.data);
+      } else {
+        console.error('Failed to send OTP:', response);
+      }
+    } catch (error) {
+      console.error('Error in routeToOtp:', error);
+    }
   }
 
   ngOnInit(): void {
