@@ -3,6 +3,7 @@ import { CommondataserviceService } from '../../services/commondataservice.servi
 import { ApiService } from '../../services/api-service.service';
 import { loginUrl } from '../../constants/endpoint-usage';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,7 +14,7 @@ export class DashboardComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
 
-  constructor(private commonDataService:CommondataserviceService,private apiService:ApiService,private changeDetectionService:ChangeDetectionServiceService){}
+  constructor(private commonDataService: CommondataserviceService, private apiService: ApiService, private changeDetectionService: ChangeDetectionServiceService, private router: Router) { }
 
   togglePassword() {
     this.IsToggledPass = !this.IsToggledPass;
@@ -23,14 +24,15 @@ export class DashboardComponent implements OnInit {
   }
 
   loginWithGoogle() {
-   this.commonDataService.loginWithGoogle()
+    this.commonDataService.loginWithGoogle()
   }
 
   async routeToOtp() {
     try {
-      const response = await this.apiService.postData(loginUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
+      const response = await this.apiService.postData(loginUrl, { username: 'ajeet', password: 'ajeet', email: 'ajeetrajbhar2504@gmail.com' }).toPromise();
       if (response.status === 200) {
-        this.changeDetectionService.optdata.next(response.data);
+        this.router.navigate(['/auth/otp'])
+        localStorage.setItem('token', response.token)
       } else {
         console.error('Failed to send OTP:', response);
       }
@@ -44,5 +46,5 @@ export class DashboardComponent implements OnInit {
       window.scrollTo(0, 0);
     }
   }
-  
+
 }

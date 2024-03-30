@@ -34,6 +34,16 @@ async function generateToken({ userId, email, dateTime }, callback) {
 }
 
 
+async function verifyToken(token) {
+    try {
+        const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+        return decoded;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 // Function to generate OTP
 function generateOTP() {
     const firstDigit = Math.floor(Math.random() * 9) + 1; // Random digit between 1 and 9
@@ -45,7 +55,8 @@ function generateOTP() {
 
 
 module.exports = {
-    generateToken
+    generateToken,
+    verifyToken
 };
 
 
