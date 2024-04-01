@@ -4,8 +4,6 @@ import { BrowserModule, provideClientHydration } from '@angular/platform-browser
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
-import { LoginModule } from './login/login.module';
-import { ChatModule } from './chat/chat.module';
 import { PasswordRegexValidatorDirective } from './regex-validator/password-regex-validator.directive';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { tokenInterceptor } from './interceptors/token.interceptor';
@@ -20,8 +18,6 @@ import { tokenInterceptor } from './interceptors/token.interceptor';
     AppRoutingModule,
     RouterModule,
     HttpClientModule,
-    LoginModule,
-    ChatModule
   ],
   providers: [
     provideClientHydration(),

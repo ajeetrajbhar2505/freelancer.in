@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service.service';
-import { verifyOTP } from '../../constants/endpoint-usage';
+import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -39,8 +39,10 @@ export class OtpComponent implements OnInit {
     const { otp1, otp2, otp3, otp4 } = this.otpgroup.value;
     const otp = otp1.toString() + otp2.toString() + otp3.toString() + otp4.toString();
 
+    const apiURL = sessionStorage.getItem('routeTo') == '/auth/register' ? verifyEMAIL : verifyOTP
+
     try {
-      const response = await this.apiService.postData(verifyOTP, { otp: parseInt(otp) }).toPromise();
+      const response = await this.apiService.postData(apiURL, { otp: parseInt(otp) }).toPromise();
       if (response.status == 200) {
         this.router.navigate(['/chat/dashboard'])
       } else {

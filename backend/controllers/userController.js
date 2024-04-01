@@ -5,7 +5,6 @@ const ErrorModel = require('../models/errorSchema');
 const { generateToken, verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
 
 
-
 // Controller function to create a new user
 exports.createUser = async (req, res) => {
     try {
@@ -24,19 +23,33 @@ exports.createUser = async (req, res) => {
         // Save the user to the database
         await newUser.save();
 
-        // Respond with success message and the new user data
-        res.status(201).json({ status: 201, message: 'User created successfully', user: newUser });
+        // Generate token and respond with success message and token
+        generateToken({ userId: newUser._id.toString(), email: newUser.email, dateTime: new Date() }, async (err, token) => {
+            if (err) {
+                // Handle any errors
+                const error = new ErrorModel({
+                    message: err.message,
+                    statusCode: err.statusCode,
+                    apiEndpoint: req.originalUrl,
+                });
+                await error.save();
+                return res.status(500).json({ status: 500, error: "Failed to generate token" });
+            }
+            res.status(201).json({ status: 201, message: 'User created successfully', token });
+        });
     } catch (err) {
         // Handle any errors
+        console.error(err);
         const error = new ErrorModel({
             message: err.message,
             statusCode: err.statusCode,
             apiEndpoint: req.originalUrl,
         });
         await error.save();
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ status: 500, error: 'Server error' });
     }
 };
+
 
 
 
@@ -59,8 +72,14 @@ exports.verifyOTP = async (req, res) => {
         }
 
         // Update the token document to mark it as verified
+        const isEmailverfyurl = req.originalUrl == '/api/users/verify-email' ? true : false
+        if (isEmailverfyurl) {
+        await User.findByIdAndUpdate(tokenData.userId, { email_verified: true });
+        }
+        else {
         await Token.findByIdAndUpdate(tokenData._id, { verified: true });
-        
+        }
+
         return res.status(200).json({ status: 200, message: 'OTP verified successfully' });
     } catch (err) {
         console.log(err);
@@ -86,6 +105,8 @@ exports.verifyOTP = async (req, res) => {
         res.status(500).json({ status: 500, error: 'Server error' });
     }
 };
+
+
 
 
 

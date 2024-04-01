@@ -3,6 +3,7 @@ import { CommondataserviceService } from '../../services/commondataservice.servi
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { ApiService } from '../../services/api-service.service';
 import { signUpUrl } from '../../constants/endpoint-usage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ export class RegisterComponent implements OnInit {
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
 
-  constructor(private commonDataService:CommondataserviceService,private changeDetectionService:ChangeDetectionServiceService,public apiService:ApiService){}
+  constructor(private router:Router,private commonDataService:CommondataserviceService,private changeDetectionService:ChangeDetectionServiceService,public apiService:ApiService){}
 
 
   togglePassword() {
@@ -32,8 +33,11 @@ export class RegisterComponent implements OnInit {
    async routeToOtp() {
     try {
       const response = await this.apiService.postData(signUpUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
-      if (response.status === 200) {
+      if (response.status === 201 || response.status === 200) {
+        this.router.navigate(['/auth/otp'])
         this.changeDetectionService.routeTo.next('/auth/register');
+        localStorage.setItem('token', response.token)
+
       } else {
         console.error('Failed to send OTP:', response);
       }
