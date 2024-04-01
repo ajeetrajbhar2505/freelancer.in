@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class OtpComponent implements OnInit {
   otpgroup!: FormGroup;
-  constructor(private changeDetectionService: ChangeDetectionServiceService, private router: Router, private apiService: ApiService,private fb:FormBuilder) { }
+  constructor(private changeDetectionService: ChangeDetectionServiceService, private router: Router, private apiService: ApiService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.initiateotpgroup()
@@ -33,8 +33,20 @@ export class OtpComponent implements OnInit {
 
 
   async OnSubmit() {
+    const otp =
+      this.otpgroup.get('otp1')?.value +
+      '' +
+      this.otpgroup.get('otp2')?.value +
+      '' +
+      this.otpgroup.get('otp3')?.value +
+      '' +
+      this.otpgroup.get('otp4')?.value;
+    const body = {
+      otp: parseInt(otp),
+    };
+    
     try {
-      const response = await this.apiService.postData(verifyOTP, { otp: '2716' }).toPromise();
+      const response = await this.apiService.postData(verifyOTP, body).toPromise();
       if (response.status == 200) {
         this.router.navigate(['/chat/dashboard'])
       } else {
@@ -62,18 +74,18 @@ export class OtpComponent implements OnInit {
 
   restrictmaxNumber(event: any, name: any) {
     const formcontrol: any = this.otpgroup.get(name);
-    
-    
+
+
     // Check if the event is a delete key press
     if (event.keyCode === 46) {
       // Move to the previous input element
       const previousInput = event.target.previousElementSibling;
-      
+
       // If there is a previous input and it's an <input> element
       if (previousInput && previousInput.tagName === 'INPUT') {
         // Set focus on the previous input
         previousInput.focus();
-        
+
         // Remove the value of the previous input
         const previousFormControl: any = this.otpgroup.get(previousInput.name);
         if (previousFormControl) {
@@ -85,12 +97,12 @@ export class OtpComponent implements OnInit {
       const truncatedNumber = formcontrol.value.toString().slice(0, 1);
       formcontrol.patchValue(truncatedNumber);
     }
-  
+
     // Focus on the next input
     const nextInput = event.target.nextElementSibling;
     if (nextInput && nextInput.tagName === 'INPUT') {
       nextInput.focus();
     }
   }
-  
+
 }

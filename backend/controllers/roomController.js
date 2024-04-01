@@ -1,5 +1,6 @@
 // roomController.js
 const Room = require('../models/room');
+const ErrorModel = require('../models/errorSchema');
 
 // Controller function to create a new room
 exports.createRoom = async (req, res) => {
@@ -17,8 +18,13 @@ exports.createRoom = async (req, res) => {
         // Respond with success message and the new room data
         res.status(201).json({status: 201, message: 'Room created successfully', room: newRoom });
     } catch (err) {
-        // Handle any errors
-        console.error(err);
+         // Handle any errors
+         const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
         res.status(500).json({status: 500, error: 'Server error' });
     }
 };

@@ -1,8 +1,9 @@
 // userController.js
 const User = require('../models/user');
 const Token = require('../models/Token');
+const ErrorModel = require('../models/errorSchema');
 const { generateToken, verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
-const path = require('path');
+
 
 
 // Controller function to create a new user
@@ -14,7 +15,7 @@ exports.createUser = async (req, res) => {
         // Check if the username or email already exists
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            return res.status(400).json({status: 400, error: 'Username or email already exists' });
+            return res.status(400).json({ status: 400, error: 'Username or email already exists' });
         }
 
         // Create a new user instance
@@ -24,53 +25,66 @@ exports.createUser = async (req, res) => {
         await newUser.save();
 
         // Respond with success message and the new user data
-        res.status(201).json({status: 201, message: 'User created successfully', user: newUser });
+        res.status(201).json({ status: 201, message: 'User created successfully', user: newUser });
     } catch (err) {
         // Handle any errors
-        console.error(err);
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
         res.status(500).json({ error: 'Server error' });
     }
 };
 
 
 
-// Controller function to verify an OTP from a token collection
 exports.verifyOTP = async (req, res) => {
     try {
-        // Extract token from request headers
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
-        // Check if the token exists in the token collection (assuming you have this logic elsewhere)
         const tokenData = await Token.findOne({ userId });
 
-        // If token not found or expired, return unauthorized error
         if (!tokenData) {
-            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+            s
+            return res.status(401).json({ status: 401, error: 'Invalid token' });
         }
 
-        // Extract OTP from token data
         const otp = tokenData.otp;
-
-        // Extract OTP from request body
         const { otp: enteredOtp } = req.body;
 
-        // Verify entered OTP against stored OTP
-        if (otp != enteredOtp) {
-            return res.status(401).json({ status: 401,error: 'Invalid OTP' });
+        if (otp !== enteredOtp) {
+            return res.status(401).json({ status: 401, error: 'Invalid OTP' });
         }
 
-        // OTP is valid
+        await Token.findByIdAndUpdate({ otp: otp }, { verified: true });
         res.status(200).json({ status: 200, message: 'OTP verified successfully' });
     } catch (err) {
         // Handle any errors
-        console.error(err);
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
         if (err.name === 'TokenExpiredError') {
-            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html')); // Redirect to login page
+            try {
+                // Attempt to delete the token document
+                await Token.deleteOne({ otp: req.body.otp });
+                return res.status(401).json({ status: 401, error: 'Token expired' });
+            } catch (deleteError) {
+                // If deleting the token fails, still return a response indicating token expiration
+                console.log('failed to delete token');
+                return res.status(401).json({ status: 401, error: 'Token expired' });
+            }
         }
-        res.status(500).json({ error: 'Server error' });
+        // Other errors are considered server errors
+        res.status(500).json({ status: 500, error: 'Server error' });
     }
 };
+
 
 
 exports.authenticateUser = async (req, res) => {
@@ -93,8 +107,14 @@ exports.authenticateUser = async (req, res) => {
         } else {
             return res.status(303).json({ status: 303, response: "Credentials are incorrect" });
         }
-    } catch (error) {
-        console.error(error);
+    } catch (err) {
+        // Handle any errors
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
         return res.status(500).json({ status: 500, response: "Internal server error" });
     }
 };

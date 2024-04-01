@@ -15,10 +15,11 @@ async function authorizeToken(req, res, next) {
 
     try {
         // Verify the token
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const [ userId ] = jwt.verify(token, process.env.JWT_SECRET);
 
         // Find the user based on the decoded token
-        const user = await User.findById(decodedToken.userId);
+        const user = await User.findOne({ userId });
+
         if (!user) {
             // User not found
             return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
@@ -26,10 +27,17 @@ async function authorizeToken(req, res, next) {
 
         // Continue with the route handling
         next();
-    } catch (error) {
-        // Token verification failed
-        console.error(error);
-        return res.status(401).send("Unauthorized");
+    } catch (err) {
+        console.error(err);
+        if (err.name === 'TokenExpiredError') {
+            try {
+                await Token.deleteOne({ userId });
+                return res.status(401).json({ status: 401, error: 'Token expired' });
+            } catch (deleteError) {
+                return res.status(401).json({ status: 401, error: 'Token expired' });
+            }
+        }
+        res.status(500).json({ status: 500, error: 'Server error' });
     }
 }
 

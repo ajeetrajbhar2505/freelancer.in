@@ -7,6 +7,7 @@ import { OtpComponent } from './otp/otp.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,7 +15,9 @@ import { SharedModule } from '../shared/shared/shared.module';
   imports: [
     CommonModule,
     LoginRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class LoginModule { }
