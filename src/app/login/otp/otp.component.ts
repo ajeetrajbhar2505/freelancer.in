@@ -33,20 +33,11 @@ export class OtpComponent implements OnInit {
 
 
   async OnSubmit() {
-    const otp =
-      this.otpgroup.get('otp1')?.value +
-      '' +
-      this.otpgroup.get('otp2')?.value +
-      '' +
-      this.otpgroup.get('otp3')?.value +
-      '' +
-      this.otpgroup.get('otp4')?.value;
-    const body = {
-      otp: parseInt(otp),
-    };
-    
+    const { otp1, otp2, otp3, otp4 } = this.otpgroup.value;
+    const otp = otp1.toString() + otp2.toString() + otp3.toString() + otp4.toString();
+
     try {
-      const response = await this.apiService.postData(verifyOTP, body).toPromise();
+      const response = await this.apiService.postData(verifyOTP, { otp: parseInt(otp) }).toPromise();
       if (response.status == 200) {
         this.router.navigate(['/chat/dashboard'])
       } else {
