@@ -33,6 +33,9 @@ export class OtpComponent implements OnInit {
 
 
   async OnSubmit() {
+    if (this.otpgroup.invalid) {
+      return
+    }
     const { otp1, otp2, otp3, otp4 } = this.otpgroup.value;
     const otp = otp1.toString() + otp2.toString() + otp3.toString() + otp4.toString();
 
