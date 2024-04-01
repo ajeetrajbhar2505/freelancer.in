@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
     try {
       const response = await this.apiService.postData(signUpUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
       if (response.status === 200) {
-        this.changeDetectionService.optdata.next(response.data);
+        this.changeDetectionService.routeTo.next('/auth/register');
       } else {
         console.error('Failed to send OTP:', response);
       }

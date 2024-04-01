@@ -15,7 +15,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   routeToOtp() {
-    this.changeDetectionService.optdata.next('/auth/forgot-password')
+    this.changeDetectionService.routeTo.next('/auth/forgot-password')
   }
 
   ngOnInit(): void {

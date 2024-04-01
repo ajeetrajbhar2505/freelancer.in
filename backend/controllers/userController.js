@@ -48,7 +48,6 @@ exports.verifyOTP = async (req, res) => {
         const tokenData = await Token.findOne({ userId });
 
         if (!tokenData) {
-            s
             return res.status(401).json({ status: 401, error: 'Invalid token' });
         }
 
@@ -59,9 +58,12 @@ exports.verifyOTP = async (req, res) => {
             return res.status(401).json({ status: 401, error: 'Invalid OTP' });
         }
 
-        await Token.findByIdAndUpdate({ otp: otp }, { verified: true });
-        res.status(200).json({ status: 200, message: 'OTP verified successfully' });
+        // Update the token document to mark it as verified
+        await Token.findByIdAndUpdate(tokenData._id, { verified: true });
+        
+        return res.status(200).json({ status: 200, message: 'OTP verified successfully' });
     } catch (err) {
+        console.log(err);
         // Handle any errors
         const error = new ErrorModel({
             message: err.message,

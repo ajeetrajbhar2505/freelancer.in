@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
       const response = await this.apiService.postData(loginUrl, { username: 'ajeet', password: 'ajeet', email: 'ajeetrajbhar2504@gmail.com' }).toPromise();
       if (response.status === 200) {
         this.router.navigate(['/auth/otp'])
+        this.changeDetectionService.routeTo.next('/auth/login')
         localStorage.setItem('token', response.token)
       } else {
         console.error('Failed to send OTP:', response);

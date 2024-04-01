@@ -17,7 +17,7 @@ export class OtpComponent implements OnInit {
   ngOnInit(): void {
     this.initiateotpgroup()
     window.scrollTo(0, 0);
-    this.changeDetectionService.optdata.subscribe(data => {
+    this.changeDetectionService.routeTo.subscribe(data => {
       sessionStorage.setItem('routeTo', data)
     })
   }
