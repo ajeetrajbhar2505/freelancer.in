@@ -30,7 +30,7 @@ body {
     margin: unset;
   }
 
-  .wrapper,
+  .custom-wrapper,
   video {
     width: 375px !important;
 
@@ -136,7 +136,7 @@ $black: #945876;
 $border-radius: 25px;
 $input-padding: 20px 45px 20px 45px;
 
-.wrapper {
+.custom-wrapper {
   background: $white;
   border: 1px solid $white;
   backdrop-filter: blur(4px);
@@ -378,25 +378,36 @@ button {
 }
 
 
-.otp-input {
-  width: 52px;
-  height: 52px;
-  text-align: center;
-  font-size: 18px;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  outline: none;
-  transition: border-color 0.3s;
+::ng-deep .otp-input {
+  width: 52px !important;
+  height: 52px !important;
+  text-align: center !important;
+  font-size: 18px !important;
+  margin: 0 5px !important;
+  border: 1px solid #ccc !important;
+  border-radius: 12px !important;
+  outline: none !important;
+  transition: border-color 0.3s !important;
 }
 
-.otp-input:focus:focus {
+::ng-deep .otp-input:focus:focus {
   border-color: #007bff;
 }
 
+@media screen and (max-width: 420px){
+.otp-input {
+  width: 45px !important;
+  height: 45px !important;
+  text-align: center !important;
+  font-size: 18px !important;
+}
+}
 
 .otp-box {
   margin: 20px;
+  display: flex;
+  justify-content: center !important;
+  text-align: center;
 }
 
 .route {

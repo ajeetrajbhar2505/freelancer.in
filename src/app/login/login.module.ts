@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgOtpInputModule } from 'ng-otp-input';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginRoutingModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOtpInputModule
   ]
 })
 export class LoginModule { }

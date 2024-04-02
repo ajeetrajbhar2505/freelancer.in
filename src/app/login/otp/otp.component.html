@@ -1,4 +1,4 @@
-<div class="wrapper otp">
+<div class="custom-wrapper otp">
     <div class="logo">
     </div>
     <div class="center">
@@ -6,15 +6,8 @@
     </div>
     <h4>Please enter the verifcation code send<br> to your email address</h4>
     <h4 class="route" (click)="routeToForgot()">{{'ajeetrajbhar2504@gmail.com'}} <i class="fa fa-edit"></i></h4>
-    <div class="center otp-box" [formGroup]="otpgroup">
-        <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp1 id="otp1"
-        (input)="restrictmaxNumber($event,'otp1');" formControlName="otp1" />
-      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp2 id="otp2"
-        (input)="restrictmaxNumber($event,'otp2');" formControlName="otp2" />
-      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp3 id="otp3"
-        (input)="restrictmaxNumber($event,'otp3');" formControlName="otp3" />
-      <input maxLength="1" class="otp-input" type="number" numberOnlyRegexValidator #otp4 id="otp4"
-        (input)="restrictmaxNumber($event,'otp4');" formControlName="otp4" />
+    <div class="center otp-box">
+      <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:4}"></ng-otp-input>
     </div>
     <button type="submit" class="submit btn" (click)="OnSubmit()">Verify OTP</button>
     <div class="login-buttons">
