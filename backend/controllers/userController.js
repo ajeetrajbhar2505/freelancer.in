@@ -65,7 +65,7 @@ exports.verifyOTP = async (req, res) => {
         const tokenData = await Token.findOne({ userId }).sort({ dateTime: -1 });
 
         if (!tokenData) {
-            return res.status(401).json({ status: 401, error: 'Unauthorized' });
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
         }
 
         const otp = tokenData.otp;
