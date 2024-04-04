@@ -56,7 +56,10 @@ export class RegisterComponent implements OnInit {
     confirmPasswordControl.valueChanges.subscribe(() => {
       if (passwordControl.value !== confirmPasswordControl.value) {
         confirmPasswordControl.setErrors({ 'passwordMismatch': true });
-      } else {
+      } else if(confirmPasswordControl.invalid) {
+        confirmPasswordControl.setErrors({'required' : true});
+      }
+      else {
         confirmPasswordControl.setErrors(null);
       }
     });
