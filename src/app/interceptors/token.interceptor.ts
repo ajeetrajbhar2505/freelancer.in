@@ -1,13 +1,14 @@
 // token.interceptor.ts
 
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class tokenInterceptor implements HttpInterceptor {
 
-  constructor() {}
+  constructor(private router:Router) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the JWT token from local storage or wherever you store it
@@ -23,6 +24,14 @@ export class tokenInterceptor implements HttpInterceptor {
     }
 
     // Pass the modified request to the next handler
-    return next.handle(request);
+    return next.handle(request).pipe(
+      catchError((error: HttpErrorResponse) => {
+        // If status code is 401, redirect to login page
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
+        return throwError(error);
+      })
+    );
   }
 }

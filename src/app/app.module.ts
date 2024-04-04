@@ -16,7 +16,7 @@ import { tokenInterceptor } from './interceptors/token.interceptor';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule,
+    RouterModule.forRoot([]),
     HttpClientModule,
   ],
   providers: [

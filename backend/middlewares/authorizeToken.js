@@ -6,6 +6,7 @@ const path = require('path');
 async function authorizeToken(req, res, next) {
     // Get the token from the request headers
     if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+    
     const token = req.headers.authorization.split(' ')[1];
 
     if (!token) {

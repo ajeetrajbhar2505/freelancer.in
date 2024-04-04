@@ -3,6 +3,7 @@ const User = require('../models/user');
 const Token = require('../models/Token');
 const ErrorModel = require('../models/errorSchema');
 const { generateToken, verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+const path = require('path');
 
 
 // Controller function to create a new user
@@ -55,6 +56,9 @@ exports.createUser = async (req, res) => {
 
 exports.verifyOTP = async (req, res) => {
     try {
+
+        if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
@@ -74,10 +78,10 @@ exports.verifyOTP = async (req, res) => {
         // Update the token document to mark it as verified
         const isEmailverfyurl = req.originalUrl == '/api/users/verify-email' ? true : false
         if (isEmailverfyurl) {
-        await User.findByIdAndUpdate(tokenData.userId, { email_verified: true });
+            await User.findByIdAndUpdate(tokenData.userId, { email_verified: true });
         }
         else {
-        await Token.findByIdAndUpdate(tokenData._id, { verified: true });
+            await Token.findByIdAndUpdate(tokenData._id, { verified: true });
         }
 
         return res.status(200).json({ status: 200, message: 'OTP verified successfully' });
