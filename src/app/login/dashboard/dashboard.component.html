@@ -1,15 +1,17 @@
-<div class="custom-wrapper login">
+<div class="custom-wrapper login" [formGroup]="loginForm">
     <div class="logo">
     </div>
     <h2>Welcome back!</h2>
+    {{f['username'].errors | json}}
+    {{f['password'].errors | json}}
     <h4>Enter your email and password</h4>
     <div class="input-box">
         <i class="fas fa-envelope"></i>
-        <input type="text" placeholder="Email" required>
+        <input type="text" placeholder="Email" formControlName="username" emailRegexValidator required>
     </div>
     <div class="input-box i-password">
         <i class="fas fa-lock"></i>
-        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Hidden':'Password'" required>
+        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Hidden':'Password'" formControlName="password" passwordRegexValidator required>
         <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
     </div>
     <div class="checkbox1">
@@ -25,9 +27,6 @@
     </div>
     <div class="login-buttons">
         <button class="google-btn" (click)="loginWithGoogle()" routerLink="/otp"><i class="fab fa-google"></i>Login with Google</button>
-    </div>
-    <div class="login-buttons">
-        <button class="google-btn" routerLink="/chat"><i class="fa fa-comment"></i>Chat with AI</button>
     </div>
     <button class="top-right" routerLink="/auth/register"><i class="fas fa-user-plus"></i> Sign up</button>
     <div class="login-buttons">

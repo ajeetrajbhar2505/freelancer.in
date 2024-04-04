@@ -11,6 +11,14 @@ import { FileUploadServiceService } from '../../services/file-upload-service.ser
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { WebsocketService } from '../../services/websocket.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgOtpInputModule } from 'ng-otp-input';
+import { RegisterComponent } from '../../login/register/register.component';
+import { DashboardComponent } from '../../login/dashboard/dashboard.component';
+import { ForgotPasswordComponent } from '../../login/forgot-password/forgot-password.component';
+import { chatDashboardComponent } from '../../chat/dashboard/dashboard.component';
+import { OtpComponent } from '../../login/otp/otp.component';
+import { RoomComponent } from '../../chat/room/room.component';
+import { StatusComponent } from '../../chat/status/status.component';
 
 
 
@@ -20,12 +28,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MobileRegexValidatorDirective,
     NumberOnlyRegexValidatorDirective,
     RestrictMultiSpaceRegexValidatorDirective,
+    DashboardComponent, 
+    ForgotPasswordComponent, 
+    OtpComponent, 
+    RegisterComponent,
+    chatDashboardComponent, StatusComponent, RoomComponent
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    NgOtpInputModule
   ],
-  providers : [
+  providers: [
     ApiService,
     ChangeDetectionServiceService,
     ErrorHandlingServiceService,

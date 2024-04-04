@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent implements OnInit {
+export class chatDashboardComponent implements OnInit {
   userDetails = { name : 'Ajeet'}
   activeClass = 'all-chat';
   activeIndex = 0

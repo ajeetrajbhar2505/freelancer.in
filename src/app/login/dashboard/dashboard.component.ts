@@ -4,6 +4,7 @@ import { ApiService } from '../../services/api-service.service';
 import { loginUrl } from '../../constants/endpoint-usage';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +12,36 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  loginForm: FormGroup
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
 
-  constructor(private commonDataService: CommondataserviceService, private apiService: ApiService, private changeDetectionService: ChangeDetectionServiceService, private router: Router) { }
+  constructor(private commonDataService: CommondataserviceService,
+    private apiService: ApiService, private changeDetectionService: ChangeDetectionServiceService,
+    private router: Router,
+    private formBuilder: FormBuilder
+  ) { }
+
+
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+    this.initiateGroup()
+  }
+
+  initiateGroup() {
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(/\S/)]]
+    });
+  }
+
+
+  // Convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
+
+
 
   togglePassword() {
     this.IsToggledPass = !this.IsToggledPass;
@@ -28,8 +55,12 @@ export class DashboardComponent implements OnInit {
   }
 
   async routeToOtp() {
+    if (this.loginForm.invalid) {
+      return;
+    }
     try {
-      const response = await this.apiService.postData(loginUrl, { username: 'ajeet', password: 'ajeet', email: 'ajeetrajbhar2504@gmail.com' }).toPromise();
+      const payload = this.loginForm.value
+      const response = await this.apiService.postData(loginUrl, payload).toPromise();
       if (response.status === 200) {
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.routeTo.next('/auth/login')
@@ -42,10 +73,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    if (typeof window !== 'undefined') {
-      window.scrollTo(0, 0);
-    }
-  }
+
 
 }
