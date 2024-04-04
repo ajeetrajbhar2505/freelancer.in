@@ -4,6 +4,7 @@ import { ChangeDetectionServiceService } from '../../services/change-detection-s
 import { ApiService } from '../../services/api-service.service';
 import { signUpUrl } from '../../constants/endpoint-usage';
 import { Router } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -14,9 +15,52 @@ export class RegisterComponent implements OnInit {
   IsToggledPass: boolean = false;
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
+  submitted: boolean = false;
+  registerForm
+  constructor(private router: Router,
+    private commonDataService: CommondataserviceService,
+    private changeDetectionService: ChangeDetectionServiceService,
+    public apiService: ApiService,
+    private formBuilder: FormBuilder
+  ) { }
 
-  constructor(private router:Router,private commonDataService:CommondataserviceService,private changeDetectionService:ChangeDetectionServiceService,public apiService:ApiService){}
 
+
+  ngOnInit(): void {
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
+    this.initiateGroup()
+    this.setupPasswordMismatchHandler();
+
+  }
+
+  initiateGroup() {
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(/\S/)]],
+      confirmPassword: ['', [Validators.required, Validators.pattern(/\S/)]],
+    });
+  }
+
+
+
+  // Convenience getter for easy access to form fields
+  get f() { return this.registerForm.controls; }
+
+  setupPasswordMismatchHandler() {
+    const passwordControl = this.registerForm.get('password');
+    const confirmPasswordControl = this.registerForm.get('confirmPassword');
+
+    confirmPasswordControl.valueChanges.subscribe(() => {
+      if (passwordControl.value !== confirmPasswordControl.value) {
+        confirmPasswordControl.setErrors({ 'passwordMismatch': true });
+      } else {
+        confirmPasswordControl.setErrors(null);
+      }
+    });
+  }
 
   togglePassword() {
     this.IsToggledPass = !this.IsToggledPass;
@@ -29,10 +73,15 @@ export class RegisterComponent implements OnInit {
   }
   loginWithGoogle() {
     this.commonDataService.loginWithGoogle()
-   }
-   async routeToOtp() {
+  }
+  async routeToOtp() {
+    this.submitted = true
+    if (this.registerForm.invalid) {
+      return;
+    }
     try {
-      const response = await this.apiService.postData(signUpUrl, { username : 'ajeet', password : 'ajeet', email : 'ajeetrajbhar2504@gmail.com' }).toPromise();
+      const payload = this.registerForm.value
+      const response = await this.apiService.postData(signUpUrl, payload).toPromise();
       if (response.status === 201 || response.status === 200) {
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.routeTo.next('/auth/register');
@@ -45,8 +94,5 @@ export class RegisterComponent implements OnInit {
       console.error('Error in routeToOtp:', error);
     }
   }
-  
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
-  }
+
 }

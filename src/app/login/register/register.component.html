@@ -1,25 +1,47 @@
-<div class="custom-wrapper signup">
+<div class="custom-wrapper signup" [formGroup]="registerForm">
     <div class="logo">
     </div>
     <h2>Sign Up!</h2>
     <h4>Create new account</h4>
     <div class="input-box">
         <i class="fas fa-user"></i>
-        <input type="text" placeholder="Name" required>
+        <input type="text" placeholder="Name" formControlName="username"  required>
+        <span class="tooltip {{ (submitted && f['username'].errors) || (f['username'].errors && (f['username'].dirty || f['username'].touched))?'show':''}}">
+            <span *ngIf="f['username'].errors?.['required']">Name is required</span>
+            <span class="arrow"></span></span>  
     </div>
     <div class="input-box">
         <i class="fas fa-envelope"></i>
-        <input type="text" placeholder="Email" emailRegexValidator required>
+        <input type="text" placeholder="Email" formControlName="email" emailRegexValidator required>
+        <span class="tooltip {{ (submitted && f['email'].errors) || (f['email'].errors && (f['email'].dirty || f['email'].touched))?'show':''}}">
+            <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+            <span *ngIf="!f['email'].errors?.['required'] && f['email'].errors?.['emailInvalid']">Invalid email
+                format</span>
+            <span class="arrow"></span></span>
     </div>
     <div class="input-box i-password">
         <i class="fas fa-lock"></i>
-        <input [type]="IsToggledPass?'text':'password'" passwordRegexValidator [placeholder]="IsToggledPass?'Password':'Password'" required>
+        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Password':'Password'"
+            formControlName="password" passwordRegexValidator required>
         <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
+        <span class="tooltip {{ (submitted && f['password'].errors) || (f['password'].errors && (f['password'].dirty || f['password'].touched))?'show':''}}">
+            <span *ngIf="f['password'].errors?.['required']">Password is required</span>
+            <span *ngIf="!f['password'].errors?.['required'] && f['password'].errors?.['passwordInvalid']">Password is
+                invalid</span>
+            <span class="arrow"></span></span>
     </div>
+
     <div class="input-box i-password">
         <i class="fas fa-lock"></i>
-        <input [type]="IsToggledConfirmPass?'text':'password'" passwordRegexValidator [placeholder]="IsToggledConfirmPass?'Confirm Password':'Confirm Password'" required>
+        <input [type]="IsToggledConfirmPass?'text':'password'"  [placeholder]="IsToggledConfirmPass?'Confirm Password':'Confirm Password'" 
+            formControlName="confirmPassword" passwordRegexValidator required>
         <i (click)="toggleConfirmPassword()" class="fas i-right {{IsToggledConfirmPass?'fa-eye':'fa-eye-slash'}}"></i>
+        <span class="tooltip {{ (submitted && f['confirmPassword'].errors) || (f['confirmPassword'].errors && (f['confirmPassword'].dirty || f['confirmPassword'].touched))?'show':''}}">
+        <span *ngIf="f['confirmPassword'].errors?.['required']">Confirm Password is required</span>
+        <span *ngIf="f['confirmPassword'].errors?.['passwordMismatch']">Password is mismatch</span>
+            <span *ngIf="!f['confirmPassword'].errors?.['required'] && f['confirmPassword'].errors?.['passwordInvalid']">Confirm Password is
+                invalid</span>
+            <span class="arrow"></span></span>
     </div>
 
     <button type="submit" class="btn" (click)="routeToOtp()">Sign up</button>

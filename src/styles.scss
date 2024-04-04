@@ -703,12 +703,6 @@ header {
   /* Add transition for opacity and visibility */
 }
 
-.valid:hover .tooltip{
-  opacity: 1;
-  /* Show the tooltip */
-  visibility: visible;
-}
-
 .tooltip.show {
   opacity: 1;
   /* Show the tooltip */
