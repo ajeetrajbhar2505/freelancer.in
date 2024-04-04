@@ -20,6 +20,7 @@ import { OtpComponent } from '../../login/otp/otp.component';
 import { RoomComponent } from '../../chat/room/room.component';
 import { StatusComponent } from '../../chat/status/status.component';
 import { PasswordRegexValidatorDirective } from '../../regex-validator/password-regex-validator.directive';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -40,7 +41,8 @@ import { PasswordRegexValidatorDirective } from '../../regex-validator/password-
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
-    NgOtpInputModule
+    NgOtpInputModule,
+    RouterModule
   ],
   providers: [
     ApiService,

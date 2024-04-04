@@ -6,19 +6,22 @@
     <div class="input-box">
         <i class="fas fa-envelope"></i>
         <input type="text" placeholder="Email" formControlName="username" emailRegexValidator required>
-        <span class="tooltip" *ngIf="(submitted && f['username'].errors) || (f['username'].errors && (f['username'].dirty || f['username'].touched))">
-            <span *ngIf="f['username'].errors['required']">Email is required</span>
-            <span *ngIf="!f['username'].errors['required'] && f['username'].errors['emailInvalid']">Invalid email formate</span>
-        <span class="arrow"></span></span>
+        <span class="tooltip {{ (submitted && f['username'].errors) || (f['username'].errors && (f['username'].dirty || f['username'].touched))?'show':''}}">
+            <span *ngIf="f['username'].errors?.['required']">Email is required</span>
+            <span *ngIf="!f['username'].errors?.['required'] && f['username'].errors?.['emailInvalid']">Invalid email
+                format</span>
+            <span class="arrow"></span></span>
     </div>
     <div class="input-box i-password">
         <i class="fas fa-lock"></i>
-        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Hidden':'Password'" formControlName="password" passwordRegexValidator required>
+        <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Password':'Password'"
+            formControlName="password" passwordRegexValidator required>
         <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
-        <span class="tooltip" *ngIf="(submitted && f['password'].errors) || (f['password'].errors && (f['password'].dirty || f['password'].touched))">
-            <span *ngIf="f['password'].errors['required']">Password is required</span>
-            <span *ngIf="!f['password'].errors['required'] && f['password'].errors['passwordInvalid']">Password is invalid</span>
-        <span class="arrow"></span></span>
+        <span class="tooltip {{ (submitted && f['password'].errors) || (f['password'].errors && (f['password'].dirty || f['password'].touched))?'show':''}}">
+            <span *ngIf="f['password'].errors?.['required']">Password is required</span>
+            <span *ngIf="!f['password'].errors?.['required'] && f['password'].errors?.['passwordInvalid']">Password is
+                invalid</span>
+            <span class="arrow"></span></span>
     </div>
     <div class="checkbox1">
         <label class="cursor" (click)="toggleRemember()"><i class="fa fa-toggle-{{IsToggledRem?'on':'off'}}"
@@ -32,7 +35,8 @@
         <span class="hr-text">or continue with</span>
     </div>
     <div class="login-buttons">
-        <button class="google-btn" (click)="loginWithGoogle()" routerLink="/otp"><i class="fab fa-google"></i>Login with Google</button>
+        <button class="google-btn" (click)="loginWithGoogle()"><i class="fab fa-google"></i>Login with
+            Google</button>
     </div>
     <button class="top-right" routerLink="/auth/register"><i class="fas fa-user-plus"></i> Sign up</button>
     <div class="login-buttons">
