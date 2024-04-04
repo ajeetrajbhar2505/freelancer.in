@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   loginForm: FormGroup
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
-
+  submitted: boolean = false;
   constructor(private commonDataService: CommondataserviceService,
     private apiService: ApiService, private changeDetectionService: ChangeDetectionServiceService,
     private router: Router,
@@ -55,6 +55,7 @@ export class DashboardComponent implements OnInit {
   }
 
   async routeToOtp() {
+    this.submitted = true
     if (this.loginForm.invalid) {
       return;
     }
@@ -62,6 +63,7 @@ export class DashboardComponent implements OnInit {
       const payload = this.loginForm.value
       const response = await this.apiService.postData(loginUrl, payload).toPromise();
       if (response.status === 200) {
+        this.submitted = false
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.routeTo.next('/auth/login')
         localStorage.setItem('token', response.token)

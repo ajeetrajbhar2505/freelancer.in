@@ -42,18 +42,20 @@ body {
     overflow: hidden !important;
     overflow-y: auto !important;
   }
-  .online-users{
+
+  .online-users {
     width: 360px !important;
   }
-  .tabs{
+
+  .tabs {
     .all-chat {
       transform: translateX(0%) !important;
     }
-  
+
     .group-chat {
       transform: translateX(127%) !important;
     }
-  
+
     .contact-chat {
       transform: translateX(257%) !important;
     }
@@ -133,6 +135,7 @@ body {
 
 $white: #fff;
 $black: #945876;
+$red:#eb6b6b;
 $border-radius: 25px;
 $input-padding: 20px 45px 20px 45px;
 
@@ -164,6 +167,8 @@ $input-padding: 20px 45px 20px 45px;
     width: 100%;
     height: 50px;
     margin: 20px 0;
+    display: inline-block;
+
 
     input {
       width: 100%;
@@ -208,6 +213,7 @@ $input-padding: 20px 45px 20px 45px;
     .fa-check {
       right: 3.5px;
     }
+
   }
 
   .checkbox1 {
@@ -394,13 +400,13 @@ button {
   border-color: #007bff;
 }
 
-@media screen and (max-width: 420px){
-.otp-input {
-  width: 45px !important;
-  height: 45px !important;
-  text-align: center !important;
-  font-size: 18px !important;
-}
+@media screen and (max-width: 420px) {
+  .otp-input {
+    width: 45px !important;
+    height: 45px !important;
+    text-align: center !important;
+    font-size: 18px !important;
+  }
 }
 
 .otp-box {
@@ -443,10 +449,11 @@ section {
   overflow-y: auto;
   position: relative;
 
-  .profile-info{
+  .profile-info {
     display: grid;
     justify-items: center;
-    #title{
+
+    #title {
       font-size: 20px;
     }
   }
@@ -607,7 +614,7 @@ header {
     user-select: none;
   }
 
-  .color-white{
+  .color-white {
     color: white;
     transition: transform 0.3s ease;
 
@@ -670,3 +677,38 @@ header {
   }
 }
 
+
+.input-box {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  opacity: 1;
+  visibility: visible;
+  background-color: $red;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+  border-radius: 6px;
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  top: -70%;
+  transition: opacity .3s;
+}
+
+.tooltip .arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.tooltip .arrow{
+  border-width: 8px 8px 0 8px;
+  border-color: $red transparent transparent transparent;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+}

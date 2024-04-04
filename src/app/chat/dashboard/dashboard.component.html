@@ -17,7 +17,7 @@
         <p id="online-title" class="m-0 w-100">FRIENDS ONLINE ({{totalonlineUsers}})</p>
         <div id="online-users">
             <div class="online-user-avatar m-0 p-0 pointer" *ngFor="let data of onlineUsers;">
-                <img [src]="data.profile" routerLink="/chat/status/{{data.userid}}" />
+                <img [src]="data.profile" />
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@
     </div>
     <div id="messages" class="m-0 p-0">
         <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
-        <div class="chat m-0" *ngFor="let data of users;" routerLink="/chat/room/{{data.roomId}}">
+        <div class="chat m-0" *ngFor="let data of users;">
             <div class="online-user-avatar m-0 p-0 pointer">
                 <img [src]="data.profile" />
             </div>

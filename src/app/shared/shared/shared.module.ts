@@ -19,6 +19,7 @@ import { chatDashboardComponent } from '../../chat/dashboard/dashboard.component
 import { OtpComponent } from '../../login/otp/otp.component';
 import { RoomComponent } from '../../chat/room/room.component';
 import { StatusComponent } from '../../chat/status/status.component';
+import { PasswordRegexValidatorDirective } from '../../regex-validator/password-regex-validator.directive';
 
 
 
@@ -28,6 +29,7 @@ import { StatusComponent } from '../../chat/status/status.component';
     MobileRegexValidatorDirective,
     NumberOnlyRegexValidatorDirective,
     RestrictMultiSpaceRegexValidatorDirective,
+    PasswordRegexValidatorDirective,
     DashboardComponent, 
     ForgotPasswordComponent, 
     OtpComponent, 
