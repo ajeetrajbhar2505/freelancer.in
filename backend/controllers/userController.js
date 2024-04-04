@@ -58,16 +58,16 @@ exports.verifyOTP = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
-        const tokenData = await Token.findOne({ userId });
+        const tokenData = await Token.findOne({ userId }).sort({ dateTime: -1 });
 
         if (!tokenData) {
-            return res.status(401).json({ status: 401, error: 'Invalid token' });
+            return res.status(401).json({ status: 401, error: 'Unauthorized' });
         }
 
         const otp = tokenData.otp;
         const { otp: enteredOtp } = req.body;
 
-        if (otp !== enteredOtp) {
+        if (otp != enteredOtp) {
             return res.status(401).json({ status: 401, error: 'Invalid OTP' });
         }
 
