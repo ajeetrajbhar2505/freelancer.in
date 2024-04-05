@@ -16,13 +16,13 @@ export class OtpComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.changeDetectionService.routeTo.subscribe(data => {
+    this.changeDetectionService.nextRoute.subscribe(data => {
       sessionStorage.setItem('routeTo', data)
     })
   }
 
-  routeToPage() {
-    const url = `/${sessionStorage.getItem('routeTo') ? sessionStorage.getItem('routeTo') : '/auth/register'}`
+  dynamicRoute() {
+    const url = `/${sessionStorage.getItem('routeTo') ? sessionStorage.getItem('routeTo') : '/auth/login'}`
     this.router.navigate([url])
   }
 
@@ -41,7 +41,7 @@ export class OtpComponent implements OnInit {
     try {
       const response = await this.apiService.postData(apiURL, { otp: this.OTPValue }).toPromise();
       if (response.status == 200) {
-        this.router.navigate(['/chat/dashboard'])
+        this.dynamicRoute()
       } else {
         console.error('Failed to send OTP:', response);
       }

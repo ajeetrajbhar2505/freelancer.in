@@ -4,7 +4,7 @@ import { ChangeDetectionServiceService } from '../../services/change-detection-s
 import { ApiService } from '../../services/api-service.service';
 import { signUpUrl } from '../../constants/endpoint-usage';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
   submitted: boolean = false;
-  registerForm
+  registerForm:FormGroup
   constructor(private router: Router,
     private commonDataService: CommondataserviceService,
     private changeDetectionService: ChangeDetectionServiceService,
@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
       const response = await this.apiService.postData(signUpUrl, payload).toPromise();
       if (response.status === 201 || response.status === 200) {
         this.router.navigate(['/auth/otp'])
-        this.changeDetectionService.routeTo.next('/auth/register');
+        this.changeDetectionService.nextRoute.next('/auth/register');
         localStorage.setItem('token', response.token)
 
       } else {

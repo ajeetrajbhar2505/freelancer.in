@@ -146,3 +146,39 @@ exports.authenticateUser = async (req, res) => {
     }
 };
 
+
+// Controller function to create a new user
+exports.getOTP = async (req, res) => {
+    try {
+        
+        const { email } = req.body;
+        const user = await User.findOne({ $or: [{ username: email }, { email: email }] });
+
+        if (user) {
+            if (!user.email_verified) {
+                return res.status(201).json({ status: 201, response: "Please verify your email" });
+            }
+
+            generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() }, function (err, token) {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({ status: 500, response: "Failed to generate token" });
+                }
+                return res.status(200).json({ status: 200, response: "OTP sent successfully", token: token });
+            });
+        } else {
+            return res.status(303).json({ status: 303, response: "User does not exists" });
+        }
+    } catch (err) {
+        // Handle any errors
+        console.error(err);
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
+        res.status(500).json({ status: 500, error: 'Server error' });
+    }
+};
+
