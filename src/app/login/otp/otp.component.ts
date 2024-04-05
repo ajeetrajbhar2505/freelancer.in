@@ -21,14 +21,16 @@ export class OtpComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.changeDetectionService.nextRoute.subscribe(data => {
+      console.log(data);
       sessionStorage.setItem('routeTo', data)
     })
   }
-
+  
   dynamicRoute() {
-    const url = `/${sessionStorage.getItem('routeTo') ? sessionStorage.getItem('routeTo') : '/auth/login'}`
-    this.router.navigate([url])
+    const url = `/${sessionStorage.getItem('routeTo') || '/auth/login'}`;
+    this.router.navigate([url]);
   }
+  
 
   routeToForgot() {
     this.router.navigate(['/auth/forgot-password'])
