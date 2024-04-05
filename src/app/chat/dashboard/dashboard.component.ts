@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -77,6 +78,11 @@ export class chatDashboardComponent implements OnInit {
     }
   ]
 
+  constructor(
+    private router:Router
+  )
+  {}
+
   get onlineUsers() {
     return this.users.filter(u => u.online)
   }
@@ -96,6 +102,12 @@ export class chatDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
+  }
+
+
+  logOut(): void {
+     localStorage.clear()
+    this.router.navigate(['/auth/login'])
   }
 
 }

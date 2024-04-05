@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service.service';
 import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-otp',
@@ -12,7 +13,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class OtpComponent implements OnInit {
   OTPValue: number
-  constructor(private changeDetectionService: ChangeDetectionServiceService, private router: Router, private apiService: ApiService, private fb: FormBuilder) { }
+  constructor(private changeDetectionService: ChangeDetectionServiceService, 
+    private router: Router, private apiService: ApiService, 
+    private location: Location
+    ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
@@ -28,6 +32,10 @@ export class OtpComponent implements OnInit {
 
   routeToForgot() {
     this.router.navigate(['/auth/forgot-password'])
+  }
+
+  routeToPage(){
+    this.location.back();
   }
 
 
