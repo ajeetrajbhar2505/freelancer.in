@@ -5,6 +5,7 @@ import { ApiEndpoints } from './api-endpoints';
 const signUpUrl = environment.apiURL + ApiEndpoints.signup; 
 const loginUrl = environment.apiURL + ApiEndpoints.login;
 const getOTPUrl = environment.apiURL + ApiEndpoints.getOTP;
+const resetPasswordUrl = environment.apiURL + ApiEndpoints.resetPassword;
 const verifyEMAIL = environment.apiURL + ApiEndpoints.verifyEMAIL;
 const verifyOTP = environment.apiURL + ApiEndpoints.verifyOTP;
 const getRoomsUrl  = environment.apiURL + ApiEndpoints.getrooms;
@@ -17,5 +18,6 @@ export {
     verifyEMAIL,
     getRoomsUrl,
     getMessagesUrl,
-    getOTPUrl
+    getOTPUrl,
+    resetPasswordUrl
 };

@@ -154,7 +154,6 @@ exports.verifyOTP = async (req, res) => {
 
         return res.status(200).json({ status: 200, message: 'OTP verified successfully' });
     } catch (err) {
-        console.log(err);
         // Handle any errors
         const error = new ErrorModel({
             message: err.message,
@@ -169,7 +168,6 @@ exports.verifyOTP = async (req, res) => {
                 return res.status(401).json({ status: 401, error: 'Token expired' });
             } catch (deleteError) {
                 // If deleting the token fails, still return a response indicating token expiration
-                console.log('failed to delete token');
                 return res.status(401).json({ status: 401, error: 'Token expired' });
             }
         }
@@ -195,6 +193,10 @@ exports.resetPassword = async (req, res) => {
 
         const { password } = req.body
         try {
+            const userData = await User.findOne({ userId,password }).sort({ dateTime: -1 });
+            if (userData) {
+                return res.status(200).json({ status: 200, message: 'Password already exists' });
+            }
             await User.findByIdAndUpdate(tokenData.userId, { password: password });
             return res.status(200).json({ status: 200, message: 'Password updated successfully' });
 
@@ -203,7 +205,6 @@ exports.resetPassword = async (req, res) => {
         }
 
     } catch (err) {
-        console.log(err);
         // Handle any errors
         const error = new ErrorModel({
             message: err.message,
@@ -218,7 +219,6 @@ exports.resetPassword = async (req, res) => {
                 return res.status(401).json({ status: 401, error: 'Token expired' });
             } catch (deleteError) {
                 // If deleting the token fails, still return a response indicating token expiration
-                console.log('failed to delete token');
                 return res.status(401).json({ status: 401, error: 'Token expired' });
             }
         }

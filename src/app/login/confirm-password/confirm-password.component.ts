@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { ApiService } from '../../services/api-service.service';
-import { getOTPUrl } from '../../constants/endpoint-usage';
+import { resetPasswordUrl } from '../../constants/endpoint-usage';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -82,10 +82,9 @@ export class ConfirmPasswordComponent implements OnInit {
     }
     try {
       const payload = this.registerForm.value
-      const response = await this.apiService.postData(getOTPUrl, payload).toPromise();
+      const response = await this.apiService.postData(resetPasswordUrl, payload).toPromise();
       if (response.status === 201 || response.status === 200) {
-        this.router.navigate(['/auth/otp'])
-        this.changeDetectionService.nextRoute.next('/auth/register');
+        this.router.navigate(['/auth/forgot-password'])
         localStorage.setItem('token', response.token)
 
       } else {
