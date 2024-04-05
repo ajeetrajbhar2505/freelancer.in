@@ -22,9 +22,9 @@ export class OtpComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.mailId =  sessionStorage.getItem('mailId')
+    this.mailId =  localStorage.getItem('mailId')
     this.changeDetectionService.nextRoute.subscribe(data => {
-      sessionStorage.setItem('routeTo', data)
+    sessionStorage.setItem('routeTo', data)
     })
   }
   

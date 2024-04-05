@@ -67,7 +67,7 @@ export class DashboardComponent implements OnInit {
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.nextRoute.next('/chat/dashboard')
         localStorage.setItem('token', response.token)
-        localStorage.setItem('mailId', this.loginForm.controls['mailId'].value)
+        localStorage.setItem('mailId', this.loginForm.controls['email'].value)
       } else {
         console.error('Failed to send OTP:', response);
       }
