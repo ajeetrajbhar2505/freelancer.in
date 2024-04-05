@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
         // Check if the username or email already exists
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            return res.status(400).json({ status: 400, error: 'Username or email already exists' });
+            return res.status(400).json({ status: 400, message: 'Username or email already exists' });
         }
 
         // Create a new user instance
@@ -34,7 +34,7 @@ exports.createUser = async (req, res) => {
                     apiEndpoint: req.originalUrl,
                 });
                 await error.save();
-                return res.status(500).json({ status: 500, error: "Failed to generate token" });
+                return res.status(500).json({ status: 500, message: "Failed to generate token" });
             }
             res.status(201).json({ status: 201, message: 'User created successfully', token });
         });
@@ -47,7 +47,7 @@ exports.createUser = async (req, res) => {
             apiEndpoint: req.originalUrl,
         });
         await error.save();
-        res.status(500).json({ status: 500, error: 'Server error' });
+        res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
 
@@ -61,18 +61,18 @@ exports.authenticateUser = async (req, res) => {
 
         if (user) {
             if (!user.email_verified) {
-                return res.status(201).json({ status: 201, response: "Please verify your email" });
+                return res.status(201).json({ status: 201, message: "Please verify your email" });
             }
 
             generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() }, function (err, token) {
                 if (err) {
                     console.error(err);
-                    return res.status(500).json({ status: 500, response: "Failed to generate token" });
+                    return res.status(500).json({ status: 500, message: "Failed to generate token" });
                 }
-                return res.status(200).json({ status: 200, response: "OTP sent successfully", token: token });
+                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(303).json({ status: 303, response: "Credentials are incorrect" });
+            return res.status(303).json({ status: 303, message: "Credentials are incorrect" });
         }
     } catch (err) {
         // Handle any errors
@@ -82,7 +82,7 @@ exports.authenticateUser = async (req, res) => {
             apiEndpoint: req.originalUrl,
         });
         await error.save();
-        return res.status(500).json({ status: 500, response: "Internal server error" });
+        return res.status(500).json({ status: 500, message: "Internal server error" });
     }
 };
 
@@ -96,18 +96,18 @@ exports.getOTP = async (req, res) => {
 
         if (user) {
             if (!user.email_verified) {
-                return res.status(201).json({ status: 201, response: "Please verify your email" });
+                return res.status(201).json({ status: 201, message: "Please verify your email" });
             }
 
             generateToken({ userId: user._id.toString(), email: user.email, dateTime: new Date() }, function (err, token) {
                 if (err) {
                     console.error(err);
-                    return res.status(500).json({ status: 500, response: "Failed to generate token" });
+                    return res.status(500).json({ status: 500, message: "Failed to generate token" });
                 }
-                return res.status(200).json({ status: 200, response: "OTP sent successfully", token: token });
+                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(303).json({ status: 303, response: "User does not exists" });
+            return res.status(303).json({ status: 303, message: "User does not exists" });
         }
     } catch (err) {
         // Handle any errors
@@ -118,7 +118,7 @@ exports.getOTP = async (req, res) => {
             apiEndpoint: req.originalUrl,
         });
         await error.save();
-        res.status(500).json({ status: 500, error: 'Server error' });
+        res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
 
@@ -140,7 +140,7 @@ exports.verifyOTP = async (req, res) => {
         const { otp: enteredOtp } = req.body;
 
         if (otp != enteredOtp) {
-            return res.status(401).json({ status: 401, error: 'Invalid OTP' });
+            return res.status(401).json({ status: 401, message: 'Invalid OTP' });
         }
 
         // Update the token document to mark it as verified
@@ -165,14 +165,14 @@ exports.verifyOTP = async (req, res) => {
             try {
                 // Attempt to delete the token document
                 await Token.deleteOne({ otp: req.body.otp });
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             } catch (deleteError) {
                 // If deleting the token fails, still return a response indicating token expiration
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             }
         }
         // Other errors are considered server errors
-        res.status(500).json({ status: 500, error: 'Server error' });
+        res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
 
@@ -216,13 +216,13 @@ exports.resetPassword = async (req, res) => {
             try {
                 // Attempt to delete the token document
                 await Token.deleteOne({ otp: req.body.otp });
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             } catch (deleteError) {
                 // If deleting the token fails, still return a response indicating token expiration
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             }
         }
         // Other errors are considered server errors
-        res.status(500).json({ status: 500, error: 'Server error' });
+        res.status(500).json({ status: 500, message: 'Server error' });
     }
 };

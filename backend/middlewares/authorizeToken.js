@@ -33,12 +33,12 @@ async function authorizeToken(req, res, next) {
         if (err.name === 'TokenExpiredError') {
             try {
                 await Token.deleteOne({ userId });
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             } catch (deleteError) {
-                return res.status(401).json({ status: 401, error: 'Token expired' });
+                return res.status(401).json({ status: 401, message: 'Token expired' });
             }
         }
-        res.status(500).json({ status: 500, error: 'Server error' });
+        res.status(500).json({ status: 500, message: 'Server error' });
     }
 }
 

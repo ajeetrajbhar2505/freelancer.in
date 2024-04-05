@@ -25,7 +25,7 @@ exports.createRoom = async (req, res) => {
             apiEndpoint: req.originalUrl,
         });
         await error.save();
-        res.status(500).json({status: 500, error: 'Server error' });
+        res.status(500).json({status: 500, message: 'Server error' });
     }
 };
 
