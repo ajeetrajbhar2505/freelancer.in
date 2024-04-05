@@ -104,6 +104,14 @@ body {
   }
 }
 
+.confirm-password {
+  .logo {
+    background: url('assets/confirm-password.jpeg');
+    background-size: cover;
+    background-position: bottom;
+  }
+}
+
 h4 {
   font-weight: 500;
 }
