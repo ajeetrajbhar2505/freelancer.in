@@ -27,8 +27,8 @@ export class tokenInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         // If status code is 401, redirect to login page
-        if (error.status === 401) {
-          this.router.navigate(['/login']);
+        if (error.status == 401 || error.status == 500) {
+          this.router.navigate(['/auth/login']);
         }
         return throwError(error);
       })
