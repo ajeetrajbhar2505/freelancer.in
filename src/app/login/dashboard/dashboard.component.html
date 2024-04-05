@@ -5,10 +5,10 @@
     <h4>Enter your email and password</h4>
     <div class="input-box">
         <i class="fas fa-envelope"></i>
-        <input type="text" placeholder="Email" formControlName="username" emailRegexValidator required>
-        <span class="tooltip {{ (submitted && f['username'].errors) || (f['username'].errors && (f['username'].dirty || f['username'].touched))?'show':''}}">
-            <span *ngIf="f['username'].errors?.['required']">Email is required</span>
-            <span *ngIf="!f['username'].errors?.['required'] && f['username'].errors?.['emailInvalid']">Invalid email
+        <input type="text" placeholder="Email" formControlName="email" emailRegexValidator required>
+        <span class="tooltip {{ (submitted && f['email'].errors) || (f['email'].errors && (f['email'].dirty || f['email'].touched))?'show':''}}">
+            <span *ngIf="f['email'].errors?.['required']">Email is required</span>
+            <span *ngIf="!f['email'].errors?.['required'] && f['email'].errors?.['emailInvalid']">Invalid email
                 format</span>
             <span class="arrow"></span></span>
     </div>

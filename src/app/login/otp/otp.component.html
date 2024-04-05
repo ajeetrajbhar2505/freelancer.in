@@ -5,7 +5,7 @@
         <h2>Verification code</h2>
     </div>
     <h4>Please enter the verifcation code send<br> to your email address</h4>
-    <h4 class="route" (click)="routeToForgot()">{{'ajeetrajbhar2504@gmail.com'}} <i class="fa fa-edit"></i></h4>
+    <h4 class="route" (click)="routeToForgot()">{{mailId}} <i class="fa fa-edit" (click)="routeToPage()"></i></h4>
     <div class="center otp-box">
       <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:4}"></ng-otp-input>
     </div>

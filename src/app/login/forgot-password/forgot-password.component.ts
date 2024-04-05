@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class ForgotPasswordComponent implements OnInit {
   submitted: boolean = false;
-  confirmPassForm:FormGroup
+  forgotPassForm:FormGroup
   constructor(private router: Router,
     private commonDataService: CommondataserviceService,
     private changeDetectionService: ChangeDetectionServiceService,
@@ -32,7 +32,7 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   initiateGroup() {
-    this.confirmPassForm = this.formBuilder.group({
+    this.forgotPassForm = this.formBuilder.group({
       email: ['', [Validators.required]],
     });
   }
@@ -40,21 +40,22 @@ export class ForgotPasswordComponent implements OnInit {
 
 
   // Convenience getter for easy access to form fields
-  get f() { return this.confirmPassForm.controls; }
+  get f() { return this.forgotPassForm.controls; }
 
 
   async routeToConfirmPass() {
     this.submitted = true
-    if (this.confirmPassForm.invalid) {
+    if (this.forgotPassForm.invalid) {
       return;
     }
     try {
-      const payload = this.confirmPassForm.value
+      const payload = this.forgotPassForm.value
       const response = await this.apiService.postData(getOTPUrl, payload).toPromise();
       if (response.status === 201 || response.status === 200) {
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.nextRoute.next('/auth/confirm-password');
         localStorage.setItem('token', response.token)
+        localStorage.setItem('mailId', this.forgotPassForm.controls['mailId'].value)
       } else {
         console.error('Failed to send OTP:', response);
       }

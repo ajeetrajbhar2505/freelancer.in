@@ -3,8 +3,9 @@ import { ChangeDetectionServiceService } from '../../services/change-detection-s
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service.service';
 import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+
+export interface otpDetails{}
 
 @Component({
   selector: 'app-otp',
@@ -13,6 +14,7 @@ import { Location } from '@angular/common';
 })
 export class OtpComponent implements OnInit {
   OTPValue: number
+  mailId:string
   constructor(private changeDetectionService: ChangeDetectionServiceService, 
     private router: Router, private apiService: ApiService, 
     private location: Location
@@ -20,6 +22,7 @@ export class OtpComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
+    this.mailId =  sessionStorage.getItem('mailId')
     this.changeDetectionService.nextRoute.subscribe(data => {
       sessionStorage.setItem('routeTo', data)
     })

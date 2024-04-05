@@ -16,7 +16,7 @@ export class ConfirmPasswordComponent implements OnInit {
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
   submitted: boolean = false;
-  registerForm:FormGroup
+  confirmPassForm:FormGroup
   constructor(private router: Router,
     private commonDataService: CommondataserviceService,
     private changeDetectionService: ChangeDetectionServiceService,
@@ -36,7 +36,7 @@ export class ConfirmPasswordComponent implements OnInit {
   }
 
   initiateGroup() {
-    this.registerForm = this.formBuilder.group({
+    this.confirmPassForm = this.formBuilder.group({
       password: ['', [Validators.required, Validators.pattern(/\S/)]],
       confirmPassword: ['', [Validators.required, Validators.pattern(/\S/)]],
     });
@@ -45,11 +45,11 @@ export class ConfirmPasswordComponent implements OnInit {
 
 
   // Convenience getter for easy access to form fields
-  get f() { return this.registerForm.controls; }
+  get f() { return this.confirmPassForm.controls; }
 
   setupPasswordMismatchHandler() {
-    const passwordControl = this.registerForm.get('password');
-    const confirmPasswordControl = this.registerForm.get('confirmPassword');
+    const passwordControl = this.confirmPassForm.get('password');
+    const confirmPasswordControl = this.confirmPassForm.get('confirmPassword');
 
     confirmPasswordControl.valueChanges.subscribe(() => {
       if (passwordControl.value !== confirmPasswordControl.value) {
@@ -77,11 +77,11 @@ export class ConfirmPasswordComponent implements OnInit {
   }
   async routeToOtp() {
     this.submitted = true
-    if (this.registerForm.invalid) {
+    if (this.confirmPassForm.invalid) {
       return;
     }
     try {
-      const payload = this.registerForm.value
+      const payload = this.confirmPassForm.value
       const response = await this.apiService.postData(resetPasswordUrl, payload).toPromise();
       if (response.status === 201 || response.status === 200) {
         this.router.navigate(['/auth/forgot-password'])
