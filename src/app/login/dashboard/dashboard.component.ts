@@ -67,12 +67,12 @@ export class DashboardComponent implements OnInit {
       const payload = this.loginForm.value
       const response = await this.apiService.postData(loginUrl, payload).toPromise();
       if (response.status == 200) {
+        this.toastService.success(response.message)
         this.submitted = false
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.nextRoute.next('/chat/dashboard')
         localStorage.setItem('token', response.token)
         localStorage.setItem('mailId', this.loginForm.controls['email'].value)
-        this.toastService.success(response.message)
       } else {
         this.toastService.error(response.message)
       }

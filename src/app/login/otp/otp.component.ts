@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api-service.service';
 import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
 import { Location } from '@angular/common';
+import { ToastserviceService } from '../../services/toastservice.service';
 
 @Component({
   selector: 'app-otp',
@@ -15,7 +16,8 @@ export class OtpComponent implements OnInit {
   mailId:string
   constructor(private changeDetectionService: ChangeDetectionServiceService, 
     private router: Router, private apiService: ApiService, 
-    private location: Location
+    private location: Location,
+    private toastService:ToastserviceService
     ) { }
 
   ngOnInit(): void {
@@ -51,12 +53,13 @@ export class OtpComponent implements OnInit {
     try {
       const response = await this.apiService.postData(apiURL, { otp: this.OTPValue }).toPromise();
       if (response.status == 200) {
+        this.toastService.success(response.message)
         this.dynamicRoute()
       } else {
-        console.error('Failed to send OTP:', response);
+        this.toastService.error(response.message)
       }
     } catch (error) {
-      console.error('Error in routeToOtp:', error);
+      this.toastService.error('Server error')
     }
   }
 

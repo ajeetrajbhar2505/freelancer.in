@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api-service.service';
 import { getOTPUrl } from '../../constants/endpoint-usage';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastserviceService } from '../../services/toastservice.service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,7 +19,8 @@ export class ForgotPasswordComponent implements OnInit {
     private commonDataService: CommondataserviceService,
     private changeDetectionService: ChangeDetectionServiceService,
     public apiService: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService:ToastserviceService
   ) { }
 
 
@@ -51,16 +53,17 @@ export class ForgotPasswordComponent implements OnInit {
     try {
       const payload = this.forgotPassForm.value
       const response = await this.apiService.postData(getOTPUrl, payload).toPromise();
-      if (response.status === 201 || response.status === 200) {
+      if (response.status == 201 || response.status == 200) {
+        this.toastService.success(response.message)
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.nextRoute.next('/auth/confirm-password');
         localStorage.setItem('token', response.token)
         localStorage.setItem('mailId', this.forgotPassForm.controls['mailId'].value)
       } else {
-        console.error('Failed to send OTP:', response);
+        this.toastService.error(response.message)
       }
     } catch (error) {
-      console.error('Error in routeToOtp:', error);
+      this.toastService.error('Server error')
     }
   }
 

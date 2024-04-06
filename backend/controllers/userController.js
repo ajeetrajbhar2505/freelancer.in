@@ -15,7 +15,7 @@ exports.createUser = async (req, res) => {
         // Check if the username or email already exists
         const existingUser = await User.findOne({ $or: [{ username }, { email }] });
         if (existingUser) {
-            return res.status(400).json({ status: 400, message: 'Username or email already exists' });
+            return res.status(210).json({ status: 300, message: 'Username or email already exists' });
         }
 
         // Create a new user instance
@@ -72,7 +72,7 @@ exports.authenticateUser = async (req, res) => {
                 return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(401).json({ status: 401, message: "Credentials are incorrect" });
+            return res.status(210).json({ status: 300, message: "Credentials are incorrect" });
         }
     } catch (err) {
         // Handle any errors
@@ -107,7 +107,7 @@ exports.getOTP = async (req, res) => {
                 return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(200).json({ status: 200, message: "User does not exists" });
+            return res.status(210).json({ status: 300, message: "User does not exists" });
         }
     } catch (err) {
         // Handle any errors
@@ -140,7 +140,7 @@ exports.verifyOTP = async (req, res) => {
         const { otp: enteredOtp } = req.body;
 
         if (otp != enteredOtp) {
-            return res.status(401).json({ status: 401, message: 'Invalid OTP' });
+            return res.status(210).json({ status: 300, message: 'Invalid OTP' });
         }
 
         // Update the token document to mark it as verified
@@ -195,7 +195,7 @@ exports.resetPassword = async (req, res) => {
         try {
             const userData = await User.findOne({ userId,password }).sort({ dateTime: -1 });
             if (userData) {
-                return res.status(200).json({ status: 200, message: 'Password already exists' });
+                return res.status(210).json({ status: 300, message: 'Password already exists' });
             }
             await User.findByIdAndUpdate(tokenData.userId, { password: password });
             return res.status(200).json({ status: 200, message: 'Password updated successfully' });

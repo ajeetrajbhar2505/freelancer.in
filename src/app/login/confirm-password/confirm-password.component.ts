@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api-service.service';
 import { resetPasswordUrl } from '../../constants/endpoint-usage';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastserviceService } from '../../services/toastservice.service';
 
 @Component({
   selector: 'app-confirm-password',
@@ -21,7 +22,8 @@ export class ConfirmPasswordComponent implements OnInit {
     private commonDataService: CommondataserviceService,
     private changeDetectionService: ChangeDetectionServiceService,
     public apiService: ApiService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService:ToastserviceService
   ) { }
 
 
@@ -83,15 +85,16 @@ export class ConfirmPasswordComponent implements OnInit {
     try {
       const payload = this.confirmPassForm.value
       const response = await this.apiService.postData(resetPasswordUrl, payload).toPromise();
-      if (response.status === 201 || response.status === 200) {
+      if (response.status == 201 || response.status == 200) {
         this.router.navigate(['/auth/forgot-password'])
         localStorage.setItem('token', response.token)
+        this.toastService.success(response.message)
 
       } else {
-        console.error('Failed to send OTP:', response);
+        this.toastService.error(response.message)
       }
     } catch (error) {
-      console.error('Error in routeToOtp:', error);
+      this.toastService.error('Server error')
     }
   }
 
