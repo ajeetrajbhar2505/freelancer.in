@@ -23,6 +23,7 @@ import { PasswordRegexValidatorDirective } from '../../regex-validator/password-
 import { RouterModule } from '@angular/router';
 import { ConfirmPasswordComponent } from '../../login/confirm-password/confirm-password.component';
 import { ToastserviceService } from '../../services/toastservice.service';
+import { ToastComponent } from '../../toast/toast.component';
 
 
 
@@ -41,6 +42,7 @@ import { ToastserviceService } from '../../services/toastservice.service';
     chatDashboardComponent, 
     StatusComponent, 
     RoomComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,

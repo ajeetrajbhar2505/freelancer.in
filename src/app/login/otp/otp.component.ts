@@ -5,8 +5,6 @@ import { ApiService } from '../../services/api-service.service';
 import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
 import { Location } from '@angular/common';
 
-export interface otpDetails{}
-
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.component.html',

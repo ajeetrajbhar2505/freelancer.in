@@ -72,7 +72,7 @@ exports.authenticateUser = async (req, res) => {
                 return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(303).json({ status: 303, message: "Credentials are incorrect" });
+            return res.status(200).json({ status: 200, message: "Credentials are incorrect" });
         }
     } catch (err) {
         // Handle any errors
@@ -107,7 +107,7 @@ exports.getOTP = async (req, res) => {
                 return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
             });
         } else {
-            return res.status(303).json({ status: 303, message: "User does not exists" });
+            return res.status(200).json({ status: 200, message: "User does not exists" });
         }
     } catch (err) {
         // Handle any errors

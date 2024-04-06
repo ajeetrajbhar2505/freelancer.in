@@ -59,14 +59,14 @@ export class DashboardComponent implements OnInit {
   }
 
   async routeToOtp() {
-    this.submitted = true
-    if (this.loginForm.invalid) {
-      return;
-    }
+    // this.submitted = true
+    // if (this.loginForm.invalid) {
+    //   return;
+    // }
     try {
       const payload = this.loginForm.value
       const response = await this.apiService.postData(loginUrl, payload).toPromise();
-      if (response.status === 200) {
+      if (response.status == 200) {
         this.submitted = false
         this.router.navigate(['/auth/otp'])
         this.changeDetectionService.nextRoute.next('/chat/dashboard')
@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
         this.toastService.show(response.message)
       }
     } catch (error) {
-      this.toastService.show(error.message)
+      this.toastService.show('Server error')
     }
     
   }

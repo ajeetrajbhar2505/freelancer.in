@@ -1,23 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ToastserviceService {
-  private toastSubject = new Subject<string>();
+   toastSubject: Subject<any> = new Subject<any>()
 
-  show(message: string) {
-    this.toastSubject.next(message);
-  }
+   show(message:string){
+     this.toastSubject.next(message);
+   }
 
-  hide() {
+   hide(){
     this.toastSubject.next('');
-  }
-
-  onToast() {
-    return this.toastSubject.asObservable();
-  }
-  
+   }
   constructor() { }
 }
