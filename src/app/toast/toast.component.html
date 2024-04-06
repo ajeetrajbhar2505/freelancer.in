@@ -1,7 +1,18 @@
-
-  <div class="toaster-container">
-    <div class="toaster toast-success {{show?'show':''}}">
-      <i class="fas fa-check-circle"></i>
-      <p class="message">{{message}}</p>
-    </div>
+<div class="toaster-container">
+  <div *ngIf="type === 'success'" class="toaster toast-success {{show?'show':''}}">
+    <i class="fas fa-check-circle"></i>
+    <p class="message">{{message}}</p>
   </div>
+  <div *ngIf="type === 'alert'" class="toaster toast-alert {{show?'show':''}}">
+    <i class="fas fa-exclamation-triangle"></i>
+    <p class="message">{{message}}</p>
+  </div>
+  <div *ngIf="type === 'error'" class="toaster toast-error {{show?'show':''}}">
+    <i class="fas fa-times-circle"></i>
+    <p class="message">{{message}}</p>
+  </div>
+  <div *ngIf="type === 'info'" class="toaster toast-info {{show?'show':''}}">
+    <i class="fas fa-info-circle"></i>
+    <p class="message">{{message}}</p>
+  </div>
+</div>

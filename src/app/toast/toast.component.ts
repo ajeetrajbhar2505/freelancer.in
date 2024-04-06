@@ -11,24 +11,29 @@ export class ToastComponent implements OnInit {
   message: string = '';
   show: boolean = false;
   timer: number = 0;
-
+  type: string
+  private timeout: any;
   constructor(
     private toastService: ToastserviceService
   ) { }
 
   ngOnInit() {
-    this.toastService.toastSubject.subscribe(message => {
-      if (message) {
-        this.show = true;
-        this.timer = 2000;
-        setTimeout(() => {
-          this.close();
-        }, this.timer);
-      } else {
-        this.show = false;
-        this.timer = 0;
-      }
-      this.message = message;
+    this.toastService.showSubject.subscribe(data => {
+      clearTimeout(this.timeout);
+
+      this.show = true;
+      this.message = data.message;
+      this.type = data.type;
+
+      this.timer = 2000;
+      this.timeout = setTimeout(() => {
+        this.close();
+      }, this.timer);
+    });
+
+    this.toastService.hideSubject.subscribe(show => {
+      this.show = show;
+      this.timer = 0;
     });
   }
 

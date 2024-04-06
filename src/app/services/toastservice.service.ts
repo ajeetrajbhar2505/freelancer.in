@@ -5,14 +5,32 @@ import { Subject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ToastserviceService {
-   toastSubject: Subject<any> = new Subject<any>()
+   showSubject: Subject<any> = new Subject<any>()
+   hideSubject: Subject<any> = new Subject<any>()
 
-   show(message:string){
-     this.toastSubject.next(message);
+
+   success(message:string){
+    const data  = { message: message,type: 'success'}
+     this.showSubject.next(data);
+   }
+
+   alert(message:string){
+    const data  = { message: message,type: 'alert'}
+     this.showSubject.next(data);
+   }
+
+   error(message:string){
+    const data  = { message: message,type: 'error'}
+     this.showSubject.next(data);
+   }
+
+   info(message:string){
+    const data  = { message: message,type: 'info'}
+     this.showSubject.next(data);
    }
 
    hide(){
-    this.toastSubject.next('');
+    this.hideSubject.next(true);
    }
   constructor() { }
 }

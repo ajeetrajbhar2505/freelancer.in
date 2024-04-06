@@ -72,12 +72,12 @@ export class DashboardComponent implements OnInit {
         this.changeDetectionService.nextRoute.next('/chat/dashboard')
         localStorage.setItem('token', response.token)
         localStorage.setItem('mailId', this.loginForm.controls['email'].value)
-        this.toastService.show(response.message)
+        this.toastService.success(response.message)
       } else {
-        this.toastService.show(response.message)
+        this.toastService.error(response.message)
       }
     } catch (error) {
-      this.toastService.show('Server error')
+      this.toastService.error('Server error')
     }
     
   }
