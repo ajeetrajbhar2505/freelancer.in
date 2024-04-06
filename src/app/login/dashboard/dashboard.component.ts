@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { ApiService } from '../../services/api-service.service';
 import { loginUrl } from '../../constants/endpoint-usage';
@@ -13,6 +13,8 @@ import { ToastserviceService } from '../../services/toastservice.service';
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('email') email: any;
+  @ViewChild('password') password: any;
   loginForm: FormGroup
   IsToggledPass: boolean = false;
   IsToggledRem: boolean = true;
@@ -40,6 +42,22 @@ export class DashboardComponent implements OnInit {
   }
 
 
+
+
+  focusInput(inputName: string) {
+    switch (inputName) {
+      case 'email':
+        this.email.nativeElement.focus();
+        break;
+      case 'password':
+        this.password.nativeElement.focus();
+        break;
+      default:
+        console.error('Invalid input name');
+    }
+  }
+
+
   // Convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
@@ -59,10 +77,10 @@ export class DashboardComponent implements OnInit {
   }
 
   async routeToOtp() {
-    // this.submitted = true
-    // if (this.loginForm.invalid) {
-    //   return;
-    // }
+    this.submitted = true
+    if (this.loginForm.invalid) {
+      return;
+    }
     try {
       const payload = this.loginForm.value
       const response = await this.apiService.postData(loginUrl, payload).toPromise();

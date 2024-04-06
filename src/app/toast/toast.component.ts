@@ -3,7 +3,7 @@ import { Component, Input, OnInit, input } from '@angular/core';
 import { ToastserviceService } from '../services/toastservice.service';
 
 @Component({
-  selector: 'app-toast',
+  selector: 'toast',
   templateUrl: './toast.component.html',
   styleUrls: ['./toast.component.scss']
 })

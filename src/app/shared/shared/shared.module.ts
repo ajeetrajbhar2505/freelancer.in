@@ -24,6 +24,7 @@ import { RouterModule } from '@angular/router';
 import { ConfirmPasswordComponent } from '../../login/confirm-password/confirm-password.component';
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ToastComponent } from '../../toast/toast.component';
+import { LoaderService } from '../../services/loader.service';
 
 
 
@@ -58,7 +59,8 @@ import { ToastComponent } from '../../toast/toast.component';
     FileUploadServiceService,
     CommondataserviceService,
     WebsocketService,
-    ToastserviceService
+    ToastserviceService,
+    LoaderService
   ]
 })
 export class SharedModule { }

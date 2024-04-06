@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { ApiService } from '../../services/api-service.service';
@@ -13,6 +13,8 @@ import { ToastserviceService } from '../../services/toastservice.service';
   styleUrl: './confirm-password.component.scss'
 })
 export class ConfirmPasswordComponent implements OnInit {
+  @ViewChild('password') password: any;
+  @ViewChild('confirmPassword') confirmPassword: any;
   IsToggledPass: boolean = false;
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
@@ -44,6 +46,20 @@ export class ConfirmPasswordComponent implements OnInit {
     });
   }
 
+
+
+  focusInput(inputName: string) {
+    switch (inputName) {
+      case 'password':
+        this.password.nativeElement.focus();
+        break;
+      case 'confirmPassword':
+        this.confirmPassword.nativeElement.focus();
+        break;
+      default:
+        console.error('Invalid input name');
+    }
+  }
 
 
   // Convenience getter for easy access to form fields

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommondataserviceService } from '../../services/commondataservice.service';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { ApiService } from '../../services/api-service.service';
@@ -13,6 +13,11 @@ import { ToastserviceService } from '../../services/toastservice.service';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
+  @ViewChild('username') username: any;
+  @ViewChild('email') email: any;
+  @ViewChild('password') password: any;
+  @ViewChild('confirmPassword') confirmPassword: any;
+
   IsToggledPass: boolean = false;
   IsToggledConfirmPass: boolean = false;
   IsToggledRem: boolean = true;
@@ -47,7 +52,26 @@ export class RegisterComponent implements OnInit {
   }
 
 
+  focusInput(inputName: string) {
+    switch (inputName) {
+      case 'username':
+        this.username.nativeElement.focus();
+        break;
+      case 'email':
+        this.email.nativeElement.focus();
+        break;
+      case 'password':
+        this.password.nativeElement.focus();
+        break;
+      case 'confirmPassword':
+        this.confirmPassword.nativeElement.focus();
+        break;
+      default:
+        console.error('Invalid input name');
+    }
+  }
 
+  
   // Convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
