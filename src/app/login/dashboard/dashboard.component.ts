@@ -54,6 +54,8 @@ export class DashboardComponent implements OnInit {
 
   loginWithGoogle() {
     this.commonDataService.loginWithGoogle()
+    this.router.navigate(['/auth/otp'])
+    this.changeDetectionService.nextRoute.next('/chat/dashboard')
   }
 
   async routeToOtp() {

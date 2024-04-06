@@ -76,6 +76,8 @@ export class RegisterComponent implements OnInit {
   }
   loginWithGoogle() {
     this.commonDataService.loginWithGoogle()
+    this.router.navigate(['/auth/otp'])
+    this.changeDetectionService.nextRoute.next('/auth/register');
   }
   async routeToOtp() {
     this.submitted = true
