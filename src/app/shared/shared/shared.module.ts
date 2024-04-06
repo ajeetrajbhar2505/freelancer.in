@@ -22,6 +22,7 @@ import { StatusComponent } from '../../chat/status/status.component';
 import { PasswordRegexValidatorDirective } from '../../regex-validator/password-regex-validator.directive';
 import { RouterModule } from '@angular/router';
 import { ConfirmPasswordComponent } from '../../login/confirm-password/confirm-password.component';
+import { ToastserviceService } from '../../services/toastservice.service';
 
 
 
@@ -39,7 +40,7 @@ import { ConfirmPasswordComponent } from '../../login/confirm-password/confirm-p
     ConfirmPasswordComponent,
     chatDashboardComponent, 
     StatusComponent, 
-    RoomComponent
+    RoomComponent,
   ],
   imports: [
     CommonModule,
@@ -54,7 +55,8 @@ import { ConfirmPasswordComponent } from '../../login/confirm-password/confirm-p
     ErrorHandlingServiceService,
     FileUploadServiceService,
     CommondataserviceService,
-    WebsocketService
+    WebsocketService,
+    ToastserviceService
   ]
 })
 export class SharedModule { }

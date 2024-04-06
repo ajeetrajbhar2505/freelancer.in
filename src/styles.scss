@@ -732,3 +732,80 @@ header {
 svg{
   cursor: pointer;
 }
+
+.toaster-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.toaster {
+  display: flex;
+  align-items: center;
+  background-color: #38A169;
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  width: 300px;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.toaster-success {
+  background-color: #38A169;
+}
+
+.toaster i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.toaster .message {
+  font-size: 14px;
+  margin: 0;
+  font-weight: bold;
+}
+
+.toaster.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+
+
+// .toaster-container {
+//   position: fixed;
+//   bottom: 20px;
+//   right: 20px;
+//   z-index: 1000;
+// }
+
+// .toaster {
+//   display: flex;
+//   align-items: center;
+//   background-color: #38A169;
+//   color: #fff;
+//   border-radius: 8px;
+//   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+//   padding: 12px;
+//   width: 300px;
+//   transition: transform 0.3s ease-in-out;
+// }
+
+// .toaster-success {
+//   background-color: #38A169;
+// }
+
+// .toaster i {
+//   font-size: 24px;
+//   margin-right: 12px;
+// }
+
+// .toaster .message {
+//   font-size: 14px;
+//   margin: 0;
+//   font-weight: bold;
+// }

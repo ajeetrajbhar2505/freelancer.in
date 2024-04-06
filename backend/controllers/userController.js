@@ -56,8 +56,8 @@ exports.createUser = async (req, res) => {
 
 exports.authenticateUser = async (req, res) => {
     try {
-        const { email, username, password } = req.body;
-        const user = await User.findOne({ $or: [{ username: username, password: password }, { email: email, password: password }] });
+        const { email, password } = req.body;
+        const user = await User.findOne({ $or: [{ username: email, password: password }, { email: email, password: password }] });
 
         if (user) {
             if (!user.email_verified) {

@@ -29,7 +29,7 @@ export class OtpComponent implements OnInit {
   }
   
   dynamicRoute() {
-    const url = `/${sessionStorage.getItem('routeTo') || '/auth/login'}`;
+    const url = `${sessionStorage.getItem('routeTo') || '/auth/login'}`;
     this.router.navigate([url]);
   }
   

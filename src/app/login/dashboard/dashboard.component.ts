@@ -5,6 +5,7 @@ import { loginUrl } from '../../constants/endpoint-usage';
 import { ChangeDetectionServiceService } from '../../services/change-detection-service.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastserviceService } from '../../services/toastservice.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,8 @@ export class DashboardComponent implements OnInit {
   constructor(private commonDataService: CommondataserviceService,
     private apiService: ApiService, private changeDetectionService: ChangeDetectionServiceService,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private toastService: ToastserviceService
   ) { }
 
 
@@ -68,12 +70,14 @@ export class DashboardComponent implements OnInit {
         this.changeDetectionService.nextRoute.next('/chat/dashboard')
         localStorage.setItem('token', response.token)
         localStorage.setItem('mailId', this.loginForm.controls['email'].value)
+        this.toastService.show(response.message)
       } else {
-        console.error('Failed to send OTP:', response);
+        this.toastService.show(response.message)
       }
     } catch (error) {
-      console.error('Error in routeToOtp:', error);
+      this.toastService.show(error.message)
     }
+    
   }
 
 
