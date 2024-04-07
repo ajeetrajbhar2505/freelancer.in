@@ -27,8 +27,8 @@
     </div>
     <div class="checkbox1">
         <label class="cursor" (click)="toggleRemember()"><i class="fa fa-toggle-{{IsToggledRem?'on':'off'}}"
-                aria-hidden="true"></i>Remember Me</label>
-        <label class="cursor" routerLink="/auth/forgot-password">Forgot Password</label>
+                aria-hidden="true"></i><span class="rememberMe">Remember Me</span> </label>
+        <label class="cursor" routerLink="/auth/forgot-password"><span class="rememberMe">Forgot Password</span></label>
     </div>
     <button type="submit" class="btn" (click)="routeToOtp()">Login</button>
 

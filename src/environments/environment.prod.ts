@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiURL:'http://localhost:3000/api'
+  apiURL:'https://light-gray-cow.cyclic.app/api'
 };
 
 /*

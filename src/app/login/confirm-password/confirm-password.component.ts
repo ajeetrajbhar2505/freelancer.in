@@ -93,7 +93,7 @@ export class ConfirmPasswordComponent implements OnInit {
   loginWithGoogle() {
     this.commonDataService.loginWithGoogle()
   }
-  async routeToOtp() {
+  async savePassword() {
     this.submitted = true
     if (this.confirmPassForm.invalid) {
       return;
