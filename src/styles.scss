@@ -754,7 +754,7 @@ svg{
   padding: 12px;
   width: 300px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  transform: translateY(100%);
+  transform: translateX(115%);
   opacity: 0;
 }
 
@@ -787,7 +787,7 @@ svg{
 }
 
 .toaster.show {
-  transform: translateY(0);
+  transform: translateX(-25px);
   opacity: 1;
 }
 

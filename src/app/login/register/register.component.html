@@ -15,7 +15,7 @@
         <i class="fas fa-envelope"></i>
         <input type="text" placeholder="Email" #email formControlName="email" emailRegexValidator required>
         <span (click)="focusInput('username')" class="tooltip {{ (submitted && f['email'].errors) || (f['email'].errors && (f['email'].dirty || f['email'].touched))?'show':''}}">
-            <span *ngIf="f['username'].errors?.['required']">Email is required</span>
+            <span *ngIf="f['email'].errors?.['required']">Email is required</span>
             <span *ngIf="!f['email'].errors?.['required'] && f['email'].errors?.['emailInvalid']">Invalid email
                 format</span>
             <span class="arrow"></span></span>
