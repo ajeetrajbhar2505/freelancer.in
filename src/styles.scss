@@ -20,13 +20,13 @@ body {
   // background: url('assets/body-logo.png') no-repeat;
   background-size: cover;
   background-position: center;
-  margin: 40px;padding: 30px;
+  margin: 40px;
 
 }
 
 @media screen and (max-width: 435px) {
   body {
-    // background: unset;
+    background: unset;
     min-height: unset;
     margin: unset;
   }
