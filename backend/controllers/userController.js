@@ -35,7 +35,7 @@ exports.createUser = async (req, res) => {
         // Check if the username or email already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(210).json({ status: 300, message: 'Username or email already exists' });
+            return res.status(210).json({ status: 300, message: 'Email already exists' });
         }
 
         // Create a new user instance
