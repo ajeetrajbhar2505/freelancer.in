@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastserviceService } from '../../services/toastservice.service';
+import { ApiService } from '../../services/api-service.service';
+import { getUsersUrl } from '../../constants/endpoint-usage';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,63 +28,44 @@ export class chatDashboardComponent implements OnInit {
     },
   ]
 
-  users = [
-    {
-      profile: 'https://img1.wsimg.com/isteam/ip/8f9a5028-92cb-4074-8d56-1467f1e7cf32/ajeetrajbhar.jpg/:/cr=t:0%25,l:0%25,w:100%25,h:100%25/rs=w:2000,h:2000,cg:true',
-      online: false,
-      verified : false,
-      userid: 0,
-      username : 'Ajeet Rajbhar (You)',
-      roomId: 99,
-      lastSeen : '12.34',
-      lastMessage : `Ok, Let me check`
-    },
-    {
-      profile: 'https://assets.materialup.com/uploads/0a167b5f-425d-4b90-adeb-57016ccbcbcd/0x0ss-85.jpg',
-      online: true,
-      verified : true,
-      userid: 1,
-      username : 'Whatsapp',
-      roomId: 100,
-      lastSeen : 'Yesterday',
-      lastMessage : `Let's have meeting with you`
-    },
-    {
-      profile: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/2044px-WhatsApp.svg.png',
-      online: true,
-      verified : true,
-      userid: 2,
-      username : 'Telegram',
-      roomId: 101,
-      lastSeen : 'Yesterday',
-      lastMessage : `Let's have meeting with you`
-    },
-    {
-      profile: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/2048px-Telegram_logo.svg.png',
-      online: true,
-      verified : true,
-      userid: 3,
-      username : 'Facebook',
-      roomId: 102,
-      lastSeen : 'Yesterday',
-      lastMessage : `Let's have meeting with you`
-    },
-    {
-      profile: 'https://freebiehive.com/wp-content/uploads/2021/08/Facebook-Icon-PNG-1.jpg',
-      online: true,
-      verified : true,
-      userid: 4,
-      username : 'Snapchat',
-      roomId: 103,
-      lastSeen : 'Yesterday',
-      lastMessage : `Let's have meeting with you`
-    }
-  ]
+  users = []
 
   constructor(
-    private router:Router
+    private router:Router,
+    private toastService:ToastserviceService,
+    private apiService:ApiService
   )
   {}
+
+
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+    this.getUsers()
+  }
+
+  async getUsers() {
+    try {
+      const response = await this.apiService.getData(getUsersUrl).toPromise();
+      if (response.status == 200) {
+        // fetch data 
+        this.users = response['data']
+
+      } else {
+        this.toastService.error(response.message)
+      }
+    } catch (error) {
+      this.toastService.error('Server error')
+    }
+    
+  }
+
+  routeToStatus(userid:number){
+    this.router.navigate([`/chat/status/${userid}`])
+  }
+
+  routeToChat(roomId:number){
+    this.router.navigate([`/chat/room/${roomId}`])
+  }
 
   get onlineUsers() {
     return this.users.filter(u => u.online)
@@ -99,11 +83,6 @@ export class chatDashboardComponent implements OnInit {
     this.activeIndex = index
     this.activeClass = this.tabs[index].class
   }
-
-  ngOnInit(): void {
-    window.scrollTo(0, 0);
-  }
-
 
   logOut(): void {
      localStorage.clear()

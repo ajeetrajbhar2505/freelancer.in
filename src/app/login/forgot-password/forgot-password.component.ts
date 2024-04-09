@@ -56,9 +56,10 @@ export class ForgotPasswordComponent implements OnInit {
       if (response.status == 201 || response.status == 200) {
         this.toastService.success(response.message)
         this.router.navigate(['/auth/otp'])
-        this.changeDetectionService.nextRoute.next('/auth/confirm-password');
         localStorage.setItem('token', response.token)
         localStorage.setItem('mailId', this.forgotPassForm.controls['mailId'].value)
+        localStorage.setItem('routeTo', '/auth/confirm-password')
+
       } else {
         this.toastService.error(response.message)
       }

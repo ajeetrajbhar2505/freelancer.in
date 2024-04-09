@@ -14,7 +14,7 @@ import { ToastserviceService } from '../../services/toastservice.service';
 export class OtpComponent implements OnInit {
   OTPValue: number
   mailId:string
-  constructor(private changeDetectionService: ChangeDetectionServiceService, 
+  constructor(
     private router: Router, private apiService: ApiService, 
     private location: Location,
     private toastService:ToastserviceService
@@ -23,13 +23,10 @@ export class OtpComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.mailId =  localStorage.getItem('mailId')
-    this.changeDetectionService.nextRoute.subscribe(data => {
-    sessionStorage.setItem('routeTo', data)
-    })
   }
   
   dynamicRoute() {
-    const url = `${sessionStorage.getItem('routeTo') || '/auth/login'}`;
+    const url = `${localStorage.getItem('routeTo') || '/auth/login'}`;
     this.router.navigate([url]);
   }
   
@@ -48,7 +45,7 @@ export class OtpComponent implements OnInit {
       return
     }
 
-    const apiURL = sessionStorage.getItem('routeTo') == '/auth/register' ? verifyEMAIL : verifyOTP
+    const apiURL = localStorage.getItem('routeTo') == '/auth/register' ? verifyEMAIL : verifyOTP
 
     try {
       const response = await this.apiService.postData(apiURL, { otp: this.OTPValue }).toPromise();

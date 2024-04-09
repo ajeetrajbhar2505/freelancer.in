@@ -114,10 +114,10 @@ export class RegisterComponent implements OnInit {
       const payload = this.registerForm.value
       const response = await this.apiService.postData(signUpUrl, payload).toPromise();
       if (response.status == 201 || response.status == 200) {
-        this.toastService.success(response.message)
         this.router.navigate(['/auth/otp'])
-        this.changeDetectionService.nextRoute.next('/auth/register');
         localStorage.setItem('token', response.token)
+        localStorage.setItem('mailId', this.registerForm.controls['email'].value)
+        localStorage.setItem('routeTo', '/auth/register')
       } else {
         this.toastService.error(response.message)
       }
