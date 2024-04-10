@@ -1,3 +1,4 @@
+<toast></toast>
 <section>
     <header class="m-0 w-100">
         <div class="profile-info">
@@ -39,7 +40,7 @@
                 </p>
                 <p class="m-0 p-0">{{data.lastMessage}}</p>
             </div>
-            <i class="fa fa-user-plus"></i>
+            <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
         </div>
 
     </div>

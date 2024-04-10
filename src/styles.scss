@@ -83,6 +83,14 @@ body {
   background-position: bottom;
 }
 
+.token{
+  .logo{
+    background: url('assets/token.jpeg');
+    background-size: cover;
+    background-position: bottom;
+  }
+}
+
 .signup {
   .logo {
     background: url('assets/signup.png');

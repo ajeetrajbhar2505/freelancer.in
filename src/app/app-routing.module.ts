@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginGuard } from './guards/login.guard';
+import { DecodetokenComponent } from './decodetoken/decodetoken.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
     path : 'chat',
     loadChildren : () => import('./chat/chat.module').then(m => m.ChatModule),
     canActivate : [LoginGuard]
+  },
+  {
+    path : 'token',
+    component : DecodetokenComponent
   }
 
 ];

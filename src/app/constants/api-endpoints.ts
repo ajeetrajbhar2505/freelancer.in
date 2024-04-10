@@ -8,4 +8,6 @@ export const ApiEndpoints = {
     verifyEMAIL: '/users/verify-email',
     createRoom: '/rooms/createRoom',
     getmessages: '/messages',
+    createToken: '/token/createToken',
+    decodedToken: '/token/decodeToken',
 };

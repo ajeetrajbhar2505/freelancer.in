@@ -19,10 +19,14 @@ const userRoutes = require('./routes/userRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const authorizeToken = require('./middlewares/authorizeToken');
+const decodeRoutes = require('./routes/decodeRoutes');
 const connection = require('./utils/database');
+const googleRoutes = require('./routes/googleRoutes');
 
 // API Routes
+app.use('/', googleRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/token', decodeRoutes);
 app.use('/api/messages',authorizeToken, messageRoutes);
 app.use('/api/rooms',authorizeToken, roomRoutes);
 
