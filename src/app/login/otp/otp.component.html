@@ -1,0 +1,17 @@
+<toast></toast>
+<div class="custom-wrapper otp">
+    <div class="logo">
+    </div>
+    <div class="center">
+        <h2>Verification code</h2>
+    </div>
+    <h4>Please enter the verifcation code send<br> to your email address</h4>
+    <h4 class="route" (click)="routeToForgot()">{{mailId}} <i class="fa fa-edit" (click)="routeToPage()"></i></h4>
+    <div class="center otp-box">
+      <ng-otp-input  (onInputChange)="onOtpChange($event)"  [config]="{length:4}"></ng-otp-input>
+    </div>
+    <button type="submit" class="submit btn" (click)="OnSubmit()">Verify OTP</button>
+    <div class="login-buttons">
+    </div>
+    <button class="top-left" (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
+</div>
