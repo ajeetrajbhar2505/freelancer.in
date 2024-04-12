@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiURL:'https://light-gray-cow.cyclic.app/api'
+  apiURL:'https://thankful-shawl-worm.cyclic.app/api'
 };
 
 /*

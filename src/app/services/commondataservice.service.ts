@@ -10,7 +10,7 @@ export class CommondataserviceService {
 
 
   loginWithGoogle() {
-    const url = `https://long-pink-rooster-gear.cyclic.app/` + 'google';
+    const url = `https://thankful-shawl-worm.cyclic.app/` + 'google';
     const width = 600;
     const height = 600;
 
