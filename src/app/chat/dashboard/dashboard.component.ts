@@ -60,7 +60,10 @@ export class chatDashboardComponent implements OnInit {
     this.router.navigate([`/chat/status/${userid}`])
   }
 
-  routeToChat(roomId: number) {
+  routeToChat(roomId: any) {
+    if (!roomId) {
+      return
+    }
     this.router.navigate([`/chat/room/${roomId}`])
   }
 
@@ -93,6 +96,12 @@ export class chatDashboardComponent implements OnInit {
       if (response.status == 200) {
         // fetch data 
         this.roomUsers = response['data']
+        this.roomUsers.map(user=>{
+          
+        })
+        this.users.map(user=>{
+          
+        })
         this.currentUser = response['currentUser']
 
       } else {

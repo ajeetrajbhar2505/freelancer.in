@@ -957,3 +957,15 @@ svg{
   flex-direction: row;
   align-items: center;
 }
+
+.accept,.accept:hover{
+  background: #0074D9;
+  color: #FFFFFF;
+}
+.requested,.requested:hover{
+  background: #FFA500;
+  color: #FFFFFF;
+  cursor: no-drop;
+  user-select: none;
+  
+}

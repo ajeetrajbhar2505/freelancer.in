@@ -10,9 +10,17 @@ import { finalize } from 'rxjs/operators';
 @Injectable()
 export class tokenInterceptor implements HttpInterceptor {
 
+  // Variable to track the number of ongoing API calls
+  private ongoingRequests = 0;
+
   constructor(private router:Router,private  readonly loaderService: LoaderService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+
+     // Increase the count of ongoing API calls
+     this.ongoingRequests++;
+    
     this.loaderService.showLoader();
     // Get the JWT token from local storage or wherever you store it
     const token = localStorage.getItem('token');
@@ -37,7 +45,13 @@ export class tokenInterceptor implements HttpInterceptor {
         return throwError(error);
       }),
       finalize(() => {
-        this.loaderService.hideLoader(); // Hide loader when response is received
+        // Decrease the count of ongoing API calls
+        this.ongoingRequests--;
+
+        // Hide loader when all ongoing API calls have completed
+        if (this.ongoingRequests === 0) {
+          this.loaderService.hideLoader();
+        }
       })
     );
   }

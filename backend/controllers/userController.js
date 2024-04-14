@@ -8,12 +8,14 @@ const path = require('path');
 
 
 // get users
-exports.getUsers = async (req, res) => {
+exports.getUsers = async (req, res) => {    
     try {
+        // Check if authorization header is present
+        if (!req.headers.authorization) {
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+        }
 
-
-        if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
-
+        // Extract token from authorization header
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
@@ -33,17 +35,29 @@ exports.getUsers = async (req, res) => {
             });
         });
 
+        // Fetch relationships for users in rooms
+        const userRelationships = await Room.find({ users: { $in: Array.from(userIdsInRooms) } });
+
+        // Map user relationships to user IDs
+        const userRelationshipMap = {};
+        userRelationships.forEach(room => {
+            room.users.forEach(userId => {
+                if (!userRelationshipMap[userId]) {
+                    userRelationshipMap[userId] = room.relationships.get(userId.toString()) || '';
+                }
+            });
+        });
+
         // Update the relationship flag for each user
         const usersWithRelationship = users.map(user => {
-            const userIdString = user._id.toString();
-            const relationship = userIdsInRooms.has(userIdString) ? 'requested' : '';
+            const relationship = userRelationshipMap[user._id.toString()] || '';
             return { ...user.toObject(), relationship };
         });
 
         res.status(200).json({ status: 200, data: usersWithRelationship });
-
     } catch (err) {
         // Handle any errors
+        console.error(err);
         const error = new ErrorModel({
             message: err.message,
             statusCode: err.statusCode,
@@ -53,6 +67,7 @@ exports.getUsers = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
+
 
 // Controller function to create a new user
 exports.createUser = async (req, res) => {
