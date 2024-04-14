@@ -1,5 +1,6 @@
 // userController.js
 const User = require('../models/user');
+const Room = require('../models/room');
 const Token = require('../models/Token');
 const ErrorModel = require('../models/errorSchema');
 const { generateToken, verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
@@ -16,8 +17,30 @@ exports.getUsers = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
-        const users = await User.find({ _id: { $ne: userId } });
-        res.status(200).json({ status: 200, data: users });
+  // Find all users excluding the logged-in user
+  const users = await User.find({ _id: { $ne: userId } });
+
+  // Find all rooms where the logged-in user is present
+  const rooms = await Room.find({ users: userId });
+
+  // Create a map to store user IDs present in rooms
+  const userIdsInRooms = new Set();
+
+  // Populate the set with user IDs present in rooms
+  rooms.forEach(room => {
+      room.users.forEach(user => {
+          userIdsInRooms.add(user.toString());
+      });
+  });
+
+  // Update the relationship flag for each user
+  const usersWithRelationship = users.map(user => {
+      const userIdString = user._id.toString();
+      const relationship = userIdsInRooms.has(userIdString) ? 'requested' : '';
+      return { ...user.toObject(), relationship };
+  });
+
+  res.status(200).json({ status: 200, data: usersWithRelationship });
       
     } catch (err) {
         // Handle any errors

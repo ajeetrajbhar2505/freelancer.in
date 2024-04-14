@@ -32,6 +32,7 @@ export class chatDashboardComponent implements OnInit {
 
   users = []
   roomUsers = []
+  currentUser:String = ''
 
   constructor(
     private router: Router,
@@ -64,7 +65,7 @@ export class chatDashboardComponent implements OnInit {
   }
 
   get totalunreadMessages() {
-    return this.users.length
+    return 0
   }
 
   get totalonlineUsers() {
@@ -88,6 +89,7 @@ export class chatDashboardComponent implements OnInit {
       if (response.status == 200) {
         // fetch data 
         this.roomUsers = response['data']
+        this.currentUser = response['currentUser']
 
       } else {
         this.toastService.error(response.message)
@@ -123,7 +125,7 @@ export class chatDashboardComponent implements OnInit {
     try {
       const payload = { receiverId: receiverId }
       const response = await this.apiService.postData(createRoomUrl, payload).toPromise();
-      if (response.status == 200) {
+      if (response.status == 200 || response.status == 201) {
         this.submitted = false
         this.toastService.success(response.message)
       } else {

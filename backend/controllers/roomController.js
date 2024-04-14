@@ -40,7 +40,7 @@ exports.createRoom = async (req, res) => {
         // Else, create a new room instance
         const body = {
             users: [userId.toString(), receiverId.toString()],
-            relationships: { [userId.toString()]: 'requested', [receiverId.toString()]: 'accept' }
+            relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
         }
         console.log({ body: body });
         const newRoom = new Room(body);
@@ -69,8 +69,8 @@ exports.createRoom = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try {
 
-           // Check if authorization header is present
-           if (!req.headers.authorization) {
+        // Check if authorization header is present
+        if (!req.headers.authorization) {
             return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
         }
 
@@ -85,20 +85,19 @@ exports.getUsers = async (req, res) => {
         const rooms = await Room.find({ users: userId });
 
 
-             // Populate users array in each room with user details and relationships
-             const populatedRooms = await Promise.all(rooms.map(async (room) => {
-                const populatedUsers = await User.find({ _id: { $in: room.users } }, { _id: 1, username: 1, profile: 1, email:1, online:1, verified:1, createdAt:1 });
-                
-                // Map through users and add relationship information to each user
-                const usersWithRelationships = populatedUsers.map(user => {
-                    const userIdString = user._id.toString();
-                    const relationship = room.relationships.get(userIdString) || ''; 
-                    return { ...user.toObject(), relationship };
-                });
-    
-                return { ...room.toObject(), users: usersWithRelationships };
-            }));
-    
+        // Populate users array in each room with user details and relationships
+        const populatedRooms = await Promise.all(rooms.map(async (room) => {
+            const populatedUsers = await User.find({ _id: { $in: room.users, $ne: userId } }, { _id: 1, username: 1, profile: 1, email: 1, online: 1, verified: 1, createdAt: 1 });
+
+            // Map through users and add relationship information to each user
+            const usersWithRelationships = populatedUsers.map(user => {
+                const userIdString = user._id.toString();
+                const relationship = room.relationships.get(userIdString) || '';
+                return { ...user.toObject(), relationship };
+            });
+
+            return { ...room.toObject(), users: usersWithRelationships };
+        }));
 
 
         res.status(200).json({ status: 200, data: populatedRooms });

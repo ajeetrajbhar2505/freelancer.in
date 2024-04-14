@@ -18,7 +18,8 @@
             </p>
             <p class="m-0 p-0">{{data.lastMessage}}</p>
         </div>
-        <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
+        <i class="fa fa-user-plus" *ngIf="!data.relationship" (click)="createRoom(data._id)"></i>
+            <button *ngIf="data.relationship">{{data.relationship | titlecase}}</button>
     </div>
 </section>
 <section *ngIf="!searchDialog">
@@ -63,6 +64,7 @@
                 </p>
                 <p class="m-0 p-0">{{data.lastMessage}}</p>
             </div>
+            <button *ngIf="currentUser != data._id">{{data.relationship | titlecase}}</button>
         </div>
     </div>
 
