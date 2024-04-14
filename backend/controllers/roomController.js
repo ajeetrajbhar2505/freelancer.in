@@ -25,22 +25,9 @@ exports.createRoom = async (req, res) => {
         // Check if room already exists for the user
         const existingRoom = await Room.findOne({ users: userId });
 
-        console.log({ existingRoom: existingRoom });
-
         // If room already exists, update the receiver id in existing users array
         if (existingRoom) {
-
-        // Else, create a new room instance
-        const newRoom = new Room({
-            users: [userId.toString(), receiverId.toString()],
-            relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
-        });
-
-        // Save the room to the database
-        await newRoom.save();
-
-        // Respond with success message and the new room data
-        res.status(201).json({ status: 201, message: 'User added successfully' });
+            return res.status(201).json({ status: 201, message: 'User added successfully' });
         }
 
         // Else, create a new room instance
