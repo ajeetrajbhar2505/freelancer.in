@@ -1,11 +1,33 @@
 <toast></toast>
-<section>
+<section *ngIf="searchDialog">
+<div class="gap-10">
+    <div class="input-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Name" #username required>
+    </div>
+        <button class="google-btn" (click)="tooglesearchDialog()">Cancel</button>
+</div>
+    <div class="chat m-0" *ngFor="let data of users;">
+        <div class="online-user-avatar m-0 p-0 pointer">
+            <img [src]="data.profile?data.profile:'assets/user.png'" />
+        </div>
+        <div class="content w-100 p-0" (click)="routeToChat(data.roomId)">
+            <p class="w-100 m-0 p-0">
+                <span class="name pointer">{{data.username}} <img *ngIf="data.verified" src="assets/verified.png" width="20px"/></span>
+                <span class="time">{{data.lastSeen}}</span>
+            </p>
+            <p class="m-0 p-0">{{data.lastMessage}}</p>
+        </div>
+        <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
+    </div>
+</section>
+<section *ngIf="!searchDialog">
     <header class="m-0 w-100">
         <div class="profile-info">
             <p>Hello</p>
             <p id="title" class="m-0 p-0 pointer">{{userDetails.name}}</p>
         </div>
-        <p id="search" class="p-0">
+        <p id="search" class="p-0" (click)="tooglesearchDialog()">
             <svg fill="none" viewBox="0 0 24 24" width="25px" height="25px" stroke-width="2" stroke="#65777F"
                 class="m-0 p-0 pointer">
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -29,7 +51,8 @@
     </div>
     <div id="messages" class="m-0 p-0">
         <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
-        <div class="chat m-0" *ngFor="let data of users;">
+        <div  *ngFor="let room of roomUsers;">
+        <div class="chat m-0" *ngFor="let data of room['users'];">
             <div class="online-user-avatar m-0 p-0 pointer">
                 <img [src]="data.profile?data.profile:'assets/user.png'" />
             </div>
@@ -40,8 +63,8 @@
                 </p>
                 <p class="m-0 p-0">{{data.lastMessage}}</p>
             </div>
-            <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
         </div>
+    </div>
 
     </div>
 </section>

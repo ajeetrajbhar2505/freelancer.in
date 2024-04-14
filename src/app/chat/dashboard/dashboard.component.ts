@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ApiService } from '../../services/api-service.service';
-import { getUsersUrl, createRoomUrl } from '../../constants/endpoint-usage';
+import { getUsersUrl, createRoomUrl, getRoomUsersUrl } from '../../constants/endpoint-usage';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +13,7 @@ export class chatDashboardComponent implements OnInit {
   userDetails = { name: 'Ajeet' }
   activeClass = 'all-chat';
   submitted: boolean = false
+  searchDialog: boolean = false
   activeIndex = 0
   tabs: any[] = [
     {
@@ -30,6 +31,7 @@ export class chatDashboardComponent implements OnInit {
   ]
 
   users = []
+  roomUsers = []
 
   constructor(
     private router: Router,
@@ -41,8 +43,13 @@ export class chatDashboardComponent implements OnInit {
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.getUsers()
-    this.toastService.success('hii')
+    this.getroomUsers()
   }
+
+  tooglesearchDialog() {
+    this.searchDialog = !this.searchDialog
+  }
+
 
   routeToStatus(userid: number) {
     this.router.navigate([`/chat/status/${userid}`])
@@ -74,6 +81,22 @@ export class chatDashboardComponent implements OnInit {
     this.router.navigate(['/auth/login'])
   }
 
+
+  async getroomUsers() {
+    try {
+      const response = await this.apiService.getData(getRoomUsersUrl).toPromise();
+      if (response.status == 200) {
+        // fetch data 
+        this.roomUsers = response['data']
+
+      } else {
+        this.toastService.error(response.message)
+      }
+    } catch (error) {
+      this.toastService.error('Server error')
+    }
+
+  }
 
   async getUsers() {
     try {

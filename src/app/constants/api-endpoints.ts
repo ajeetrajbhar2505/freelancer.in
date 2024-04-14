@@ -7,6 +7,7 @@ export const ApiEndpoints = {
     verifyOTP: '/users/verify-otp',
     verifyEMAIL: '/users/verify-email',
     createRoom: '/rooms/createRoom',
+    getRoomUsers: '/rooms/getUsers',
     getmessages: '/messages',
     createToken: '/token/createToken',
     decodedToken: '/token/decodeToken',

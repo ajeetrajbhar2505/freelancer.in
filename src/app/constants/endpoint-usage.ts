@@ -10,6 +10,7 @@ const verifyEMAIL = environment.apiURL + ApiEndpoints.verifyEMAIL;
 const verifyOTP = environment.apiURL + ApiEndpoints.verifyOTP;
 const createRoomUrl  = environment.apiURL + ApiEndpoints.createRoom;
 const getUsersUrl  = environment.apiURL + ApiEndpoints.getUsers;
+const getRoomUsersUrl  = environment.apiURL + ApiEndpoints.getRoomUsers;
 const getMessagesUrl = environment.apiURL + ApiEndpoints.getmessages;
 const createTokenUrl = environment.apiURL + ApiEndpoints.createToken;
 const decodedTokenUrl = environment.apiURL + ApiEndpoints.decodedToken;
@@ -25,5 +26,6 @@ export {
     resetPasswordUrl,
     getUsersUrl,
     createTokenUrl,
-    decodedTokenUrl
+    decodedTokenUrl,
+    getRoomUsersUrl
 };

@@ -69,9 +69,20 @@ exports.createRoom = async (req, res) => {
 exports.getUsers = async (req, res) => {
     try {
 
+           // Check if authorization header is present
+           if (!req.headers.authorization) {
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+        }
+
+        // Extract token from authorization header
+        const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
+
+        // Verify token and get userId
+        const { userId } = await verifyToken(token);
+
 
         // Fetch all rooms
-        const rooms = await Room.find();
+        const rooms = await Room.find({ users: userId });
 
 
              // Populate users array in each room with user details and relationships
