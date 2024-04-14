@@ -19,13 +19,16 @@ exports.getUsers = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
-        // Find all users excluding the logged-in user
-        const users = await User.find({ _id: { $ne: userId } });
-
         // Find all rooms where the logged-in user is present
         const rooms = await Room.find({ users: userId });
 
-        // Create a map to store user IDs present in rooms
+        // If the user is not associated with any room, retrieve all users
+        if (rooms.length === 0) {
+            const users = await User.find({ _id: { $ne: userId } });
+            return res.status(200).json({ status: 200, data: users });
+        }
+
+        // Create a set to store user IDs present in rooms
         const userIdsInRooms = new Set();
 
         // Populate the set with user IDs present in rooms
@@ -35,26 +38,10 @@ exports.getUsers = async (req, res) => {
             });
         });
 
-        // Fetch relationships for users in rooms
-        const userRelationships = await Room.find({ users: { $in: Array.from(userIdsInRooms) } });
+        // Find all users excluding the logged-in user and users present in rooms
+        const users = await User.find({ _id: { $ne: userId, $nin: Array.from(userIdsInRooms) } });
 
-        // Map user relationships to user IDs
-        const userRelationshipMap = {};
-        userRelationships.forEach(room => {
-            room.users.forEach(userId => {
-                if (!userRelationshipMap[userId]) {
-                    userRelationshipMap[userId] = room.relationships.get(userId.toString()) || '';
-                }
-            });
-        });
-
-        // Update the relationship flag for each user
-        const usersWithRelationship = users.map(user => {
-            const relationship = userRelationshipMap[user._id.toString()] || '';
-            return { ...user.toObject(), relationship };
-        });
-
-        res.status(200).json({ status: 200, data: usersWithRelationship });
+        res.status(200).json({ status: 200, data: users });
     } catch (err) {
         // Handle any errors
         console.error(err);
@@ -67,6 +54,7 @@ exports.getUsers = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
+
 
 
 // Controller function to create a new user

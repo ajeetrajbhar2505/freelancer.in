@@ -25,12 +25,7 @@
             </p>
             <p class="m-0 p-0">{{data.lastMessage}}</p>
         </div>
-        <button class="accept" (click)="createRoom(data._id)" *ngIf="data.relationship == ''">
-            <i class="fa fa-user-plus"></i>
-            <span>Add</span>
-            </button>
-            <button class="{{data.relationship}}" *ngIf="data.relationship !== ''">{{data.relationship |
-                titlecase}}</button>
+        <i class="fa fa-user-plus"></i>
     </div>
 </section>
 <section *ngIf="!searchDialog">

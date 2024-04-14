@@ -22,15 +22,15 @@ exports.createRoom = async (req, res) => {
         // Extract receiverId from request body
         const { receiverId } = req.body;
 
-        // Check if room already exists for the user
-        const existingRoom = await Room.findOne({ users: userId });
+        // Check if room already exists for both users
+        const existingRoom = await Room.findOne({ users: { $all: [userId, receiverId] } });
 
-        // If room already exists, update the receiver id in existing users array
+        // If room already exists, respond with success message
         if (existingRoom) {
-            return res.status(201).json({ status: 201, message: 'User added successfully' });
+            return res.status(201).json({ status: 201, message: 'Room already exists' });
         }
 
-        // Else, create a new room instance
+        // Create a new room instance
         const newRoom = new Room({
             users: [userId.toString(), receiverId.toString()],
             relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
@@ -39,10 +39,11 @@ exports.createRoom = async (req, res) => {
         // Save the room to the database
         await newRoom.save();
 
-        // Respond with success message and the new room data
-        res.status(201).json({ status: 201, message: 'User added successfully' });
+        // Respond with success message
+        res.status(201).json({ status: 201, message: 'Room created successfully' });
     } catch (err) {
         // Handle any errors
+        console.error(err);
         const error = new ErrorModel({
             message: err.message,
             stack: err.stack,
@@ -53,6 +54,7 @@ exports.createRoom = async (req, res) => {
         res.status(500).json({ status: 500, message: 'Server error' });
     }
 };
+
 
 
 // get users
