@@ -51,6 +51,7 @@
     </div>
     <div id="messages" class="m-0 p-0">
         <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
+        <img *ngIf="!roomUsers.length" src="assets/addUser.avif" alt="">
         <div  *ngFor="let room of roomUsers;">
         <div class="chat m-0" *ngFor="let data of room['users'];">
             <div class="online-user-avatar m-0 p-0 pointer">
