@@ -25,7 +25,7 @@
             </p>
             <p class="m-0 p-0">{{data.lastMessage}}</p>
         </div>
-        <i class="fa fa-user-plus"></i>
+        <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
     </div>
 </section>
 <section *ngIf="!searchDialog">
