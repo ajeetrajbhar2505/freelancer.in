@@ -42,7 +42,6 @@ exports.createRoom = async (req, res) => {
             users: [userId.toString(), receiverId.toString()],
             relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
         }
-        console.log({ body: body });
         const newRoom = new Room(body);
 
         // Save the room to the database
@@ -52,7 +51,6 @@ exports.createRoom = async (req, res) => {
         res.status(201).json({ status: 201, message: 'User added successfully' });
     } catch (err) {
         // Handle any errors
-        console.error(err);
         const error = new ErrorModel({
             message: err.message,
             stack: err.stack,

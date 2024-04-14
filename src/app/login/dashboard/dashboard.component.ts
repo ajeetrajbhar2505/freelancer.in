@@ -88,6 +88,7 @@ export class DashboardComponent implements OnInit {
         this.submitted = false
         this.router.navigate(['/auth/otp'])
         localStorage.setItem('token', response.token)
+        localStorage.setItem('userDetails', JSON.stringify(response.userDetails))
         localStorage.setItem('mailId', this.loginForm.controls['email'].value)
         localStorage.setItem('routeTo', '/chat/dashboard')
 

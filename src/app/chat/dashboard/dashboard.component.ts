@@ -10,7 +10,7 @@ import { getUsersUrl, createRoomUrl, getRoomUsersUrl } from '../../constants/end
   styleUrl: './dashboard.component.scss'
 })
 export class chatDashboardComponent implements OnInit {
-  userDetails = { name: 'Ajeet' }
+  userDetails:any = {}
   activeClass = 'all-chat';
   submitted: boolean = false
   searchDialog: boolean = false
@@ -38,7 +38,11 @@ export class chatDashboardComponent implements OnInit {
     private router: Router,
     private toastService: ToastserviceService,
     private apiService: ApiService
-  ) { }
+  ) { 
+
+   this.userDetails =  JSON.parse(localStorage.getItem('userDetails'))
+
+  }
 
 
   ngOnInit(): void {

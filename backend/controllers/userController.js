@@ -8,7 +8,7 @@ const path = require('path');
 
 
 // get users
-exports.getUsers = async (req, res) => {    
+exports.getUsers = async (req, res) => {
     try {
 
 
@@ -17,34 +17,33 @@ exports.getUsers = async (req, res) => {
         const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
         const { userId } = await verifyToken(token);
 
-  // Find all users excluding the logged-in user
-  const users = await User.find({ _id: { $ne: userId } });
+        // Find all users excluding the logged-in user
+        const users = await User.find({ _id: { $ne: userId } });
 
-  // Find all rooms where the logged-in user is present
-  const rooms = await Room.find({ users: userId });
+        // Find all rooms where the logged-in user is present
+        const rooms = await Room.find({ users: userId });
 
-  // Create a map to store user IDs present in rooms
-  const userIdsInRooms = new Set();
+        // Create a map to store user IDs present in rooms
+        const userIdsInRooms = new Set();
 
-  // Populate the set with user IDs present in rooms
-  rooms.forEach(room => {
-      room.users.forEach(user => {
-          userIdsInRooms.add(user.toString());
-      });
-  });
+        // Populate the set with user IDs present in rooms
+        rooms.forEach(room => {
+            room.users.forEach(user => {
+                userIdsInRooms.add(user.toString());
+            });
+        });
 
-  // Update the relationship flag for each user
-  const usersWithRelationship = users.map(user => {
-      const userIdString = user._id.toString();
-      const relationship = userIdsInRooms.has(userIdString) ? 'requested' : '';
-      return { ...user.toObject(), relationship };
-  });
+        // Update the relationship flag for each user
+        const usersWithRelationship = users.map(user => {
+            const userIdString = user._id.toString();
+            const relationship = userIdsInRooms.has(userIdString) ? 'requested' : '';
+            return { ...user.toObject(), relationship };
+        });
 
-  res.status(200).json({ status: 200, data: usersWithRelationship });
-      
+        res.status(200).json({ status: 200, data: usersWithRelationship });
+
     } catch (err) {
         // Handle any errors
-        console.error(err);
         const error = new ErrorModel({
             message: err.message,
             statusCode: err.statusCode,
@@ -118,7 +117,7 @@ exports.authenticateUser = async (req, res) => {
                     console.error(err);
                     return res.status(500).json({ status: 500, message: "Failed to generate token" });
                 }
-                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token });
+                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token, userDetails: { username: user.username, email: user.email, profile: user.profile } });
             });
         } else {
             return res.status(210).json({ status: 300, message: "Credentials are incorrect" });
@@ -243,7 +242,7 @@ exports.resetPassword = async (req, res) => {
 
         const { password } = req.body
         try {
-            const userData = await User.findOne({ userId,password }).sort({ dateTime: -1 });
+            const userData = await User.findOne({ userId, password }).sort({ dateTime: -1 });
             if (userData) {
                 return res.status(210).json({ status: 300, message: 'Password already exists' });
             }
