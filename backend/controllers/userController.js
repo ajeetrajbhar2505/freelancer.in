@@ -10,7 +10,13 @@ const path = require('path');
 exports.getUsers = async (req, res) => {    
     try {
 
-        const users = await User.find({});
+
+        if (!req.headers.authorization) return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+
+        const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
+        const { userId } = await verifyToken(token);
+
+        const users = await User.find({ _id: { $ne: userId } });
         res.status(200).json({ status: 200, data: users });
       
     } catch (err) {

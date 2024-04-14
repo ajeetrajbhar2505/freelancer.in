@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiURL:'https://thankful-shawl-worm.cyclic.app/api',
+  // apiURL:'https://thankful-shawl-worm.cyclic.app/api',
+  apiURL:'http://localhost:3000/api',
 };
 
 /*
