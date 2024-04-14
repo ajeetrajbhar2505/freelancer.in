@@ -22,30 +22,42 @@ exports.createRoom = async (req, res) => {
         // Extract receiverId from request body
         const { receiverId } = req.body;
 
-        // Check if room already exists for the user
+        // Find if there's an existing room for the user
         const existingRoom = await Room.findOne({ users: userId });
 
-        console.log({ existingRoom: existingRoom });
-
-        // If room already exists, update the receiver id in existing users array
         if (existingRoom) {
-            const updatedRoom = await Room.findOneAndUpdate(
-                { _id: existingRoom._id },
-                { $addToSet: { users: receiverId } },
-                { new: true }
-            );
+            // Check if the receiverId is already in the room
+            const receiverInRoom = existingRoom.users.includes(receiverId);
+
+            // If receiverId is already in the room, update the relationship flag to 'requested'
+            if (receiverInRoom) {
+                const updatedRoom = await Room.findOneAndUpdate(
+                    { _id: existingRoom._id, 'relationships.$[elem]': 'accept' },
+                    { $set: { 'relationships.$[elem]': 'requested' } },
+                    { arrayFilters: [{ 'elem': receiverId }] }
+                );
+                return res.status(200).json({ status: 200, message: 'User added successfully' });
+            } else {
+                // If receiverId is not in the room, add it to the users array and set its relationship flag to 'requested'
+                const updatedRoom = await Room.findOneAndUpdate(
+                    { _id: existingRoom._id },
+                    { $addToSet: { users: receiverId }, $set: { [`relationships.${receiverId}`]: 'requested' } },
+                    { new: true }
+                );
+                return res.status(200).json({ status: 200, message: 'User added successfully' });
+            }
+        } else {
+            // Create a new room instance
+            const newRoom = new Room({
+                users: [userId.toString(), receiverId.toString()],
+                relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
+            });
+
+            // Save the room to the database
+            await newRoom.save();
             return res.status(200).json({ status: 200, message: 'User added successfully' });
         }
 
-        // Else, create a new room instance
-        const body = {
-            users: [userId.toString(), receiverId.toString()],
-            relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
-        }
-        const newRoom = new Room(body);
-
-        // Save the room to the database
-        await newRoom.save();
 
         // Respond with success message and the new room data
         res.status(201).json({ status: 201, message: 'User added successfully' });
