@@ -107,6 +107,41 @@ exports.getUsers = async (req, res) => {
     }
 };
 
+// get users
+exports.getRecieverDetails = async (req, res) => {
+    try {
+
+        // Check if authorization header is present
+        if (!req.headers.authorization) {
+            return res.status(401).sendFile(path.join(__dirname, '../public/html/index.html'));
+        }
+
+        // Extract token from authorization header
+        const token = req.headers.authorization.split(' ')[1]; // Assuming token is sent in the format "Bearer token"
+
+        // Verify token and get userId
+        const { userId } = await verifyToken(token);
+        const { roomId } = req.body
+
+        // Fetch all rooms
+        const room = await Room.findById(roomId );
+       const populatedUsers = await User.findOne({ _id: { $in: room.users, $ne: userId } }, { _id: 1, username: 1, profile: 1, email: 1, online: 1, verified: 1, createdAt: 1 });
+        res.status(200).json({ status: 200, data: populatedUsers });
+
+    } catch (err) {
+        // Handle any errors
+        console.error(err);
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode,
+            apiEndpoint: req.originalUrl,
+        });
+        await error.save();
+        res.status(500).json({ status: 500, message: 'Server error' });
+    }
+};
+
+
 
 // Function to generate a UUID (for demonstration purposes)
 function generateUUID() {

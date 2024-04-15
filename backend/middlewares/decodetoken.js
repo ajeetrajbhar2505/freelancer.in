@@ -43,11 +43,9 @@ async function createToken(req, res, next) {
 
     try {
         const tokenData = { text };
-        console.log(tokenData);
         const token = jwt.sign(tokenData, process.env.JWT_SECRET, { expiresIn: '15m' });
         return res.status(200).json({ status: 200, data: token });
     } catch (err) {
-        console.log(err);
         // Handle any errors
         console.error(err);
         const error = new ErrorModel({

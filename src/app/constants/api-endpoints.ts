@@ -11,4 +11,5 @@ export const ApiEndpoints = {
     getmessages: '/messages',
     createToken: '/token/createToken',
     decodedToken: '/token/decodeToken',
+    getRecieverDetails: '/rooms/getRecieverDetails',
 };
