@@ -9,6 +9,7 @@ export const ApiEndpoints = {
     createRoom: '/rooms/createRoom',
     getRoomUsers: '/rooms/getUsers',
     getmessages: '/messages',
+    createMessage: '/messages/createMessage',
     createToken: '/token/createToken',
     decodedToken: '/token/decodeToken',
     getRecieverDetails: '/rooms/getRecieverDetails',

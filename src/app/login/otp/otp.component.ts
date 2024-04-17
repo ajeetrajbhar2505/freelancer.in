@@ -63,6 +63,10 @@ export class OtpComponent implements OnInit {
 
   onOtpChange(OTP) {
     this.OTPValue = OTP
+    if (!this.OTPValue) {
+      return
+    }
+    this.OnSubmit()
   }
 
 }

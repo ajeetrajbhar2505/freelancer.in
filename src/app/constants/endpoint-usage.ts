@@ -15,6 +15,7 @@ const getMessagesUrl = environment.apiURL + ApiEndpoints.getmessages;
 const createTokenUrl = environment.apiURL + ApiEndpoints.createToken;
 const decodedTokenUrl = environment.apiURL + ApiEndpoints.decodedToken;
 const getRecieverDetailsUrl = environment.apiURL + ApiEndpoints.getRecieverDetails;
+const createMessageUrl = environment.apiURL + ApiEndpoints.createMessage;
 
 export {
     signUpUrl,
@@ -29,5 +30,6 @@ export {
     createTokenUrl,
     decodedTokenUrl,
     getRoomUsersUrl,
-    getRecieverDetailsUrl
+    getRecieverDetailsUrl,
+    createMessageUrl
 };

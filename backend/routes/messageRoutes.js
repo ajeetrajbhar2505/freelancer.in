@@ -4,8 +4,8 @@ const router = express.Router();
 const messageController = require('../controllers/messageController');
 
 // Example routes
-router.post('/', messageController.createMessage);
-router.get('/', messageController.getMessages);
+router.post('/createMessage', messageController.createMessage);
+router.post('/', messageController.getMessages);
 
 // Add other routes as needed
 

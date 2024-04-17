@@ -7,7 +7,7 @@
 
     <div class="input-box">
         <i class="fas fa-envelope"></i>
-        <input type="text" placeholder="Email" #email formControlName="email" emailRegexValidator required>
+        <input type="text" placeholder="Email" #email formControlName="email" emailRegexValidator  (keyup.enter)="routeToOtp()" required>
         <span (click)="focusInput('email')" class="tooltip {{ (submitted && f['email'].errors) || (f['email'].errors && (f['email'].dirty || f['email'].touched))?'show':''}}">
             <span *ngIf="f['email'].errors?.['required']">Email is required</span>
             <span *ngIf="!f['email'].errors?.['required'] && f['email'].errors?.['emailInvalid']">Invalid email
@@ -17,7 +17,7 @@
     <div class="input-box i-password">
         <i class="fas fa-lock"></i>
         <input [type]="IsToggledPass?'text':'password'" [placeholder]="IsToggledPass?'Password':'Password'"
-           #password formControlName="password" passwordRegexValidator required>
+           #password formControlName="password" passwordRegexValidator (keyup.enter)="routeToOtp()" required>
         <i (click)="togglePassword()" class="fas i-right {{IsToggledPass?'fa-eye':'fa-eye-slash'}}"></i>
         <span (click)="focusInput('email')" class="tooltip {{ (submitted && f['password'].errors) || (f['password'].errors && (f['password'].dirty || f['password'].touched))?'show':''}}">
             <span *ngIf="f['password'].errors?.['required']">Password is required</span>
