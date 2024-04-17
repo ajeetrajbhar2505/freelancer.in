@@ -1,6 +1,8 @@
 // messageController.js
 const Message = require('../models/message');
 const ErrorModel = require('../models/errorSchema');
+const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+const path = require('path');
 
 // Controller function to create a new message
 exports.createMessage = async (req, res) => {
@@ -17,11 +19,12 @@ exports.createMessage = async (req, res) => {
 
 
         // Extract message data from the request body
-        const message = req.body
-        message.sender = userId
+        const {roomId, receiver, messageText } = req.body;
+        const sender = userId
+
 
         // Create a new message instance
-        const newMessage = new Message({ message });
+        const newMessage = new Message({roomId, sender, receiver, messageText });
 
         // Save the message to the database
         await newMessage.save();

@@ -56,10 +56,11 @@ export class RoomComponent implements OnInit {
       }
 
       const response = await this.apiService.postData(createMessageUrl, message).toPromise();
-      if (response.status == 200) {
+      if (response.status == 200 || response.status == 201) {
         // fetch data 
-        this.recieverDetails = response['data']
-
+        this.message = ''
+        // receive message while send
+        this.getMessages()
       } else {
         this.toastService.error(response.message)
       }
@@ -99,7 +100,7 @@ export class RoomComponent implements OnInit {
       const response = await this.apiService.postData(getMessagesUrl, payload).toPromise();
       if (response.status == 200) {
         // fetch data 
-        this.messages = response['data']
+        this.messages = response['messages']
 
       } else {
         this.toastService.error(response.message)

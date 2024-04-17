@@ -1,7 +1,9 @@
 
 section{
+  position: relative;
   padding: unset;
   height: 95vh;
+  background: #eee7dd;
 }
 
 
@@ -16,6 +18,7 @@ section{
   .message img {
     border-radius: 50%;
     margin-right: 10px;
+    mix-blend-mode:multiply;
   }
   .message ion-icon {
     background-color: #f2f2f2;
@@ -34,6 +37,15 @@ section{
     p{
       margin: unset;
     }
+  }
+
+  .recieved{
+    background-color: #fff;
+    color: #000;
+  }
+  .send{
+    background-color: #e2ffc7;
+    color: #000;
   }
 
   .message.recieved{
@@ -112,13 +124,15 @@ section{
 }
 .profile-info {
   display: flex;
+  img{
+    mix-blend-mode:multiply;
+  }
 }
 
 .chat-footer{
-  border: 0;
+  bottom: 0;
   position: fixed;
   width: 100%;
-  bottom: 0;
   z-index: 1200;
 }
 
