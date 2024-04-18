@@ -55,10 +55,10 @@ export class ForgotPasswordComponent implements OnInit {
       const response = await this.apiService.postData(getOTPUrl, payload).toPromise();
       if (response.status == 201 || response.status == 200) {
         this.toastService.success(response.message)
-        this.router.navigate(['/auth/otp'])
         localStorage.setItem('token', response.token)
-        localStorage.setItem('mailId', this.forgotPassForm.controls['mailId'].value)
+        localStorage.setItem('mailId', this.forgotPassForm.get('email').value)
         localStorage.setItem('routeTo', '/auth/confirm-password')
+        this.router.navigate(['/auth/otp'])
 
       } else {
         this.toastService.error(response.message)

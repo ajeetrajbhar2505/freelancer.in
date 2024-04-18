@@ -9,11 +9,11 @@
     </header>
     <div class="chat-window">
         <div class="chat-body" *ngFor="let message of messages;">
-            <div class="message sent" *ngIf="message.sender !== recieverDetails._id">
+            <div class="message sent" *ngIf="message.sender !== recieverDetails?._id">
                 <p>{{message.messageText}}</p>
                 <img src="assets/user.png" alt="" width="60px" style="margin-left: 10px;">
             </div>
-            <div class="message received" *ngIf="message.sender === recieverDetails._id">
+            <div class="message received" *ngIf="message.sender === recieverDetails?._id">
                 <img src="assets/user.png" alt="" width="60px">
                 <p>{{message.messageText}}</p>
             </div>
