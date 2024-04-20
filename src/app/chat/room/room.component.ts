@@ -26,7 +26,7 @@ export interface message {
 export class RoomComponent implements OnInit {
   userDetails: any = {}
   recieverDetails: any 
-  messages: message[] = []
+  messages: any[] = []
   message: string = ''
 
   constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute,private websocketService:WebsocketService,private router:Router) {
@@ -69,6 +69,8 @@ export class RoomComponent implements OnInit {
       }
 
       this.websocketService.socket.emit('message',message)
+     this.messages.push(message)
+     this.message = ""
       // const response = await this.apiService.postData(createMessageUrl, message).toPromise();
       // if (response.status == 200 || response.status == 201) {
       //   // fetch data 
