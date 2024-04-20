@@ -1,49 +1,41 @@
 // chatSocket.js
 const Message = require('../models/message');
-const Room = require('../models/room');
+const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+const ErrorModel = require('../models/errorSchema');
 
 // Socket logic for real-time messaging with rooms
-module.exports = (io) => {
-    io.on('connection', (socket) => {
-        console.log('A user connected');
+module.exports = async (socket) => {
+    console.log('A user connected');
+    try {
+        const token = socket.handshake.query.token
+        const { userId } = await verifyToken(token);
+        const sender = userId
+        socket.on("message", async (msg) => {
+            const { roomId, receiver, messageText } = req.body;
+            // Create a new message instance
+            const newMessage = new Message({ roomId, sender, receiver, messageText });
 
-        // Load all rooms when a user connects
-        Room.find({}, (err, rooms) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            socket.emit('rooms', rooms); // Emit rooms to the connecting client
+            // Save the message to the database
+            await newMessage.save();
+
+            io.emit(roomId, msg);
         });
 
-        // Listen for 'joinRoom' event
-        socket.on('joinRoom', (room) => {
-            socket.join(room); // Join the specified room
-            console.log(`User joined room: ${room}`);
-        });
 
-        // Listen for 'message' event
-        socket.on('message', async (data) => {
-            try {
-                // Extract message data from the received data
-                const { sender, receiver, messageText, room } = data;
+    } catch (err) {
+             // Handle any errors
+             const error = new ErrorModel({
+                message: err.message,
+                statusCode: err.statusCode,
+                apiEndpoint: 'ws://localhost:3000/socket.io',
+            });
+            await error.save();
+    }
 
-                // Create a new message instance
-                const newMessage = new Message({ sender, receiver, messageText });
 
-                // Save the message to the database
-                await newMessage.save();
 
-                // Emit the message to all clients in the specified room
-                io.to(room).emit('message', newMessage);
-            } catch (err) {
-                console.error(err);
-            }
-        });
-
-        // Listen for 'disconnect' event
-        socket.on('disconnect', () => {
-            console.log('User disconnected');
-        });
+    // Listen for 'disconnect' event
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
     });
 };

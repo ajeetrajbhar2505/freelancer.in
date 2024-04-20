@@ -3,6 +3,7 @@ import { ApiService } from '../../services/api-service.service';
 import { createMessageUrl,getMessagesUrl,getRecieverDetailsUrl } from '../../constants/endpoint-usage';
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ActivatedRoute } from '@angular/router';
+import { WebsocketService } from '../../services/websocket.service';
 
 
 export interface message {
@@ -28,17 +29,26 @@ export class RoomComponent implements OnInit {
   messages: message[] = []
   message: string = ''
 
-  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute) {
+  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute,private websocketService:WebsocketService) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
   }
 
   ngOnInit(): void {
     this.getRecieverDetailsUrl()
     this.getMessages()
+    this.getsocketMessage()
+  }
+
+
+  getsocketMessage(){
+    this.websocketService.socket.fromEvent(this.activatedRoute.snapshot.params['roomid']).subscribe((message) => {
+      console.log(message);
+    });
   }
 
 
   async sendMessage() {
+    this.websocketService.socket.emit('message', 'Hello from Angular!');
     if (!this.message) {
       this.toastService.error('Message can not be empty')
       return

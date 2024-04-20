@@ -6,12 +6,16 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class WebsocketService {
-  socket: Socket;
+  socket;
 
   constructor() { 
-    this.socket = io(environment.apiURL, {
+    this.socket = io(environment.hostURL, {
       transports: ['websocket']
     });
+    const token = localStorage.getItem('token');
+    this.socket.io.opts.query = {
+      token: token
+    };
   }
 
   getMessage(room: string, callback: (data: any) => void) {
