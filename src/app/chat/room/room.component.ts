@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ApiService } from '../../services/api-service.service';
 import { createMessageUrl,getMessagesUrl,getRecieverDetailsUrl } from '../../constants/endpoint-usage';
 import { ToastserviceService } from '../../services/toastservice.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
-
+import { fromEvent } from 'rxjs';
 
 export interface message {
   roomId: string,
@@ -29,7 +29,7 @@ export class RoomComponent implements OnInit {
   messages: message[] = []
   message: string = ''
 
-  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute,private websocketService:WebsocketService) {
+  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute,private websocketService:WebsocketService,private router:Router) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
   }
 
@@ -39,22 +39,24 @@ export class RoomComponent implements OnInit {
     this.getsocketMessage()
   }
 
-
-  getsocketMessage(){
-    this.websocketService.socket.fromEvent(this.activatedRoute.snapshot.params['roomid']).subscribe((message) => {
-      console.log(message);
+  getsocketMessage() {
+    fromEvent(this.websocketService.socket, 'message').subscribe((message: any) => {
+      if (message === 'error') {
+        this.toastService.error('Token expired. Please login again');
+        localStorage.clear();
+        this.router.navigate(['auth/login']);
+        return;
+      }
+      this.messages.push(message);
     });
   }
-
-
+  
   async sendMessage() {
-    this.websocketService.socket.emit('message', 'Hello from Angular!');
     if (!this.message) {
       this.toastService.error('Message can not be empty')
       return
     }
     try {
-
       const message = {
         roomId: this.activatedRoute.snapshot.params['roomid'],
         sender : '',
@@ -65,15 +67,8 @@ export class RoomComponent implements OnInit {
         lastMessage: ''
       }
 
-      const response = await this.apiService.postData(createMessageUrl, message).toPromise();
-      if (response.status == 200 || response.status == 201) {
-        // fetch data 
-        this.message = ''
-        // receive message while send
-        this.getMessages()
-      } else {
-        this.toastService.error(response.message)
-      }
+      this.websocketService.socket.emit('message', message);
+
     } catch (error) {
       this.toastService.error('Server error')
     }

@@ -1,38 +1,46 @@
-// chatSocket.js
 const Message = require('../models/message');
-const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+const { verifyToken } = require('../controllers/tokenController');
 const ErrorModel = require('../models/errorSchema');
 
-// Socket logic for real-time messaging with rooms
 module.exports = async (socket) => {
-    console.log('A user connected');
     try {
-        const token = socket.handshake.query.token
+        // Extract user ID from token
+        const token = socket.handshake.query.token;
         const { userId } = await verifyToken(token);
-        const sender = userId
-        socket.on("message", async (msg) => {
-            const { roomId, receiver, messageText } = req.body;
-            // Create a new message instance
-            const newMessage = new Message({ roomId, sender, receiver, messageText });
+        console.log(`A user connected with userId ${userId}`);
 
-            // Save the message to the database
-            await newMessage.save();
-
-            io.emit(roomId, msg);
+        // Listen for 'message' event
+        socket.on('message', async (msg) => {
+            try {
+                const { roomId, receiver, messageText } = msg;
+                
+                // Create a new message instance
+                const newMessage = new Message({ roomId, sender: userId, receiver, messageText });
+                
+                // Save the message to the database
+                await newMessage.save();
+                
+                // Broadcast the message to all clients including the sender
+                socket.emit('message', msg);
+            } catch (error) {
+                console.error('Error while processing message:', error);
+            }
         });
-
-
     } catch (err) {
-             // Handle any errors
-             const error = new ErrorModel({
-                message: err.message,
-                statusCode: err.statusCode,
-                apiEndpoint: 'ws://localhost:3000/socket.io',
-            });
-            await error.save();
+
+        // Log the error
+        const error = new ErrorModel({
+            message: err.message,
+            statusCode: err.statusCode || 500, // Default status code to 500 if not provided
+            apiEndpoint: 'ws://localhost:3000/socket.io',
+        });
+        await error.save();
+        
+        // Disconnect the socket
+        socket.on('message', async (msg) => {
+        socket.emit('message', 'error');
+    })
     }
-
-
 
     // Listen for 'disconnect' event
     socket.on('disconnect', () => {
