@@ -23,6 +23,12 @@ export class WebsocketService {
   }
 
   sendMessage(room: string, message: any) {
+    const token = localStorage.getItem('token');
+    this.socket.io.opts.query = {
+      token: token
+    };
+    if (token) {
     this.socket.emit(room, message);
+    }
   }
 }

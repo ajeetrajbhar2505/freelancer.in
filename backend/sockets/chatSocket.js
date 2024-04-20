@@ -1,26 +1,13 @@
-const Message = require('../models/message');
-const { verifyToken } = require('../controllers/tokenController');
+
 const ErrorModel = require('../models/errorSchema');
 
 module.exports = async (socket) => {
     try {
-        // Extract user ID from token
-        const token = socket.handshake.query.token;
-        const { userId } = await verifyToken(token);
-        console.log(`A user connected with userId ${userId}`);
+        console.log(`A user connected`);
 
         // Listen for 'message' event
         socket.on('message', async (msg) => {
             try {
-                const { roomId, receiver, messageText } = msg;
-                
-                // Create a new message instance
-                const newMessage = new Message({ roomId, sender: userId, receiver, messageText });
-                
-                // Save the message to the database
-                await newMessage.save();
-                
-                // Broadcast the message to all clients including the sender
                 socket.emit('message', msg);
             } catch (error) {
                 console.error('Error while processing message:', error);
@@ -28,6 +15,7 @@ module.exports = async (socket) => {
         });
     } catch (err) {
 
+        console.log(err);
         // Log the error
         const error = new ErrorModel({
             message: err.message,
@@ -37,9 +25,9 @@ module.exports = async (socket) => {
         await error.save();
         
         // Disconnect the socket
-        socket.on('message', async (msg) => {
-        socket.emit('message', 'error');
-    })
+    //     socket.on('message', async (msg) => {
+    //     socket.emit('message', 'error');
+    // })
     }
 
     // Listen for 'disconnect' event

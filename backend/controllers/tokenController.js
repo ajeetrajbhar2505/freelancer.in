@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const Token = require('../models/Token'); // Import the Token model defined previously
 const { sendEmail } = require('../utils/emailService')
 const { generateHTMLTemplate }  = require('../models/email_template')
+
 // Function to generate a JWT token
 async function generateToken({ userId, email, dateTime }, callback) {
     try {

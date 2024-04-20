@@ -5,7 +5,7 @@ const { verifyToken } = require('..//controllers/tokenController'); // Assuming 
 const path = require('path');
 
 // Controller function to create a new message
-exports.createMessage = async (req, res) => {
+exports.createMessage = async (req, res, io) => {
     try {
 
         // Check if authorization header is present
@@ -28,10 +28,13 @@ exports.createMessage = async (req, res) => {
 
         // Save the message to the database
         await newMessage.save();
-
+    
+        io.emit('message', newMessage); // Assuming you want to emit 'newMessage' event
+        
         // Respond with success message and the new message data
         res.status(201).json({ status: 201, message: 'Message created successfully', message: newMessage });
     } catch (err) {
+        console.log(err);
         // Handle any errors
         const error = new ErrorModel({
             message: err.message,

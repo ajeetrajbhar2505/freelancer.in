@@ -27,7 +27,11 @@ const googleRoutes = require('./routes/googleRoutes');
 app.use('/', googleRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/token', decodeRoutes);
-app.use('/api/messages',authorizeToken, messageRoutes);
+app.use('/api/messages', (req, res, next) => {
+    req.io = io; // Attach io to req object
+    next();
+}, messageRoutes);
+
 app.use('/api/rooms',authorizeToken, roomRoutes);
 
 // Socket connection

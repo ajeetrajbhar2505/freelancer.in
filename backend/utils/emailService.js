@@ -5,11 +5,11 @@ const transporter = nodemailer.createTransport({
     auth: {
       // TODO: replace `user` and `pass` values from <https://forwardemail.net>
       user: "ajeetrajbhar2504@gmail.com",
-      pass: process.env.nodemailer_key,
+      pass: "sijf kwar dvdx pkvv",
     },
   });
 
-function sendEmail(mailOption, callback) {
+  function sendEmail(mailOption, callback) {
     transporter.sendMail(mailOption, function (err, info) {
         if (err) {
             callback(err); // Call the callback with the error
