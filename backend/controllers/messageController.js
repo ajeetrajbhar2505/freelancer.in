@@ -28,8 +28,10 @@ exports.createMessage = async (req, res, io) => {
 
         // Save the message to the database
         await newMessage.save();
-    
-        io.emit('message', newMessage); // Assuming you want to emit 'newMessage' event
+
+        
+        const room = `user_${receiver}`;
+        io.to(room).emit('message', newMessage); // Assuming you want to emit 'newMessage' event
         
         // Respond with success message and the new message data
         res.status(201).json({ status: 201, message: 'Message created successfully', message: newMessage });
