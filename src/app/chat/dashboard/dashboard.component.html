@@ -1,0 +1,95 @@
+<toast></toast>
+<section *ngIf="searchDialog">
+    <header class="m-0 w-100">
+        <div class="profile-info">
+            <p id="title" class="m-0 p-0 pointer">Add Friend</p>
+        </div>
+    </header>
+
+    <div class="gap-10">
+        <div class="input-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Name" #username required>
+        </div>
+        <button class="google-btn" (click)="tooglesearchDialog()">Cancel</button>
+    </div>
+    <div class="chat m-0" *ngFor="let data of users;">
+        <div class="online-user-avatar m-0 p-0 pointer">
+            <img [src]="data.profile?data.profile:'assets/user.png'" />
+        </div>
+        <div class="content w-100 p-0">
+            <p class="w-100 m-0 p-0">
+                <span class="name pointer">{{data.username}} <img *ngIf="data.verified" src="assets/verified.png"
+                        width="20px" /></span>
+                <span class="time">{{data.lastSeen}}</span>
+            </p>
+            <p class="m-0 p-0">{{data.lastMessage}}</p>
+        </div>
+        <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
+    </div>
+</section>
+<section *ngIf="!searchDialog">
+    <header class="m-0 w-100">
+        <div class="profile-info">
+            <p>Hello</p>
+            <p id="title" class="m-0 p-0 pointer">{{userDetails.username}}</p>
+        </div>
+        <p id="search" class="p-0" (click)="tooglesearchDialog()">
+            <svg fill="none" viewBox="0 0 24 24" width="25px" height="25px" stroke-width="2" stroke="#65777F"
+                class="m-0 p-0 pointer">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+        </p>
+        <svg viewBox="0 0 24 24" width="30px" height="30px" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <path
+                    d="M12 12H12.01M12 6H12.01M12 18H12.01M13 12C13 12.5523 12.5523 13 12 13C11.4477 13 11 12.5523 11 12C11 11.4477 11.4477 11 12 11C12.5523 11 13 11.4477 13 12ZM13 18C13 18.5523 12.5523 19 12 19C11.4477 19 11 18.5523 11 18C11 17.4477 11.4477 17 12 17C12.5523 17 13 17.4477 13 18ZM13 6C13 6.55228 12.5523 7 12 7C11.4477 7 11 6.55228 11 6C11 5.44772 11.4477 5 12 5C12.5523 5 13 5.44772 13 6Z"
+                    stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+        </svg>
+        <svg (click)="logOut()" class="svg-icon" width="25px" height="30px" ill="none" viewBox="0 0 1024 1024"
+            version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M570.10688 47.2576H453.90336v525.52192h116.1984V47.2576z m208.86016 86.8864L697.6512 214.9376c92.87168 63.45728 162.42688 173.14304 162.42688 300.05248 0 190.47936-156.544 346.28608-348.17536 346.28608-191.42656 0-348.17536-155.80672-348.17536-346.28608 0-126.90944 69.76-236.5952 168.30976-294.27712L245.0432 134.144C129.05472 220.71296 47.73376 359.18848 47.73376 514.99008c0 254.03904 209.0752 461.75232 464.16384 461.75232 255.29856 0 464.36864-207.70816 464.36864-461.75232 0.00512-155.8016-81.31072-294.27712-197.2992-380.84608z"
+                fill="#65777f" />
+        </svg>
+    </header>
+    <div id="online" class="m-0 p-0 w-100" *ngIf="true">
+        <p id="online-title" class="m-0 w-100">FRIENDS ONLINE ({{totalonlineUsers}})</p>
+        <div id="online-users">
+            <div class="online-user-avatar m-0 p-0 pointer" *ngFor="let data of onlineUsers;">
+                <img (click)="routeToStatus(data.userid)" [src]="data.profile" />
+            </div>
+        </div>
+    </div>
+    <div class="tabs">
+        <span (click)="activateTab(i)" *ngFor="let tab of tabs;let i = index"
+            [class]="activeIndex == i?'color-white':''">{{tab.title}}</span>
+        <button class="{{activeClass}}"></button>
+    </div>
+    <div id="messages" class="m-0 p-0">
+        <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
+        <img *ngIf="!roomUsers.length" src="assets/addUser.avif" alt="">
+        <div *ngFor="let room of roomUsers;" (click)="routeToChat(room._id)">
+            <div class="chat m-0" *ngFor="let data of room['users'];">
+                <div class="online-user-avatar m-0 p-0 pointer">
+                    <img [src]="data.profile?data.profile:'assets/user.png'" />
+                </div>
+                <div class="content w-100 p-0" (click)="routeToChat(data.roomId)">
+                    <p class="w-100 m-0 p-0">
+                        <span class="name pointer">{{data.username}} <img *ngIf="data.verified"
+                                src="assets/verified.png" width="20px" /></span>
+                        <span class="time">{{data.lastSeen}}</span>
+                    </p>
+                    <p class="m-0 p-0">{{data.lastMessage}}</p>
+                </div>
+                <button class="{{data.relationship}}" *ngIf="currentUser != data._id">{{data.relationship |
+                    titlecase}}</button>
+            </div>
+        </div>
+
+    </div>
+</section>
