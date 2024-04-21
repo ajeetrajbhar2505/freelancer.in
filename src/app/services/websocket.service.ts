@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class WebsocketService {
-  private socket: Socket;
+  public socket: Socket;
 
   constructor() {
     this.initConnection(); // Initialize the WebSocket connection when the service is instantiated
@@ -27,20 +27,22 @@ export class WebsocketService {
     }
   }
 
-  // Send a message through the WebSocket connection
-  sendMessage(message: any): void {
-    this.socket.emit('message', message);
-  }
+// Send a message through the WebSocket connection
+sendMessage(message: any, callback?: (acknowledgment: any) => void): void {
+  this.socket.emit('message', message, callback);
+}
 
-  // Listen for incoming messages
-  onMessage(): Observable<any> {
-    return new Observable<any>((observer) => {
-      this.socket.on('message', (message: any) => {
-        observer.next(message);
-      });
+
+// Listen for incoming messages
+onMessage(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.socket.on('message', (message: any) => {
+      observer.next(message);
     });
-  }
+  });
+}
 
+  
   // Handle errors in the WebSocket connection
   handleConnectionError(): Observable<any> {
     return new Observable<any>((observer) => {

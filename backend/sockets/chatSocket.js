@@ -10,8 +10,6 @@ module.exports = async function handleSocket(socket) {
         const token = socket.handshake.query.token;
         const { userId } = await verifyToken(token);
 
-        console.log('A user connected');
-
         // Retrieve rooms associated with the user from the database
         const rooms = await Room.find({ users: userId });
 
@@ -22,7 +20,7 @@ module.exports = async function handleSocket(socket) {
         });
 
         // Listen for 'message' event
-        socket.on('message', async (msg) => {
+        socket.on('message', async (msg, callback) => {
             try {
                 const { roomId, receiver, messageText } = msg;
 
@@ -34,21 +32,22 @@ module.exports = async function handleSocket(socket) {
 
                 // Emit the message to all clients in the room
                 socket.to(`room_${roomId}`).emit('message', newMessage);
+                callback({ status: 200, message: 'Message send successfully' });
             } catch (error) {
                 console.error('Error handling message:', error);
             }
         });
 
     } catch (error) {
-              // Listen for 'message' event
-              socket.on('connect_error', async (msg) => {
-                try {
-                    const { roomId } = msg;
-                    socket.to(`room_${roomId}`).emit('message', 'connect_error');
-                } catch (error) {
-                    console.error('Error handling message:', error);
-                }
-            });
+        // Listen for 'message' event
+        socket.on('connect_error', async (msg) => {
+            try {
+                const { roomId } = msg;
+                socket.to(`room_${roomId}`).emit('message', 'connect_error');
+            } catch (error) {
+                console.error('Error handling message:', error);
+            }
+        });
         // Handle error here (e.g., emit an error message back to the sender)
     }
 
