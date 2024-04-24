@@ -6,7 +6,7 @@ const path = require('path')
 const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
 
 // Controller function to create a new room
-exports.createRoom = async (req, res) => {
+exports.createRoom = async (req, res, io) => {
     try {
         // Check if authorization header is present
         if (!req.headers.authorization) {
@@ -36,8 +36,12 @@ exports.createRoom = async (req, res) => {
             relationships: { [userId.toString()]: 'accept', [receiverId.toString()]: 'requested' }
         });
 
+
         // Save the room to the database
         await newRoom.save();
+        console.log(newRoom);
+
+        io.emit('handlerequests', newRoom);
 
         // Respond with success message
         res.status(201).json({ status: 201, message: 'Room created successfully' });
@@ -124,8 +128,8 @@ exports.getRecieverDetails = async (req, res) => {
         const { roomId } = req.body
 
         // Fetch all rooms
-        const room = await Room.findById(roomId );
-       const populatedUsers = await User.findOne({ _id: { $in: room.users, $ne: userId } }, { _id: 1, username: 1, profile: 1, email: 1, online: 1, verified: 1, createdAt: 1 });
+        const room = await Room.findById(roomId);
+        const populatedUsers = await User.findOne({ _id: { $in: room.users, $ne: userId } }, { _id: 1, username: 1, profile: 1, email: 1, online: 1, verified: 1, createdAt: 1 });
         res.status(200).json({ status: 200, data: populatedUsers });
 
     } catch (err) {

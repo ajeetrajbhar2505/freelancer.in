@@ -32,7 +32,10 @@ app.use('/api/messages', (req, res, next) => {
     next();
 }, messageRoutes);
 
-app.use('/api/rooms',authorizeToken, roomRoutes);
+app.use('/api/rooms', (req, res, next) => {
+    req.io = io; // Attach io to req object
+    next();
+}, roomRoutes);
 
 // Socket connection
 io.on('connection', chatSocket);

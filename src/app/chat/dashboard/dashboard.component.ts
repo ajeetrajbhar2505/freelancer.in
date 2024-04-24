@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ApiService } from '../../services/api-service.service';
 import { getUsersUrl, createRoomUrl, getRoomUsersUrl } from '../../constants/endpoint-usage';
+import { WebsocketService } from '../../services/websocket.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +11,7 @@ import { getUsersUrl, createRoomUrl, getRoomUsersUrl } from '../../constants/end
   styleUrl: './dashboard.component.scss'
 })
 export class chatDashboardComponent implements OnInit {
-  userDetails:any = {}
+  userDetails: any = {}
   activeClass = 'all-chat';
   submitted: boolean = false
   searchDialog: boolean = false
@@ -32,15 +33,15 @@ export class chatDashboardComponent implements OnInit {
 
   users = []
   roomUsers = []
-  currentUser:String = ''
+  currentUser: String = ''
 
   constructor(
     private router: Router,
     private toastService: ToastserviceService,
-    private apiService: ApiService
-  ) { 
-
-   this.userDetails =  JSON.parse(localStorage.getItem('userDetails'))
+    private apiService: ApiService,
+    private websocketService: WebsocketService
+  ) {
+    this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
 
   }
 
@@ -49,6 +50,7 @@ export class chatDashboardComponent implements OnInit {
     window.scrollTo(0, 0);
     this.getUsers()
     this.getroomUsers()
+    this.handlerequests()
   }
 
   tooglesearchDialog() {
@@ -96,12 +98,6 @@ export class chatDashboardComponent implements OnInit {
       if (response.status == 200) {
         // fetch data 
         this.roomUsers = response['data']
-        this.roomUsers.map(user=>{
-          
-        })
-        this.users.map(user=>{
-          
-        })
         this.currentUser = response['currentUser']
 
       } else {
@@ -147,6 +143,12 @@ export class chatDashboardComponent implements OnInit {
     } catch (error) {
       this.toastService.error('Server error')
     }
+  }
+
+  handlerequests() {
+    this.websocketService.handlerequests().subscribe(response => {
+    window.location.reload()
+    })
   }
 
 }

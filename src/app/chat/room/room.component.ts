@@ -4,7 +4,6 @@ import { createMessageUrl, getMessagesUrl, getRecieverDetailsUrl } from '../../c
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
-import { fromEvent } from 'rxjs';
 
 export interface message {
   roomId: string,
@@ -28,6 +27,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   recieverDetails: any
   messages: any[] = []
   message: string = ''
+  callingStarted: boolean = false
+  IncomingCall: boolean = false
+  IncomingCallDetails:string = ""
 
   constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute, private websocketService: WebsocketService, private router: Router) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
@@ -37,6 +39,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.getRecieverDetailsUrl()
     this.getMessages()
     this.onMessage()
+    this.onIncomingCall()
+    this.onDeclineCall()
     this.handleConnectionError()
   }
 
@@ -46,6 +50,22 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.messages.push(message)
     })
   }
+
+  onIncomingCall() {
+    this.websocketService.onIncomingCall().subscribe(IncomingCallDetails => {
+      this.IncomingCallDetails = IncomingCallDetails
+      this.IncomingCall = true
+    })
+  }
+
+  onDeclineCall() {
+    this.websocketService.onDeclineCall().subscribe(IncomingCallDetails => {
+      this.IncomingCall = false
+      this.callingStarted = false
+        this.toastService.error('Call declined')
+    })
+  }
+
 
   handleConnectionError() {
     this.websocketService.handleConnectionError().subscribe(message => {
@@ -138,4 +158,49 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
+
+  routeToPage() {
+    this.router.navigate(['chat/dashboard'])
+  }
+
+  startCall() {
+    const callDetails = {
+      roomId: this.activatedRoute.snapshot.params['roomid'],
+      sender: '',
+      receiver: this.recieverDetails._id,
+      sentAt: Date.now,
+      lastSeen: '',
+      lastMessage: '',
+      token: localStorage.getItem('token')
+    }
+
+    this.websocketService.startCall(callDetails, (acknowledgment) => {
+      // Handle acknowledgment message from the server
+      if (acknowledgment && acknowledgment.status === 200) {
+        this.callingStarted = true
+      }
+    });
+  }
+
+  declineCall(){
+
+    const callDetails = {
+      roomId: this.activatedRoute.snapshot.params['roomid'],
+      sender: '',
+      receiver: this.recieverDetails._id,
+      sentAt: Date.now,
+      lastSeen: '',
+      lastMessage: '',
+      token: localStorage.getItem('token')
+    }
+
+    this.websocketService.declineCall(callDetails, (acknowledgment) => {
+      // Handle acknowledgment message from the server
+      if (acknowledgment && acknowledgment.status === 200) {
+        this.IncomingCall = false
+        this.callingStarted = false
+      }
+    });
+  }
+
 }

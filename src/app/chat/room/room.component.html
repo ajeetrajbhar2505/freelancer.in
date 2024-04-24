@@ -1,20 +1,58 @@
 <toast></toast>
-<section>
+
+<section class="phonecalls" *ngIf="IncomingCall || callingStarted">
+    <div class="phone">
+        <div class="callerid">
+          <div class="info">
+            <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
+            style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
+            <p>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} via Socket</p>
+            <h1>{{recieverDetails?.username}}</h1>
+            <p>Email +{{recieverDetails?.email}}</p>
+          </div>
+          <div class="options" *ngIf="callingStarted">
+            <div class="1">
+              <i class="fas fa-microphone-slash"></i>
+              <i class="fas fa-pause"></i>
+              <i class="fas fa-volume-up"></i>
+            </div>
+      
+            <span>Mute</span><span>Hold</span><span style="padding: 2rem;">Speaker</span>
+      
+          </div>
+          <div class="cut">
+            <div class="decline" (click)="declineCall()">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="accept" *ngIf="IncomingCall">
+                <i class="fas fa-phone-alt"></i>
+              </div>
+          </div>
+        </div>
+      </div>
+</section>
+<section *ngIf="!IncomingCall && !callingStarted">
     <header class="m-0 w-100">
         <div class="profile-info">
-            <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" width="80px"
-                style="margin-left: 10px;" />
-            <p id="title" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
+            <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
+            <!-- <button (click)="routeToPage()"><i class='fas fa-phone-alt'></i> </button> -->
+            <button *ngIf="false" (click)="startCall()"><i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
+
+            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">Chat with {{recieverDetails?.username}}</p>
+            <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
+                style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
         </div>
     </header>
     <div class="chat-window">
-        <div class="chat-body" *ngFor="let message of messages;">
-            <div class="message sent" *ngIf="message.sender !== recieverDetails?._id">
+        <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
+            *ngFor="let message of messages;">
+            <div class="message" *ngIf="message.sender !== recieverDetails?._id">
                 <p>{{message.messageText}}</p>
-                <img src="assets/user.png" alt="" width="60px" style="margin-left: 10px;">
+                <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
+                    style="margin-left: 10px;"> -->
             </div>
-            <div class="message received" *ngIf="message.sender === recieverDetails?._id">
-                <img src="assets/user.png" alt="" width="60px">
+            <div class="message" *ngIf="message.sender === recieverDetails?._id">
+                <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px">
                 <p>{{message.messageText}}</p>
             </div>
         </div>
@@ -26,4 +64,5 @@
         </div>
         <button (click)="sendMessage()">Send</button>
     </div>
+
 </section>

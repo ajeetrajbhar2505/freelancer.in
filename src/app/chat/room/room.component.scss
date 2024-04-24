@@ -4,6 +4,15 @@ section{
   padding: unset;
   height: 95vh;
   background: #eee7dd;
+  header{
+    position: relative;
+    width: 100%;
+    .profile-info{
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
 }
 
 
@@ -13,47 +22,35 @@ section{
     margin-bottom: 10px;
     align-items: center;
     gap: 5px;
-    flex-wrap: wrap;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
   }
   .message img {
     border-radius: 50%;
     margin-right: 10px;
     mix-blend-mode:multiply;
   }
-  .message ion-icon {
-    background-color: #f2f2f2;
+
+
+  .received{
+    display: flex;
+    color: #000;
     padding: 10px;
     border-radius: 10px;
     font-size: 14px;
-    max-width: 70%;
-  }
-  .message.sent ion-icon {
-    background-color: #dcf8c6;
-    align-self: flex-end;
-  }
-
-  .message.sent{
-    justify-content: right;
-    p{
-      margin: unset;
-    }
-  }
-
-  .recieved{
-    background-color: #fff;
-    color: #000;
+    margin: 5px;
   }
   .send{
-    background-color: #e2ffc7;
     color: #000;
+    display: flex;
+    justify-content: right;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin: 5px;
   }
 
-  .message.recieved{
-    p{
-      width: 100%;
-      margin: unset;
-    }
-  }
 
   .message span {
     font-size: 12px;
@@ -146,3 +143,92 @@ section{
 .bar:nth-child(8)  { left: 99px; animation-duration: 419ms; }
 .bar:nth-child(9)  { left: 113px; animation-duration: 487ms; }
 .bar:nth-child(10) { left: 127px; animation-duration: 442ms; }
+
+
+
+.phonecalls,
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.phone {
+  background: #eee7dd;
+}
+
+.info {
+  height: 30vh;
+  margin-top: 40px;
+}
+
+.info i {
+  font-size: 5rem;
+}
+
+p {
+  margin-top: 0.8rem;
+}
+
+h1 {
+  font-size: 3.5rem;
+}
+
+.options {
+  margin-top: 2rem;
+  width: 100%;
+  height: 20rem;
+}
+
+.options i {
+  margin: 2rem 2rem 0;
+  padding: 1rem;
+  font-size: 2rem;
+}
+
+.options span {
+  font-weight: 100;
+  padding: 0 3.13rem;
+}
+
+.options .text1 {
+  display: flex;
+}
+
+.cut {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 15vh;
+  gap: 20px;
+}
+
+.decline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  background: red;
+  border-radius: 50%;
+}
+.accept {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+
+.decline i {
+  transform: rotate(135deg);
+}
+
+.homescreen {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}

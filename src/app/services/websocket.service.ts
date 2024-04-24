@@ -14,7 +14,7 @@ export class WebsocketService {
   }
 
   // Initialize or reconnect the WebSocket connection
-  private initConnection(): void {
+   initConnection(): void {
     const token = localStorage.getItem('token');
     if (token) {
       this.socket = io(environment.hostURL, {
@@ -32,11 +32,51 @@ sendMessage(message: any, callback?: (acknowledgment: any) => void): void {
   this.socket.emit('message', message, callback);
 }
 
+// Send a message through the WebSocket connection that you are calling
+startCall(message: any, callback?: (acknowledgment: any) => void): void {
+  this.socket.emit('call', message, callback);
+}
+
+// Send a message through the WebSocket connection that you are calling
+sendRequest(message: any, callback?: (acknowledgment: any) => void): void {
+  this.socket.emit('handlerequests', message, callback);
+}
+
+// Send a message through the WebSocket connection that you are calling
+declineCall(message: any, callback?: (acknowledgment: any) => void): void {
+  this.socket.emit('decline', message, callback);
+}
 
 // Listen for incoming messages
 onMessage(): Observable<any> {
   return new Observable<any>((observer) => {
     this.socket.on('message', (message: any) => {
+      observer.next(message);
+    });
+  });
+}
+
+// Listen for incoming calls
+onIncomingCall(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.socket.on('call', (message: any) => {
+      observer.next(message);
+    });
+  });
+}
+// Listen for incoming calls
+onDeclineCall(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.socket.on('decline', (message: any) => {
+      observer.next(message);
+    });
+  });
+}
+
+// Listen for incoming calls
+handlerequests(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.socket.on('handlerequests', (message: any) => {
       observer.next(message);
     });
   });
