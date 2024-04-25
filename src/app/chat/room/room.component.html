@@ -36,7 +36,7 @@
         <div class="profile-info">
             <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
             <!-- <button (click)="routeToPage()"><i class='fas fa-phone-alt'></i> </button> -->
-            <button *ngIf="false" (click)="startCall()"><i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
+            <button *ngIf="true" (click)="startCall()"><i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
 
             <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">Chat with {{recieverDetails?.username}}</p>
             <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"

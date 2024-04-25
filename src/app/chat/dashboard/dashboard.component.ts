@@ -131,12 +131,22 @@ export class chatDashboardComponent implements OnInit {
     if (!receiverId) {
       return;
     }
+    
     try {
       const payload = { receiverId: receiverId }
       const response = await this.apiService.postData(createRoomUrl, payload).toPromise();
       if (response.status == 200 || response.status == 201) {
-        this.submitted = false
-        this.toastService.success(response.message)
+        this.websocketService.sendRequest(payload, (acknowledgment) => {
+          // Handle acknowledgment message from the server
+          if (acknowledgment && acknowledgment.status === 200) {
+            this.submitted = false
+            this.toastService.success(response.message)
+          }
+        });
+        this.getroomUsers()
+
+        
+       
       } else {
         this.toastService.error(response.message)
       }
@@ -147,8 +157,8 @@ export class chatDashboardComponent implements OnInit {
 
   handlerequests() {
     this.websocketService.handlerequests().subscribe(response => {
-    window.location.reload()
+      // fetching reponse
+     window.location.reload()
     })
   }
-
 }

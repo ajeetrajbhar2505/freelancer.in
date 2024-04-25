@@ -120,7 +120,7 @@ exports.authenticateUser = async (req, res) => {
                     console.error(err);
                     return res.status(500).json({ status: 500, message: "Failed to generate token" });
                 }
-                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token, userDetails: { username: user.username, email: user.email, profile: user.profile } });
+                return res.status(200).json({ status: 200, message: "OTP sent successfully", token: token, userDetails: { username: user.username, email: user.email, profile: user.profile,userId  :user._id.toString() } });
             });
         } else {
             return res.status(210).json({ status: 300, message: "Credentials are incorrect" });

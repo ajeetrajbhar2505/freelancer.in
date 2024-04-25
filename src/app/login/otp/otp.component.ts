@@ -13,35 +13,35 @@ import { ToastserviceService } from '../../services/toastservice.service';
 })
 export class OtpComponent implements OnInit {
   OTPValue: number
-  mailId:string
+  mailId: string
   constructor(
-    private router: Router, private apiService: ApiService, 
+    private router: Router, private apiService: ApiService,
     private location: Location,
-    private toastService:ToastserviceService
-    ) { }
+    private toastService: ToastserviceService
+  ) { }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.mailId =  localStorage.getItem('mailId')
+    this.mailId = localStorage.getItem('mailId')
   }
-  
+
   dynamicRoute() {
     const url = `${localStorage.getItem('routeTo') || '/auth/login'}`;
     this.router.navigate([url]);
   }
-  
+
 
   routeToForgot() {
     this.router.navigate(['/auth/forgot-password'])
   }
 
-  routeToPage(){
+  routeToPage() {
     this.location.back();
   }
 
 
   async OnSubmit() {
-    if (!this.OTPValue) {
+    if (!this.OTPValue || (this.OTPValue.toString.length > 4)) {
       return
     }
 

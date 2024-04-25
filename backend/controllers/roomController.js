@@ -39,10 +39,6 @@ exports.createRoom = async (req, res, io) => {
 
         // Save the room to the database
         await newRoom.save();
-        console.log(newRoom);
-
-        io.emit('handlerequests', newRoom);
-
         // Respond with success message
         res.status(201).json({ status: 201, message: 'Room created successfully' });
     } catch (err) {

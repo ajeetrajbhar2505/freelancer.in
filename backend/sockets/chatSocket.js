@@ -1,6 +1,5 @@
 const { verifyToken } = require('..//controllers/tokenController');
 const Message = require('../models/message');
-const Room = require('../models/room');
 
 // Socket logic for real-time messaging with rooms
 module.exports = async function handleSocket(socket) {
@@ -10,14 +9,10 @@ module.exports = async function handleSocket(socket) {
         const token = socket.handshake.query.token;
         const { userId } = await verifyToken(token);
 
-        // Retrieve rooms associated with the user from the database
-        const rooms = await Room.find({ users: userId });
 
         // Join the user to their rooms
-        rooms.forEach(room => {
-            socket.join(`room_${room._id}`);
-            console.log(`User joined room room_${room._id}`);
-        });
+        socket.join(`room_${userId}`);
+        console.log(`User joined room room_${userId}`);
 
         // Listen for 'message' event
         socket.on('message', async (msg, callback) => {
@@ -31,7 +26,7 @@ module.exports = async function handleSocket(socket) {
                 await newMessage.save();
 
                 // Emit the message to all clients in the room
-                socket.to(`room_${roomId}`).emit('message', newMessage);
+                socket.to(`room_${receiver}`).emit('message', newMessage);
                 callback({ status: 200, message: 'Message send successfully' });
             } catch (error) {
                 console.error('Error handling message:', error);
@@ -39,10 +34,10 @@ module.exports = async function handleSocket(socket) {
         });
         socket.on('call', async (msg, callback) => {
             try {
-                const { roomId } = msg;
+                const { receiver } = msg;
                 console.log(msg);
                 // Emit the message to all clients in the room
-                socket.to(`room_${roomId}`).emit('call', msg);
+                socket.to(`room_${receiver}`).emit('call', msg);
                 callback({ status: 200, message: 'Calling started' });
             } catch (error) {
                 console.error('Error handling message:', error);
@@ -50,10 +45,9 @@ module.exports = async function handleSocket(socket) {
         });
         socket.on('decline', async (msg, callback) => {
             try {
-                const { roomId } = msg;
-                console.log(msg);
+                const { receiver } = msg;
                 // Emit the message to all clients in the room
-                socket.to(`room_${roomId}`).emit('decline', msg);
+                socket.to(`room_${receiver}`).emit('decline', msg);
                 callback({ status: 200, message: 'Calling declined' });
             } catch (error) {
                 console.error('Error handling message:', error);
@@ -62,9 +56,9 @@ module.exports = async function handleSocket(socket) {
 
         socket.on('handlerequests', async (msg, callback) => {
             try {
-                console.log(msg);
+                const { receiverId,userId } = msg;
                 // Emit the message to all clients in the room
-                socket.emit('handlerequests', msg);
+                socket.to(`room_${receiverId}`).emit('handlerequests', msg);
                 callback({ status: 200, message: 'handlerequests' });
             } catch (error) {
                 console.error('Error handling message:', error);
