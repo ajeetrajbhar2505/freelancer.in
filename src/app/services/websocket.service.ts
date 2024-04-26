@@ -43,6 +43,12 @@ sendRequest(message: any, callback?: (acknowledgment: any) => void): void {
 }
 
 // Send a message through the WebSocket connection that you are calling
+accept(message: any, callback?: (acknowledgment: any) => void): void {
+  this.socket.emit('accept', message, callback);
+}
+
+
+// Send a message through the WebSocket connection that you are calling
 declineCall(message: any, callback?: (acknowledgment: any) => void): void {
   this.socket.emit('decline', message, callback);
 }
@@ -64,6 +70,18 @@ onIncomingCall(): Observable<any> {
     });
   });
 }
+
+
+// Listen for incoming calls
+onAccept(): Observable<any> {
+  return new Observable<any>((observer) => {
+    this.socket.on('accept', (message: any) => {
+      observer.next(message);
+    });
+  });
+}
+
+
 // Listen for incoming calls
 onDeclineCall(): Observable<any> {
   return new Observable<any>((observer) => {

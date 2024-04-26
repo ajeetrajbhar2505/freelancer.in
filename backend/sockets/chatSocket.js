@@ -35,7 +35,6 @@ module.exports = async function handleSocket(socket) {
         socket.on('call', async (msg, callback) => {
             try {
                 const { receiver } = msg;
-                console.log(msg);
                 // Emit the message to all clients in the room
                 socket.to(`room_${receiver}`).emit('call', msg);
                 callback({ status: 200, message: 'Calling started' });
@@ -60,6 +59,17 @@ module.exports = async function handleSocket(socket) {
                 // Emit the message to all clients in the room
                 socket.to(`room_${receiverId}`).emit('handlerequests', msg);
                 callback({ status: 200, message: 'handlerequests' });
+            } catch (error) {
+                console.error('Error handling message:', error);
+            }
+        });
+
+        socket.on('accept', async (msg, callback) => {
+            try {
+                const { receiver } = msg;
+                // Emit the message to all clients in the room
+                socket.to(`room_${receiver}`).emit('accept', msg);
+                callback({ status: 200, message: 'accept' });
             } catch (error) {
                 console.error('Error handling message:', error);
             }

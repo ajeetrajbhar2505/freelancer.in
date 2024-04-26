@@ -15,6 +15,9 @@ section{
   }
 }
 
+.no-overflow{
+  overflow: none;
+}
 
 .message {
     display: flex;
@@ -231,4 +234,36 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+}
+
+
+
+.reel-container {
+  position: relative;
+  width: 100%;
+}
+
+.reel-video {
+  width: 100%;
+  height: 94vh;
+  border-radius: 8px; /* Adjust as needed */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+
+/* Play button */
+.reel-video::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+.reel-video:hover::before {
+  opacity: 0;
 }

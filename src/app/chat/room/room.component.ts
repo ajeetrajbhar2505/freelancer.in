@@ -4,6 +4,7 @@ import { createMessageUrl, getMessagesUrl, getRecieverDetailsUrl } from '../../c
 import { ToastserviceService } from '../../services/toastservice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
+import Peer from 'peerjs';
 
 export interface message {
   roomId: string,
@@ -29,10 +30,18 @@ export class RoomComponent implements OnInit, OnDestroy {
   message: string = ''
   callingStarted: boolean = false
   IncomingCall: boolean = false
-  IncomingCallDetails:string = ""
+  IncomingCallDetails: string = ""
+  videoStreaming: boolean = false
+  peer:Peer
+  peerIdShare: string;
+  peerId: string
+  lazyStream: any;
+  currentPeer: any;
+  peerList: Array<any> = []
 
   constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute, private websocketService: WebsocketService, private router: Router) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
+    this.peer = new Peer()
   }
 
   ngOnInit(): void {
@@ -42,6 +51,9 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.onIncomingCall()
     this.onDeclineCall()
     this.handleConnectionError()
+    this.onAccept()
+    this.getPeerId()
+
   }
 
 
@@ -51,6 +63,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     })
   }
 
+
+
   onIncomingCall() {
     this.websocketService.onIncomingCall().subscribe(IncomingCallDetails => {
       this.IncomingCallDetails = IncomingCallDetails
@@ -58,11 +72,44 @@ export class RoomComponent implements OnInit, OnDestroy {
     })
   }
 
+  onAccept() {
+    this.websocketService.onAccept().subscribe(IncomingCallDetails => {
+      this.IncomingCall = false
+      this.callingStarted = false
+      this.videoStreaming = true
+    })
+  }
+
+  acceptCall() {
+    this.IncomingCall = false
+    this.callingStarted = false
+    this.videoStreaming = true
+
+    const callDetails = {
+      roomId: this.activatedRoute.snapshot.params['roomid'],
+      sender: '',
+      receiver: this.recieverDetails._id,
+      sentAt: Date.now,
+      lastSeen: '',
+      lastMessage: '',
+      peerId: this.peerId,
+      token: localStorage.getItem('token')
+    }
+
+    // by socket call
+    this.websocketService.accept(callDetails, (acknowledgment) => {
+      // Handle acknowledgment message from the server
+      if (acknowledgment && acknowledgment.status === 200) {
+        this.callPeer(this.IncomingCallDetails['peerId'])
+      }
+    });
+  }
+
   onDeclineCall() {
     this.websocketService.onDeclineCall().subscribe(IncomingCallDetails => {
       this.IncomingCall = false
       this.callingStarted = false
-        this.toastService.error('Call declined')
+      this.toastService.error('Call declined')
     })
   }
 
@@ -171,6 +218,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       sentAt: Date.now,
       lastSeen: '',
       lastMessage: '',
+      peerId: this.peerId,
       token: localStorage.getItem('token')
     }
 
@@ -181,9 +229,9 @@ export class RoomComponent implements OnInit, OnDestroy {
       }
     });
   }
-  
 
-  declineCall(){
+
+  declineCall() {
 
     const callDetails = {
       roomId: this.activatedRoute.snapshot.params['roomid'],
@@ -192,6 +240,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       sentAt: Date.now,
       lastSeen: '',
       lastMessage: '',
+      peerId: this.peerId,
       token: localStorage.getItem('token')
     }
 
@@ -202,6 +251,109 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.callingStarted = false
       }
     });
+  }
+
+
+
+  private getPeerId = () => {
+    //Generate unique Peer Id for establishing connection
+    
+    this.peer.on('open', (id) => {
+      this.peerId = id;
+    });
+
+    // Peer event to accept incoming calls
+    this.peer.on('call', (call) => {
+      navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      }).then((stream) => {
+        this.lazyStream = stream;
+
+        call.answer(stream);
+        call.on('stream', (remoteStream) => {
+          if (!this.peerList.includes(call.peer)) {
+            this.streamRemoteVideo(remoteStream, call.peer);
+            this.currentPeer = call.peerConnection;
+            this.peerList.push(call.peer);
+          }
+        });
+
+      }).catch(err => {
+        console.log(err + 'Unable to get media');
+      });
+    });
+  }
+
+
+  private streamRemoteVideo(stream, peer) {
+    const video = document.createElement('video');
+    video.classList.add('reel-video');
+    video.srcObject = stream;
+    video.play();
+
+    peer != null && peer != this.peerIdShare ? document.getElementById('local-video').append(video) : document.getElementById('remote-video').append(video);
+    peer != null && peer == this.peerIdShare ? document.getElementById('remote-video').append(video) : document.getElementById('local-video').append(video);
+
+
+  }
+
+  public callPeer(id: string): void {
+    navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    }).then((stream) => {
+      this.lazyStream = stream;
+
+      const call = this.peer.call(id, stream);
+      call.on('stream', (remoteStream) => {
+        if (!this.peerList.includes(call.peer)) {
+          this.streamRemoteVideo(remoteStream, call.peer);
+          this.currentPeer = call.peerConnection;
+          this.peerList.push(call.peer);
+          this.IncomingCall = false
+          this.callingStarted = false
+          this.videoStreaming = true
+        }
+      });
+    }).catch(err => {
+      console.log(err + 'Unable to connect');
+    });
+  }
+
+  public shareScreen() {
+    // @ts-ignore
+    navigator.mediaDevices.getDisplayMedia({
+      video: true,
+      audio: {
+        echoCancellation: true,
+        noiseSuppression: true
+      }
+    }).then(stream => {
+      const videoTrack = stream.getVideoTracks()[0];
+      videoTrack.onended = () => {
+        this.stopScreenShare();
+      };
+
+      const sender = this.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+      sender.replaceTrack(videoTrack);
+    }).catch(err => {
+      console.log('Unable to get display media ' + err);
+    });
+  }
+
+  public stopScreenShare() {
+    const videoTrack = this.lazyStream.getVideoTracks()[0];
+    const sender = this.currentPeer.getSenders().find(s => s.track.kind === videoTrack.kind);
+    sender.replaceTrack(videoTrack);
+  }
+
+  connectWithPeer() {
+    this.callPeer(this.peerIdShare)
+  }
+
+  screenShare() {
+    this.shareScreen()
   }
 
 }

@@ -1,6 +1,10 @@
 <toast></toast>
 
-<section class="phonecalls" *ngIf="IncomingCall || callingStarted">
+<section class="no-overflow" *ngIf="videoStreaming">
+  <div class="reel-container" id="remote-video"></div>
+  <div class="reel-container" id="local-video"></div>  
+</section>
+<section class="phonecalls" *ngIf="(IncomingCall || callingStarted) && !videoStreaming">
     <div class="phone">
         <div class="callerid">
           <div class="info">
@@ -24,21 +28,21 @@
             <div class="decline" (click)="declineCall()">
               <i class="fas fa-phone-alt"></i>
             </div>
-            <div class="accept" *ngIf="IncomingCall">
+            <div class="accept" (click)="acceptCall()" *ngIf="IncomingCall">
                 <i class="fas fa-phone-alt"></i>
               </div>
           </div>
         </div>
       </div>
 </section>
-<section *ngIf="!IncomingCall && !callingStarted">
+<section *ngIf="!IncomingCall && !callingStarted && !videoStreaming">
     <header class="m-0 w-100">
         <div class="profile-info">
             <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
             <!-- <button (click)="routeToPage()"><i class='fas fa-phone-alt'></i> </button> -->
             <button *ngIf="true" (click)="startCall()"><i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
 
-            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">Chat with {{recieverDetails?.username}}</p>
+            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
             <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
                 style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
         </div>
