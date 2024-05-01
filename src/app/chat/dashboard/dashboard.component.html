@@ -1,5 +1,5 @@
 <toast></toast>
-<section *ngIf="searchDialog">
+<section *ngIf="searchDialog" class="custom-wrapper">
     <header class="m-0 w-100">
         <div class="profile-info">
             <p id="title" class="m-0 p-0 pointer">Add Friend</p>
@@ -28,7 +28,7 @@
         <i class="fa fa-user-plus" (click)="createRoom(data._id)"></i>
     </div>
 </section>
-<section *ngIf="!searchDialog">
+<section *ngIf="!searchDialog" class="custom-wrapper">
     <header class="m-0 w-100">
         <div class="profile-info">
             <p>Hello</p>

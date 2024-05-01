@@ -1,10 +1,48 @@
 <toast></toast>
+<section class="custom-wrapper" *ngIf="!IncomingCall && !callingStarted && !videoStreaming">
+    <header class="m-0 w-100">
+        <div class="profile-info">
+          <div style="display: flex;gap: 10px;">
+            <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
+            <button *ngIf="true" (click)="startCall()"><i class='fas fa-phone-alt'></i> <i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
+          </div>
+          <div style="display: flex;align-items: flex-start;justify-self: center;">
+            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
+              <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
+                style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
+          </div>
+              
+        </div>
+    </header>
+    <div class="chat-window">
+        <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
+            *ngFor="let message of messages;">
+            <div class="message" *ngIf="message.sender !== recieverDetails?._id">
+                <p>{{message.messageText}}</p>
+                <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
+                    style="margin-left: 10px;"> -->
+            </div>
+            <div class="message" *ngIf="message.sender === recieverDetails?._id">
+                <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px">
+                <p>{{message.messageText}}</p>
+            </div>
+        </div>
+    </div>
 
-<section class="no-overflow" *ngIf="true">
+    <div class="chat-footer" slot="bottom">
+        <div class="input-box">
+            <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage()" placeholder="Type your message here">
+        </div>
+        <button [disabled]="message == ''" [class]="message != ''?'button-active':''" (click)="sendMessage()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+    </div>
+
+</section>
+
+<section class="no-overflow" *ngIf="false">
   <div class="reel-video" id="remote-video"></div>
   <div class="reel-video" id="local-video"></div>  
 </section>
-<section class="phonecalls" *ngIf="(IncomingCall || callingStarted) && !videoStreaming">
+<section class="phonecalls custom-wrapper" *ngIf="(IncomingCall || callingStarted) && !videoStreaming">
     <div class="phone">
         <div class="callerid">
           <div class="info">
@@ -34,40 +72,4 @@
           </div>
         </div>
       </div>
-</section>
-<section *ngIf="!IncomingCall && !callingStarted && !videoStreaming">
-    <header class="m-0 w-100">
-        <div class="profile-info">
-            <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
-            <!-- <button (click)="routeToPage()"><i class='fas fa-phone-alt'></i> </button> -->
-            <button *ngIf="true" (click)="startCall()"><i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
-
-            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
-            <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
-                style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
-        </div>
-    </header>
-    <div class="chat-window">
-        <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
-            *ngFor="let message of messages;">
-            <div class="message" *ngIf="message.sender !== recieverDetails?._id">
-                <p>{{message.messageText}}</p>
-                <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
-                    style="margin-left: 10px;"> -->
-            </div>
-            <div class="message" *ngIf="message.sender === recieverDetails?._id">
-                <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px">
-                <p>{{message.messageText}}</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="chat-footer" slot="bottom">
-        <div class="input-box">
-            <input type="text" [(ngModel)]="message || peerId" (keyup.enter)="sendMessage()" placeholder="Type your message here">
-            <input type="text" [(ngModel)]="peerIdShare"  placeholder="Type your message here">
-        </div>
-        <button (click)="callPeer(peerIdShare)">Send</button>
-    </div>
-
 </section>
