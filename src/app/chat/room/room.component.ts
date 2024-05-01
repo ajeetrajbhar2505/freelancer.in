@@ -68,6 +68,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   onIncomingCall() {
     this.websocketService.onIncomingCall().subscribe(IncomingCallDetails => {
       this.IncomingCallDetails = IncomingCallDetails
+      this.peerIdShare   = IncomingCallDetails['peerId']
       this.IncomingCall = true
     })
   }
@@ -100,7 +101,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.websocketService.accept(callDetails, (acknowledgment) => {
       // Handle acknowledgment message from the server
       if (acknowledgment && acknowledgment.status === 200) {
-        this.callPeer(this.IncomingCallDetails['peerId'])
+        this.callPeer(this.peerIdShare)
       }
     });
   }
@@ -292,13 +293,22 @@ export class RoomComponent implements OnInit, OnDestroy {
     video.srcObject = stream;
     video.play();
 
+    console.log(document.getElementById('local-video').append(video));
+    console.log(document.getElementById('remote-video').append(video));
+    
     peer != null && peer != this.peerIdShare ? document.getElementById('local-video').append(video) : document.getElementById('remote-video').append(video);
     peer != null && peer == this.peerIdShare ? document.getElementById('remote-video').append(video) : document.getElementById('local-video').append(video);
+    this.IncomingCall = false
+    this.callingStarted = false
+    this.videoStreaming = true
 
 
   }
 
   public callPeer(id: string): void {
+    this.IncomingCall = false
+    this.callingStarted = false
+    this.videoStreaming = true
     navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true
@@ -311,9 +321,6 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.streamRemoteVideo(remoteStream, call.peer);
           this.currentPeer = call.peerConnection;
           this.peerList.push(call.peer);
-          this.IncomingCall = false
-          this.callingStarted = false
-          this.videoStreaming = true
         }
       });
     }).catch(err => {

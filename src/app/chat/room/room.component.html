@@ -1,8 +1,8 @@
 <toast></toast>
 
-<section class="no-overflow" *ngIf="videoStreaming">
-  <div class="reel-container" id="remote-video"></div>
-  <div class="reel-container" id="local-video"></div>  
+<section class="no-overflow" *ngIf="true">
+  <div class="reel-video" id="remote-video"></div>
+  <div class="reel-video" id="local-video"></div>  
 </section>
 <section class="phonecalls" *ngIf="(IncomingCall || callingStarted) && !videoStreaming">
     <div class="phone">
@@ -64,9 +64,10 @@
 
     <div class="chat-footer" slot="bottom">
         <div class="input-box">
-            <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage()" placeholder="Type your message here">
+            <input type="text" [(ngModel)]="message || peerId" (keyup.enter)="sendMessage()" placeholder="Type your message here">
+            <input type="text" [(ngModel)]="peerIdShare"  placeholder="Type your message here">
         </div>
-        <button (click)="sendMessage()">Send</button>
+        <button (click)="callPeer(peerIdShare)">Send</button>
     </div>
 
 </section>
