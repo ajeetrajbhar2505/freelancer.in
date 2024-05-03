@@ -1,5 +1,6 @@
 const { verifyToken } = require('..//controllers/tokenController');
 const Message = require('../models/message');
+const Room = require('../models/room');
 
 // Socket logic for real-time messaging with rooms
 module.exports = async function handleSocket(socket) {
@@ -27,6 +28,9 @@ module.exports = async function handleSocket(socket) {
 
                 // Emit the message to all clients in the room
                 socket.to(`room_${receiver}`).emit('message', newMessage);
+                const lastSeen = newMessage.sentAt.toString()
+                const lastMessage = newMessage.messageText
+                 await Room.findByIdAndUpdate(roomId, { lastSeen, lastMessage });
                 callback({ status: 200, message: 'Message send successfully' });
             } catch (error) {
                 console.error('Error handling message:', error);

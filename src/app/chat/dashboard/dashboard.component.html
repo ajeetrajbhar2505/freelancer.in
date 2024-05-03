@@ -82,9 +82,9 @@
                     <p class="w-100 m-0 p-0">
                         <span class="name pointer">{{data.username}} <img *ngIf="data.verified"
                                 src="assets/verified.png" width="20px" /></span>
-                        <span class="time">{{data.lastSeen}}</span>
+                        <span class="time">{{filterDateTime(room.lastSeen) !== 'Invalid Date'?filterDateTime(room.lastSeen):''}}</span>
                     </p>
-                    <p class="m-0 p-0">{{data.lastMessage}}</p>
+                    <p class="m-0 p-0">{{room.lastMessage}}</p>
                 </div>
                 <!-- <button class="{{data.relationship}}" *ngIf="currentUser != data._id">{{data.relationship |
                     titlecase}}</button> -->

@@ -3,6 +3,8 @@ const Message = require('../models/message');
 const ErrorModel = require('../models/errorSchema');
 const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
 const path = require('path');
+const Room = require('../models/room');
+
 
 // Controller function to create a new message
 exports.createMessage = async (req, res, io) => {
@@ -19,18 +21,23 @@ exports.createMessage = async (req, res, io) => {
 
 
         // Extract message data from the request body
-        const {roomId, receiver, messageText } = req.body;
+        const { roomId, receiver, messageText } = req.body;
         const sender = userId
 
 
         // Create a new message instance
-        const newMessage = new Message({roomId, sender, receiver, messageText });
+        const newMessage = new Message({ roomId, sender, receiver, messageText });
 
         // Save the message to the database
         await newMessage.save();
 
         io.to(`room_${roomId}`).emit('message', newMessage);
-        
+
+        const lastSeen = newMessage.sentAt
+        const lastMessage = newMessage.messageText
+        await Room.findByIdAndUpdate(roomId, { lastSeen, lastMessage });
+
+
         // Respond with success message and the new message data
         res.status(201).json({ status: 201, message: 'Message created successfully', message: newMessage });
     } catch (err) {

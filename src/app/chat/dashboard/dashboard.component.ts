@@ -108,6 +108,13 @@ export class chatDashboardComponent implements OnInit {
     }
 
   }
+  filterDateTime(dateString: string): string {
+    const date = new Date(dateString);
+    const options: any = { hour: '2-digit', minute: '2-digit' };
+    return date.toLocaleTimeString('en-IN', options);
+  }
+  
+  
 
   async getUsers() {
     try {
