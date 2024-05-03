@@ -2,7 +2,9 @@ section {
   position: relative;
   padding: unset;
   height: 95vh;
+  min-height: 100vh; /* Ensure container covers the full viewport height */
   background: #eee7dd;
+  
 
   header {
     position: relative;
@@ -161,11 +163,29 @@ input {
   }
 }
 
+
 .chat-footer {
   bottom: 0;
-  position: fixed;
   width: 100%;
   z-index: 1200;
+  backdrop-filter: blur(10px);
+}
+.chat-header {
+  top: 0;
+  position: sticky !important;
+  width: 100%;
+  z-index: 1200;
+  backdrop-filter: blur(10px);
+  // background-color: #6785f5;
+  color: white;
+  padding: 5px 10px 5px 10px;
+  button{
+    background-color: #859cf5;
+    border: unset;
+    border-radius: 10px;
+    color: white !important;
+    padding: 10px 10px 10px 20px;
+  }
 }
 
 .bar:nth-child(1) {

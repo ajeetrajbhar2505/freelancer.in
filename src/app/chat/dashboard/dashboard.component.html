@@ -57,21 +57,21 @@
                 fill="#65777f" />
         </svg>
     </header>
-    <div id="online" class="m-0 p-0 w-100" *ngIf="true">
+    <!-- <div id="online" class="m-0 p-0 w-100" *ngIf="true">
         <p id="online-title" class="m-0 w-100">FRIENDS ONLINE ({{totalonlineUsers}})</p>
         <div id="online-users">
             <div class="online-user-avatar m-0 p-0 pointer" *ngFor="let data of onlineUsers;">
                 <img (click)="routeToStatus(data.userid)" [src]="data.profile" />
             </div>
         </div>
-    </div>
-    <div class="tabs">
+    </div> -->
+    <!-- <div class="tabs">
         <span (click)="activateTab(i)" *ngFor="let tab of tabs;let i = index"
             [class]="activeIndex == i?'color-white':''">{{tab.title}}</span>
         <button class="{{activeClass}}"></button>
-    </div>
+    </div> -->
     <div id="messages" class="m-0 p-0">
-        <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p>
+        <!-- <p id="messages-title" class="w-100" *ngIf="true">MESSAGES ({{totalunreadMessages}})</p> -->
         <img *ngIf="!roomUsers.length" src="assets/addUser.avif" alt="">
         <div *ngFor="let room of roomUsers;" (click)="routeToChat(room._id)">
             <div class="chat m-0" *ngFor="let data of room['users'];">
@@ -86,8 +86,8 @@
                     </p>
                     <p class="m-0 p-0">{{data.lastMessage}}</p>
                 </div>
-                <button class="{{data.relationship}}" *ngIf="currentUser != data._id">{{data.relationship |
-                    titlecase}}</button>
+                <!-- <button class="{{data.relationship}}" *ngIf="currentUser != data._id">{{data.relationship |
+                    titlecase}}</button> -->
             </div>
         </div>
 

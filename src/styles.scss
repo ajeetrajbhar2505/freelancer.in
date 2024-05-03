@@ -501,8 +501,8 @@ header {
 }
 
 .online-user-avatar img {
-  width: 65px;
-  height: 65px;
+  width: 55px;
+  height: 55px;
   object-fit: cover;
   border-radius: 90%;
 }
@@ -547,6 +547,7 @@ header {
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-bottom: 20px;
 }
 
 .chat .content {

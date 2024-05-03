@@ -1,75 +1,80 @@
 <toast></toast>
 <section class="custom-wrapper" *ngIf="!IncomingCall && !callingStarted && !videoStreaming">
-    <header class="m-0 w-100">
-        <div class="profile-info">
-          <div style="display: flex;gap: 10px;">
-            <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i> Back</button>
-            <button *ngIf="true" (click)="startCall()"><i class='fas fa-phone-alt'></i> <i class='fas fa-video'></i>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} </button>
-          </div>
-          <div style="display: flex;align-items: flex-start;justify-self: center;">
-            <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
-              <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
-                style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
-          </div>
-              
+  <header class="m-0 w-100 chat-header">
+    <div class="profile-info">
+      <div style="display: flex;gap: 10px;">
+        <button (click)="routeToPage()"><i class="fas fa-arrow-left"></i></button>
+      </div>
+      <div style="display: flex;align-items: flex-start;justify-self: center;gap: 10px;">
+        <div style="display: flex;align-items: flex-start;justify-self: center;">
+          <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
+            style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
+          <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
         </div>
-    </header>
-    <div class="chat-window">
-        <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
-            *ngFor="let message of messages;">
-            <div class="message" *ngIf="message.sender !== recieverDetails?._id">
-                <p>{{message.messageText}}</p>
-                <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
-                    style="margin-left: 10px;"> -->
-            </div>
-            <div class="message" *ngIf="message.sender === recieverDetails?._id">
-                <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px">
-                <p>{{message.messageText}}</p>
-            </div>
-        </div>
-    </div>
+        <button *ngIf="true" (click)="startCall()"><i class='fas fa-phone-alt'></i> </button>
+        <button *ngIf="true" (click)="startCall()"> <i class='fas fa-video'></i></button>
+      </div>
 
-    <div class="chat-footer" slot="bottom">
-        <div class="input-box">
-            <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage()" placeholder="Type your message here">
-        </div>
-        <button [disabled]="message == ''" [class]="message != ''?'button-active':''" (click)="sendMessage()"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
     </div>
+  </header>
+  <div class="chat-window">
+    <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
+      *ngFor="let message of messages;">
+      <div class="message" *ngIf="message.sender !== recieverDetails?._id">
+        <p>{{message.messageText}}</p>
+        <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
+                    style="margin-left: 10px;"> -->
+      </div>
+      <div class="message" *ngIf="message.sender === recieverDetails?._id">
+        <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px"
+          height="40px">
+        <p>{{message.messageText}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-footer" [style.position]="messages.length>=6?'sticky':'absolute'" slot="bottom">
+    <div class="input-box">
+      <input type="text" [(ngModel)]="message" (keyup.enter)="sendMessage()" placeholder="Type your message here">
+    </div>
+    <button [disabled]="message == ''" [class]="message != ''?'button-active':''" (click)="sendMessage()"><i
+        class="fa fa-arrow-right" aria-hidden="true"></i></button>
+  </div>
 
 </section>
 
 <section class="no-overflow" *ngIf="false">
   <div class="reel-video" id="remote-video"></div>
-  <div class="reel-video" id="local-video"></div>  
+  <div class="reel-video" id="local-video"></div>
 </section>
 <section class="phonecalls custom-wrapper" *ngIf="(IncomingCall || callingStarted) && !videoStreaming">
-    <div class="phone">
-        <div class="callerid">
-          <div class="info">
-            <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
-            style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
-            <p>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} via Socket</p>
-            <h1>{{recieverDetails?.username}}</h1>
-            <p>Email +{{recieverDetails?.email}}</p>
-          </div>
-          <div class="options" *ngIf="callingStarted">
-            <div class="1">
-              <i class="fas fa-microphone-slash"></i>
-              <i class="fas fa-pause"></i>
-              <i class="fas fa-volume-up"></i>
-            </div>
-      
-            <span>Mute</span><span>Hold</span><span style="padding: 2rem;">Speaker</span>
-      
-          </div>
-          <div class="cut">
-            <div class="decline" (click)="declineCall()">
-              <i class="fas fa-phone-alt"></i>
-            </div>
-            <div class="accept" (click)="acceptCall()" *ngIf="IncomingCall">
-                <i class="fas fa-phone-alt"></i>
-              </div>
-          </div>
+  <div class="phone">
+    <div class="callerid">
+      <div class="info">
+        <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
+          style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
+        <p>{{IncomingCall?'Incoming Call':(callingStarted?'calling':'call')}} via Socket</p>
+        <h1>{{recieverDetails?.username}}</h1>
+        <p>Email +{{recieverDetails?.email}}</p>
+      </div>
+      <div class="options" *ngIf="callingStarted">
+        <div class="1">
+          <i class="fas fa-microphone-slash"></i>
+          <i class="fas fa-pause"></i>
+          <i class="fas fa-volume-up"></i>
+        </div>
+
+        <span>Mute</span><span>Hold</span><span style="padding: 2rem;">Speaker</span>
+
+      </div>
+      <div class="cut">
+        <div class="decline" (click)="declineCall()">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <div class="accept" (click)="acceptCall()" *ngIf="IncomingCall">
+          <i class="fas fa-phone-alt"></i>
         </div>
       </div>
+    </div>
+  </div>
 </section>
