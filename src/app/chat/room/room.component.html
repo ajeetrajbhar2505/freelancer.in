@@ -17,19 +17,21 @@
 
     </div>
   </header>
-  <div class="chat-window">
+  <div class="chat-window" *ngIf="recieverDetails">
     <div class="chat-body {{message.sender !== recieverDetails?._id?'send':'received'}}"
       *ngFor="let message of messages;">
       <div class="message" *ngIf="message.sender !== recieverDetails?._id">
         <p>{{message.messageText}}</p>
         <!-- <img [src]="userDetails.profile?userDetails.profile:'assets/user.png'" alt="" width="40px" alt=""
                     style="margin-left: 10px;"> -->
-      </div>
+      <span class="datetime">{{filterDateTime(message.sentAt)}}</span>
+    </div>
       <div class="message" *ngIf="message.sender === recieverDetails?._id">
         <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" alt="" width="40px"
           height="40px">
         <p>{{message.messageText}}</p>
-      </div>
+      <span class="datetime">{{filterDateTime(message.sentAt)}}</span>
+    </div>
     </div>
   </div>
 

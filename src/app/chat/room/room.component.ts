@@ -32,7 +32,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   IncomingCall: boolean = false
   IncomingCallDetails: string = ""
   videoStreaming: boolean = false
-  peer:Peer
+  peer: Peer
   peerIdShare: string;
   peerId: string
   lazyStream: any;
@@ -63,12 +63,18 @@ export class RoomComponent implements OnInit, OnDestroy {
     })
   }
 
-
+  filterDateTime(dateString: string): string {
+    const date = new Date(dateString);
+    const options: any = { month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true };
+    return date.toLocaleDateString(undefined, options);
+  }
+  
+  
 
   onIncomingCall() {
     this.websocketService.onIncomingCall().subscribe(IncomingCallDetails => {
       this.IncomingCallDetails = IncomingCallDetails
-      this.peerIdShare   = IncomingCallDetails['peerId']
+      this.peerIdShare = IncomingCallDetails['peerId']
       this.IncomingCall = true
     })
   }
@@ -258,7 +264,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   private getPeerId = () => {
     //Generate unique Peer Id for establishing connection
-    
+
     this.peer.on('open', (id) => {
       this.peerId = id;
     });
@@ -295,7 +301,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     console.log(document.getElementById('local-video').append(video));
     console.log(document.getElementById('remote-video').append(video));
-    
+
     peer != null && peer != this.peerIdShare ? document.getElementById('local-video').append(video) : document.getElementById('remote-video').append(video);
     peer != null && peer == this.peerIdShare ? document.getElementById('remote-video').append(video) : document.getElementById('local-video').append(video);
     this.IncomingCall = false
