@@ -1,8 +1,9 @@
 <toast></toast>
 <section *ngIf="searchDialog" class="custom-wrapper">
     <header class="m-0 w-100">
-        <div class="profile-info">
-            <p id="title" class="m-0 p-0 pointer">Add Friend</p>
+        <div class="profile-info flex-gap" style="align-items:unset">
+        <button (click)="tooglesearchDialog()"><i class="fas fa-arrow-left"></i></button>
+        <p id="title" class="m-0 p-0 pointer">Add Friend</p>
         </div>
     </header>
 
@@ -11,7 +12,6 @@
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Name" #username required>
         </div>
-        <button class="google-btn" (click)="tooglesearchDialog()">Cancel</button>
     </div>
     <div class="chat m-0" *ngFor="let data of users;">
         <div class="online-user-avatar m-0 p-0 pointer">

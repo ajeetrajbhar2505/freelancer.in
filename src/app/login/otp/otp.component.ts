@@ -5,6 +5,7 @@ import { ApiService } from '../../services/api-service.service';
 import { verifyEMAIL, verifyOTP } from '../../constants/endpoint-usage';
 import { Location } from '@angular/common';
 import { ToastserviceService } from '../../services/toastservice.service';
+import { CommondataserviceService } from '../../services/commondataservice.service';
 
 @Component({
   selector: 'app-otp',
@@ -17,7 +18,8 @@ export class OtpComponent implements OnInit {
   constructor(
     private router: Router, private apiService: ApiService,
     private location: Location,
-    private toastService: ToastserviceService
+    private toastService: ToastserviceService,
+    private readonly CommondataserviceService:CommondataserviceService
   ) { }
 
   ngOnInit(): void {
@@ -27,7 +29,11 @@ export class OtpComponent implements OnInit {
 
   dynamicRoute() {
     const url = `${localStorage.getItem('routeTo') || '/auth/login'}`;
+    if (url == 'chat/dashboard') {
+      this.CommondataserviceService.reloaddata.next(true)
+      }
     this.router.navigate([url]);
+
   }
 
 

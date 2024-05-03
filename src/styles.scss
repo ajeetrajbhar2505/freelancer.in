@@ -62,13 +62,14 @@ body {
 
 .logo {
   background-size: cover;
-    background-position: bottom;  background: url('assets/signin.jpeg');
-    background-size: cover;
-    
-  }
+  background-position: bottom;
+  background: url('assets/signin.jpeg');
+  background-size: cover;
 
-.token{
-  .logo{
+}
+
+.token {
+  .logo {
     background: url('assets/token.jpeg');
     background-size: cover;
     background-position: bottom;
@@ -135,7 +136,7 @@ $black: #945876;
 $red: #E53E3E;
 $info : #4299E1;
 $alert : #ECC94B;
-$green  : #38A169;
+$green : #38A169;
 $border-radius: 25px;
 $input-padding: 20px 45px 20px 45px;
 
@@ -450,6 +451,13 @@ section {
   }
 }
 
+.flex-gap {
+  display: flex !important;
+  align-items: flex-start;
+  justify-self: center;
+  gap: 10px;
+}
+
 header {
   padding: 10px 0;
   display: flex;
@@ -647,7 +655,7 @@ header {
   100% {
     -webkit-box-shadow: 0 0 0 0 rgba(0, 255,
 
- 0, 0);
+        0, 0);
   }
 }
 
@@ -707,7 +715,7 @@ header {
   transform: translateX(-50%) translateY(-50%) rotate(-45deg);
 }
 
-svg{
+svg {
   cursor: pointer;
 }
 
@@ -732,19 +740,19 @@ svg{
 }
 
 .toast-success {
-  background-color: $green; 
+  background-color: $green;
 }
 
 .toast-alert {
-  background-color: $alert; 
+  background-color: $alert;
 }
 
 .toast-error {
-  background-color: $red; 
+  background-color: $red;
 }
 
 .toast-info {
-  background-color: $info; 
+  background-color: $info;
 }
 
 
@@ -835,7 +843,7 @@ svg{
   border-bottom-color: #D4CC6A;
   border-radius: 50%;
   -webkit-animation: loader 3s linear infinite;
-    -moz-animation: loader 2s linear infinite;
+  -moz-animation: loader 2s linear infinite;
   -o-animation: loader 2s linear infinite;
   animation: loader 3s linear infinite;
 }
@@ -847,7 +855,7 @@ svg{
   border-radius: 50%;
   -webkit-animation: loader 1.5s linear infinite;
   animation: loader 1.5s linear infinite;
-    -moz-animation: loader 2s linear infinite;
+  -moz-animation: loader 2s linear infinite;
   -o-animation: loader 2s linear infinite;
 }
 
@@ -857,6 +865,7 @@ svg{
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
@@ -870,6 +879,7 @@ svg{
     -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
+
   100% {
     -webkit-transform: rotate(360deg);
     -ms-transform: rotate(360deg);
@@ -886,8 +896,7 @@ svg{
   height: 100%;
 }
 
-#header
-{
+#header {
   width: 800px;
   margin: 0 auto;
   text-align: center;
@@ -895,10 +904,7 @@ svg{
   background-color: #666;
 }
 
-#content
-
-
-{
+#content {
   width: 800px;
   margin: 0 auto;
   text-align: center;

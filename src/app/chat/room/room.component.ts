@@ -5,6 +5,7 @@ import { ToastserviceService } from '../../services/toastservice.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { WebsocketService } from '../../services/websocket.service';
 import Peer from 'peerjs';
+import { CommondataserviceService } from '../../services/commondataservice.service';
 
 export interface message {
   roomId: string,
@@ -39,7 +40,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   currentPeer: any;
   peerList: Array<any> = []
 
-  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute, private websocketService: WebsocketService, private router: Router) {
+  constructor(public apiService: ApiService, public toastService: ToastserviceService, private activatedRoute: ActivatedRoute, private websocketService: WebsocketService, private router: Router,private readonly CommondataserviceService:CommondataserviceService) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
     this.peer = new Peer()
   }
@@ -214,6 +215,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   routeToPage() {
+    this.CommondataserviceService.reloaddata.next(true)
     this.router.navigate(['chat/dashboard'])
   }
 

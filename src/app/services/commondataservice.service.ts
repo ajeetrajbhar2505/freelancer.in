@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommondataserviceService {
-
+  reloaddata: Subject<boolean> = new Subject()
   constructor() { }
-  
+
 
 
   loginWithGoogle() {
@@ -30,5 +31,5 @@ export class CommondataserviceService {
       alert("Please allow pop-ups for this site to log in with Google.");
     }
   }
-  
+
 }

@@ -4,6 +4,7 @@ import { ToastserviceService } from '../../services/toastservice.service';
 import { ApiService } from '../../services/api-service.service';
 import { getUsersUrl, createRoomUrl, getRoomUsersUrl } from '../../constants/endpoint-usage';
 import { WebsocketService } from '../../services/websocket.service';
+import { CommondataserviceService } from '../../services/commondataservice.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,14 +40,25 @@ export class chatDashboardComponent implements OnInit {
     private router: Router,
     private toastService: ToastserviceService,
     private apiService: ApiService,
-    private websocketService: WebsocketService
+    private websocketService: WebsocketService,
+    private readonly CommondataserviceService: CommondataserviceService
   ) {
     this.userDetails = JSON.parse(localStorage.getItem('userDetails'))
-
   }
 
 
   ngOnInit(): void {
+    this.fetchapidetails()
+    this.CommondataserviceService.reloaddata.subscribe(reload => {
+      if (reload) {
+        setTimeout(() => {
+          window.location.reload()
+        },);
+      }
+    })
+  }
+
+  fetchapidetails() {
     window.scrollTo(0, 0);
     this.getUsers()
     this.getroomUsers()
@@ -55,6 +67,9 @@ export class chatDashboardComponent implements OnInit {
 
   tooglesearchDialog() {
     this.searchDialog = !this.searchDialog
+    if (!this.searchDialog) {
+    this.CommondataserviceService.reloaddata.next(true)
+    }
   }
 
 
@@ -97,7 +112,9 @@ export class chatDashboardComponent implements OnInit {
       const response = await this.apiService.getData(getRoomUsersUrl).toPromise();
       if (response.status == 200) {
         // fetch data 
+        this.roomUsers = []
         this.roomUsers = response['data']
+        this.currentUser = ""
         this.currentUser = response['currentUser']
 
       } else {
@@ -109,18 +126,22 @@ export class chatDashboardComponent implements OnInit {
 
   }
   filterDateTime(dateString: string): string {
+    if (!dateString) {
+      return ""
+    }
     const date = new Date(dateString);
     const options: any = { hour: '2-digit', minute: '2-digit' };
     return date.toLocaleTimeString(undefined, options);
   }
-  
-  
+
+
 
   async getUsers() {
     try {
       const response = await this.apiService.getData(getUsersUrl).toPromise();
       if (response.status == 200) {
         // fetch data 
+        this.users = []
         this.users = response['data']
 
       } else {
@@ -138,7 +159,7 @@ export class chatDashboardComponent implements OnInit {
     if (!receiverId) {
       return;
     }
-    
+
     try {
       const payload = { receiverId: receiverId }
       const response = await this.apiService.postData(createRoomUrl, payload).toPromise();
@@ -152,8 +173,8 @@ export class chatDashboardComponent implements OnInit {
         });
         this.getroomUsers()
 
-        
-       
+
+
       } else {
         this.toastService.error(response.message)
       }
@@ -165,7 +186,7 @@ export class chatDashboardComponent implements OnInit {
   handlerequests() {
     this.websocketService.handlerequests().subscribe(response => {
       // fetching reponse
-     window.location.reload()
+      window.location.reload()
     })
   }
 }
