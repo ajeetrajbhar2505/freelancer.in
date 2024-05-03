@@ -4,6 +4,7 @@ const User = require('../models/user');
 const ErrorModel = require('../models/errorSchema');
 const path = require('path')
 const { verifyToken } = require('..//controllers/tokenController'); // Assuming emailService.js is the file where the functions are implemented
+const Message = require('../models/message');
 
 // Controller function to create a new room
 exports.createRoom = async (req, res, io) => {
@@ -81,6 +82,8 @@ exports.getUsers = async (req, res) => {
         const populatedRooms = await Promise.all(rooms.map(async (room) => {
             const populatedUsers = await User.find({ _id: { $in: room.users, $ne: userId } }, { _id: 1, username: 1, profile: 1, email: 1, online: 1, verified: 1, createdAt: 1 });
 
+            const lastMessage = await Message.findOne({ roomId: room._id }).sort({ sentAt: -1 }).limit(1);
+
             // Map through users and add relationship information to each user
             const usersWithRelationships = populatedUsers.map(user => {
                 const userIdString = user._id.toString();
@@ -88,7 +91,7 @@ exports.getUsers = async (req, res) => {
                 return { ...user.toObject(), relationship };
             });
 
-            return { ...room.toObject(), users: usersWithRelationships };
+            return { ...room.toObject(), users: usersWithRelationships,lastMessage };
         }));
 
 

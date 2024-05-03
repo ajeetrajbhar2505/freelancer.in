@@ -33,11 +33,6 @@ exports.createMessage = async (req, res, io) => {
 
         io.to(`room_${roomId}`).emit('message', newMessage);
 
-        const lastSeen = newMessage.sentAt
-        const lastMessage = newMessage.messageText
-        await Room.findByIdAndUpdate(roomId, { lastSeen, lastMessage });
-
-
         // Respond with success message and the new message data
         res.status(201).json({ status: 201, message: 'Message created successfully', message: newMessage });
     } catch (err) {
