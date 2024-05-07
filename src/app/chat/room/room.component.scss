@@ -2,7 +2,7 @@ section {
   position: relative;
   padding: unset;
   height: 95vh;
-  min-height: 100vh; /* Ensure container covers the full viewport height */
+  // min-height: 100vh; /* Ensure container covers the full viewport height */
   background: #eee7dd;
   
 
@@ -188,11 +188,9 @@ input {
   color: white;
   padding: 5px 10px 5px 10px;
   button{
-    background-color: #859cf5;
     border: unset;
     border-radius: 10px;
-    color: white !important;
-    padding: 10px 10px 10px 20px;
+    padding: 10px 7px 10px 15px;
   }
 }
 

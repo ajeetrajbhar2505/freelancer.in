@@ -7,8 +7,8 @@
       </div>
       <div class="flex-gap">
         <div class="flex-gap">
-          <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="50px"
-            style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 50px;" />
+          <img [src]="recieverDetails?.profile?recieverDetails.profile:'assets/user.png'" width="45px"
+            style="margin-left: 10px;margin-right: 10px;border-radius: 50%;height: 45px;" />
           <p id="title" *ngIf="recieverDetails" class="m-0 p-0 pointer">{{recieverDetails?.username}}</p>
         </div>
         <button *ngIf="true" (click)="startCall()"><i class='fas fa-phone-alt'></i> </button>

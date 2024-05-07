@@ -277,12 +277,12 @@ h1 {
 button {
   display: inline-block;
   background-color: $white;
-  border: 1px solid #ccc;
+  border: unset;
+  border-radius: 10px;
   color: #333;
   font-size: 16px;
-  padding: 10px 20px;
-  margin: 10px 0 10px 0;
-  border-radius: $border-radius;
+    padding: 10px 7px 10px 15px;
+    margin: 10px 0 10px 0;
   cursor: pointer;
   transition: background-color 0.3s;
 
