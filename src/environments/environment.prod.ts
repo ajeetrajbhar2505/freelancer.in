@@ -4,7 +4,7 @@
 
 export const environment = {
   production: true,
-  apiURL:'https://thankful-shawl-worm.cyclic.app/api',
+   apiURL:'https://freelancerbackend-6kuz.onrender.com/api',
   hostURL:'https://thankful-shawl-worm.cyclic.app'
 };
 
