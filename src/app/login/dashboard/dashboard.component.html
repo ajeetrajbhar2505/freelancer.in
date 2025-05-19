@@ -3,8 +3,7 @@
     <div class="logo">
     </div>
     <h2>Welcome back!</h2>
-    <h4>Enter your email and password</h4>
-    <p>An OTP will be sent to your email address. Once you receive the OTP, enter it to proceed with the login process.</p>
+    <p>An <strong>OTP</strong> will be sent to your email address. Once you receive the OTP, enter it to proceed with the login process.</p>
 
 
     <div class="input-box">
@@ -13,7 +12,7 @@
         <span (click)="focusInput('email')" class="tooltip {{ (submitted && f['email'].errors) || (f['email'].errors && (f['email'].dirty || f['email'].touched))?'show':''}}">
             <span *ngIf="f['email'].errors?.['required']">Email is required</span>
             <span *ngIf="!f['email'].errors?.['required'] && f['email'].errors?.['emailInvalid']">Invalid email
-                format</span>
+                Address</span>
             <span class="arrow"></span></span>
     </div>
     <div class="input-box i-password">

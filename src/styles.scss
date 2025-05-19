@@ -108,10 +108,11 @@ body {
   }
 }
 
-
 h4 {
   font-weight: 500;
+  margin: 5px 0;
 }
+
 
 .cursor {
   cursor: pointer;
@@ -174,8 +175,8 @@ h1 {
     background: $white;
     border: none;
     outline: none;
-    border: 1px solid #ccc;
-    border-radius: $border-radius;
+    border-bottom: 1px solid #ccc;
+    // border-radius: $border-radius;
     font-size: 16px;
     color: $black;
     padding: $input-padding;
@@ -281,8 +282,8 @@ button {
   border-radius: 10px;
   color: #333;
   font-size: 16px;
-    padding: 10px 7px 10px 15px;
-    margin: 10px 0 10px 0;
+  padding: 10px 7px 10px 15px;
+  margin: 10px 0 10px 0;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -683,8 +684,7 @@ header {
 }
 
 .tooltip {
-  opacity: 0;
-  visibility: hidden;
+  display: none;
   background-color: $red;
   color: #fff;
   text-align: center;
@@ -693,15 +693,14 @@ header {
   position: absolute;
   right: -50px;
   font-size: 12px;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 5px);
   transform: translateX(-50%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
 .tooltip.show {
-  opacity: 1;
-  visibility: visible;
+  display: block;
 }
 
 .tooltip .arrow {
